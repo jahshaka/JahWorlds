@@ -1,0 +1,133 @@
+﻿{
+  "version": "1.0.0",
+  "restore": {
+    "projectUniqueName": "/home/romario/Jahshaka/samples/CodeFlow/ClientApp/ClientApp.csproj",
+    "projectName": "ClientApp",
+    "projectPath": "/home/romario/Jahshaka/samples/CodeFlow/ClientApp/ClientApp.csproj",
+    "outputPath": "/home/romario/Jahshaka/samples/CodeFlow/ClientApp/obj/",
+    "projectStyle": "PackageReference",
+    "crossTargeting": true,
+    "originalTargetFrameworks": [
+      "net451",
+      "netcoreapp1.0"
+    ],
+    "frameworks": {
+      "net451": {
+        "projectReferences": {}
+      },
+      "netcoreapp1.0": {
+        "projectReferences": {}
+      }
+    }
+  },
+  "frameworks": {
+    "net451": {
+      "dependencies": {
+        "Microsoft.AspNetCore.Authentication.Cookies": {
+          "target": "Package",
+          "version": "1.0.0"
+        },
+        "Microsoft.AspNetCore.Authentication.OpenIdConnect": {
+          "target": "Package",
+          "version": "1.0.0"
+        },
+        "Microsoft.AspNetCore.Diagnostics": {
+          "target": "Package",
+          "version": "1.0.0"
+        },
+        "Microsoft.AspNetCore.Hosting": {
+          "target": "Package",
+          "version": "1.0.0"
+        },
+        "Microsoft.AspNetCore.Mvc": {
+          "target": "Package",
+          "version": "1.0.0"
+        },
+        "Microsoft.AspNetCore.Server.IISIntegration": {
+          "target": "Package",
+          "version": "1.0.0"
+        },
+        "Microsoft.AspNetCore.Server.Kestrel": {
+          "target": "Package",
+          "version": "1.0.0"
+        },
+        "Microsoft.AspNetCore.StaticFiles": {
+          "target": "Package",
+          "version": "1.0.0"
+        },
+        "Microsoft.Extensions.Configuration.CommandLine": {
+          "target": "Package",
+          "version": "1.0.0"
+        },
+        "Microsoft.Extensions.Configuration.EnvironmentVariables": {
+          "target": "Package",
+          "version": "1.0.0"
+        },
+        "Microsoft.Extensions.Logging.Console": {
+          "target": "Package",
+          "version": "1.0.0"
+        },
+        "Microsoft.Extensions.Logging.Debug": {
+          "target": "Package",
+          "version": "1.0.0"
+        }
+      }
+    },
+    "netcoreapp1.0": {
+      "dependencies": {
+        "Microsoft.NETCore.App": {
+          "target": "Package",
+          "version": "1.0.0"
+        },
+        "Microsoft.AspNetCore.Authentication.Cookies": {
+          "target": "Package",
+          "version": "1.0.0"
+        },
+        "Microsoft.AspNetCore.Authentication.OpenIdConnect": {
+          "target": "Package",
+          "version": "1.0.0"
+        },
+        "Microsoft.AspNetCore.Diagnostics": {
+          "target": "Package",
+          "version": "1.0.0"
+        },
+        "Microsoft.AspNetCore.Hosting": {
+          "target": "Package",
+          "version": "1.0.0"
+        },
+        "Microsoft.AspNetCore.Mvc": {
+          "target": "Package",
+          "version": "1.0.0"
+        },
+        "Microsoft.AspNetCore.Server.IISIntegration": {
+          "target": "Package",
+          "version": "1.0.0"
+        },
+        "Microsoft.AspNetCore.Server.Kestrel": {
+          "target": "Package",
+          "version": "1.0.0"
+        },
+        "Microsoft.AspNetCore.StaticFiles": {
+          "target": "Package",
+          "version": "1.0.0"
+        },
+        "Microsoft.Extensions.Configuration.CommandLine": {
+          "target": "Package",
+          "version": "1.0.0"
+        },
+        "Microsoft.Extensions.Configuration.EnvironmentVariables": {
+          "target": "Package",
+          "version": "1.0.0"
+        },
+        "Microsoft.Extensions.Logging.Console": {
+          "target": "Package",
+          "version": "1.0.0"
+        },
+        "Microsoft.Extensions.Logging.Debug": {
+          "target": "Package",
+          "version": "1.0.0"
+        }
+      }
+    }
+  }
+}

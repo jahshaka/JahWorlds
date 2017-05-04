@@ -1,0 +1,68 @@
+﻿{
+  "version": "1.0.0",
+  "restore": {
+    "projectUniqueName": "/home/romario/Jahshaka/samples/ImplicitFlow/ResourceServer02/ResourceServer02.csproj",
+    "projectName": "ResourceServer02",
+    "projectPath": "/home/romario/Jahshaka/samples/ImplicitFlow/ResourceServer02/ResourceServer02.csproj",
+    "outputPath": "/home/romario/Jahshaka/samples/ImplicitFlow/ResourceServer02/obj/",
+    "projectStyle": "PackageReference",
+    "originalTargetFrameworks": [
+      "netcoreapp1.0"
+    ],
+    "frameworks": {
+      "netcoreapp1.0": {
+        "projectReferences": {}
+      }
+    }
+  },
+  "frameworks": {
+    "netcoreapp1.0": {
+      "dependencies": {
+        "Microsoft.NETCore.App": {
+          "target": "Package",
+          "version": "1.0.0"
+        },
+        "AspNet.Security.OAuth.Introspection": {
+          "target": "Package",
+          "version": "1.0.0-rtm-*"
+        },
+        "Microsoft.AspNetCore.Mvc": {
+          "target": "Package",
+          "version": "1.0.0"
+        },
+        "Microsoft.AspNetCore.Server.IISIntegration": {
+          "target": "Package",
+          "version": "1.0.0"
+        },
+        "Microsoft.AspNetCore.Server.Kestrel": {
+          "target": "Package",
+          "version": "1.0.0"
+        },
+        "Microsoft.Extensions.Configuration": {
+          "target": "Package",
+          "version": "1.0.0"
+        },
+        "Microsoft.Extensions.Configuration.CommandLine": {
+          "target": "Package",
+          "version": "1.0.0"
+        },
+        "Microsoft.Extensions.Configuration.EnvironmentVariables": {
+          "target": "Package",
+          "version": "1.0.0"
+        },
+        "Microsoft.Extensions.Configuration.Json": {
+          "target": "Package",
+          "version": "1.0.0"
+        },
+        "Microsoft.Extensions.Logging.Console": {
+          "target": "Package",
+          "version": "1.0.0"
+        },
+        "Microsoft.Extensions.Logging.Debug": {
+          "target": "Package",
+          "version": "1.0.0"
+        }
+      }
+    }
+  }
+}

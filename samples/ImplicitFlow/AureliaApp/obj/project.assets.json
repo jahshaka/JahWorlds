@@ -1,0 +1,34 @@
+{
+  "version": 2,
+  "targets": {
+    ".NETFramework,Version=v4.5": {}
+  },
+  "libraries": {},
+  "projectFileDependencyGroups": {
+    ".NETFramework,Version=v4.5": []
+  },
+  "packageFolders": {
+    "/home/romario/.nuget/packages/": {}
+  },
+  "project": {
+    "version": "1.0.0",
+    "restore": {
+      "projectUniqueName": "/home/romario/Jahshaka/samples/ImplicitFlow/AureliaApp/AureliaApp.csproj",
+      "projectName": "AureliaApp",
+      "projectPath": "/home/romario/Jahshaka/samples/ImplicitFlow/AureliaApp/AureliaApp.csproj",
+      "outputPath": "/home/romario/Jahshaka/samples/ImplicitFlow/AureliaApp/obj/",
+      "projectStyle": "PackageReference",
+      "originalTargetFrameworks": [
+        "net45"
+      ],
+      "frameworks": {
+        "net45": {
+          "projectReferences": {}
+        }
+      }
+    },
+    "frameworks": {
+      "net45": {}
+    }
+  }
+}

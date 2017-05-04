@@ -1,0 +1,21 @@
+﻿{
+  "version": "1.0.0",
+  "restore": {
+    "projectUniqueName": "/home/romario/Jahshaka/samples/RefreshFlow/AngularApp/AngularApp.csproj",
+    "projectName": "AngularApp",
+    "projectPath": "/home/romario/Jahshaka/samples/RefreshFlow/AngularApp/AngularApp.csproj",
+    "outputPath": "/home/romario/Jahshaka/samples/RefreshFlow/AngularApp/obj/",
+    "projectStyle": "PackageReference",
+    "originalTargetFrameworks": [
+      "net45"
+    ],
+    "frameworks": {
+      "net45": {
+        "projectReferences": {}
+      }
+    }
+  },
+  "frameworks": {
+    "net45": {}
+  }
+}
