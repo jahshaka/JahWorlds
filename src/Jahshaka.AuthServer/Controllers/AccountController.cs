@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Threading.Tasks;
-using Jahshaka.AuthServer.Models;
+using Jahshaka.Core.Data;
 using Jahshaka.AuthServer.ViewModels.Account;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;

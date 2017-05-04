@@ -4,13 +4,13 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 VisualStudioVersion = 15.0.26228.4
 MinimumVisualStudioVersion = 10.0.40219.1
 
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Jahshaka", "Jahshaka.csproj", "{0AA9DC11-EDAA-4167-9CF8-B82BAC8DBDEA}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Jahshaka", "Jahshaka.csproj", "{0AA9DC11-EDAA-4167-9CF8-B82BAC8DBDEA}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Jahshaka.AuthServer", "src\Jahshaka.AuthServer\Jahshaka.AuthServer.csproj", "{11AC3EFC-B4C0-42E2-8DB3-B39B3817CAA3}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Jahshaka.AuthClientSample", "src\Jahshaka.AuthClientSample\Jahshaka.AuthClientSample.csproj", "{24E80778-8E90-42CA-B052-B783C13B8968}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Jahshaka.Core", "src\Jahshaka.Core\Jahshaka.Core.csproj", "{02A74797-AD09-4FE7-81FA-9CB9BAA5B531}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Jahshaka.Core", "src\Jahshaka.Core\Jahshaka.Core.csproj", "{02A74797-AD09-4FE7-81FA-9CB9BAA5B531}"
 EndProject
 
 Global

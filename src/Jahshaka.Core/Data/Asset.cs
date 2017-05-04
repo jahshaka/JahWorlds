@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using Jahshaka.Core.Enums;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 
-namespace Jahshaka.Core.Models
+namespace Jahshaka.Core.Data
 {
     public class Asset
     {

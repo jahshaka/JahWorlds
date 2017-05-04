@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Jahshaka.Core.Models
+namespace Jahshaka.Core.Data
 {
     public class ApplicationVersion
     {

@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Reflection;
 using AspNet.Security.OpenIdConnect.Primitives;
-using Jahshaka.AuthServer.Models;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
@@ -9,6 +8,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using OpenIddict.Models;
+using Jahshaka.Core.Data;
 
 namespace Jahshaka.AuthServer
 {

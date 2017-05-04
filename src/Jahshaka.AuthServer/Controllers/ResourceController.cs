@@ -1,6 +1,6 @@
 ﻿using System.Threading.Tasks;
 using AspNet.Security.OAuth.Validation;
-using Jahshaka.AuthServer.Models;
+using Jahshaka.Core.Data;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
