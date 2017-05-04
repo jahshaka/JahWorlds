@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
-using Jahshaka.AuthServer.Enums;
+using Jahshaka.Core.Enums;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 
-namespace Jahshaka.AuthServer.Models
+namespace Jahshaka.Core.Models
 {
     public class Asset
     {

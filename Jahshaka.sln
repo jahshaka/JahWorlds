@@ -4,11 +4,13 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 VisualStudioVersion = 15.0.26228.4
 MinimumVisualStudioVersion = 10.0.40219.1
 
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AuthServer", "src\AuthServer\AuthServer.csproj", "{11AC3EFC-B4C0-42E2-8DB3-B39B3817CAA3}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Jahshaka", "Jahshaka.csproj", "{0AA9DC11-EDAA-4167-9CF8-B82BAC8DBDEA}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AuthClientSample", "src\AuthClientSample\AuthClientSample.csproj", "{24E80778-8E90-42CA-B052-B783C13B8968}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Jahshaka.AuthServer", "src\Jahshaka.AuthServer\Jahshaka.AuthServer.csproj", "{11AC3EFC-B4C0-42E2-8DB3-B39B3817CAA3}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Core", "src\Core\Core.csproj", "{02A74797-AD09-4FE7-81FA-9CB9BAA5B531}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Jahshaka.AuthClientSample", "src\Jahshaka.AuthClientSample\Jahshaka.AuthClientSample.csproj", "{24E80778-8E90-42CA-B052-B783C13B8968}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Jahshaka.Core", "src\Jahshaka.Core\Jahshaka.Core.csproj", "{02A74797-AD09-4FE7-81FA-9CB9BAA5B531}"
 EndProject
 
 Global
@@ -17,6 +19,10 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+        {0AA9DC11-EDAA-4167-9CF8-B82BAC8DBDEA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0AA9DC11-EDAA-4167-9CF8-B82BAC8DBDEA}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0AA9DC11-EDAA-4167-9CF8-B82BAC8DBDEA}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0AA9DC11-EDAA-4167-9CF8-B82BAC8DBDEA}.Release|Any CPU.Build.0 = Release|Any CPU
 		{11AC3EFC-B4C0-42E2-8DB3-B39B3817CAA3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{11AC3EFC-B4C0-42E2-8DB3-B39B3817CAA3}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{11AC3EFC-B4C0-42E2-8DB3-B39B3817CAA3}.Release|Any CPU.ActiveCfg = Release|Any CPU
