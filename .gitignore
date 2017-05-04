@@ -1,7 +1,6 @@
 .vs/**
 .vscode/**
 .idea/**
-*.sln
 Backup/**
 build/artifacts/**
 src/**/.vscode/**
