@@ -12,6 +12,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Jahshaka.AuthClientSample",
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Jahshaka.Core", "src\Jahshaka.Core\Jahshaka.Core.csproj", "{02A74797-AD09-4FE7-81FA-9CB9BAA5B531}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Jahshaka.Web", "src\Jahshaka.Web\Jahshaka.Web.csproj", "{49152954-BACB-498A-82FF-1C5B522EFE5D}"
+EndProject
 
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -19,7 +21,7 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-        {0AA9DC11-EDAA-4167-9CF8-B82BAC8DBDEA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+								{0AA9DC11-EDAA-4167-9CF8-B82BAC8DBDEA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{0AA9DC11-EDAA-4167-9CF8-B82BAC8DBDEA}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{0AA9DC11-EDAA-4167-9CF8-B82BAC8DBDEA}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{0AA9DC11-EDAA-4167-9CF8-B82BAC8DBDEA}.Release|Any CPU.Build.0 = Release|Any CPU
@@ -35,6 +37,10 @@ Global
 		{02A74797-AD09-4FE7-81FA-9CB9BAA5B531}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{02A74797-AD09-4FE7-81FA-9CB9BAA5B531}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{02A74797-AD09-4FE7-81FA-9CB9BAA5B531}.Release|Any CPU.Build.0 = Release|Any CPU
+		{49152954-BACB-498A-82FF-1C5B522EFE5D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{49152954-BACB-498A-82FF-1C5B522EFE5D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{49152954-BACB-498A-82FF-1C5B522EFE5D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{49152954-BACB-498A-82FF-1C5B522EFE5D}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
