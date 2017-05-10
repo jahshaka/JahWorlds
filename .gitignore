@@ -13,6 +13,7 @@ src/**/*.xproj.user
 src/**/project.lock.json
 src/**/build/**
 src/**/config.js
+src/**/uploads/*
 test/**/bin
 test/**/obj
 test/**/project.lock.json
