@@ -1,11 +1,14 @@
 using System;
+using System.Reflection;
 using System.Threading;
 using System.Threading.Tasks;
 using AspNet.Security.OpenIdConnect.Primitives;
 using Jahshaka.Core.Data;
+using Jahshaka.Core.Services.S3;
 using Jahshaka.Web.Extensions;
 using Jahshaka.Web.Services;
 using Microsoft.AspNetCore.Builder;
+using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
@@ -17,14 +20,39 @@ namespace Jahshaka.Web
 {
     public class Startup
     {
+        private readonly string _rootPath;
+        public IConfigurationRoot Configuration { get; }
+
+        public Startup(IHostingEnvironment env)
+        {
+            _rootPath = env.ContentRootPath;
+
+            Console.WriteLine(_rootPath);
+
+            var builder = new ConfigurationBuilder()
+                .SetBasePath(_rootPath)
+                .AddJsonFile("appsettings.json")
+                .AddJsonFile($"appsettings.{env.EnvironmentName}.json", optional: true);
+
+            if (env.IsDevelopment())
+            {
+                // For more details on using the user secret store see http://go.microsoft.com/fwlink/?LinkID=532709
+                //builder.AddUserSecrets();
+            }
+
+            builder.AddEnvironmentVariables();
+            Configuration = builder.Build();
+        }
+
         public void ConfigureServices(IServiceCollection services)
         {
-            var configuration = new ConfigurationBuilder()
-                .AddJsonFile("config.json")
-                .AddEnvironmentVariables()
-                .Build();
+            services.AddOptions();
+
+            services.Configure<S3ServiceOptions>(Configuration.GetSection("S3ServiceOptions"));
 
             services.AddMvc();
+
+            var migrationsAssembly = typeof(Startup).GetTypeInfo().Assembly.GetName().Name;
 
             services.AddDbContext<ApplicationDbContext>(options =>
             {
@@ -41,8 +69,8 @@ namespace Jahshaka.Web
             });
 
             // Register the Identity services.
-            services.AddIdentity<ApplicationUser, IdentityRole>()
-                .AddEntityFrameworkStores<ApplicationDbContext>()
+            services.AddIdentity<ApplicationUser, IdentityRole<Guid>>()
+                .AddEntityFrameworkStores<ApplicationDbContext, Guid>()
                 .AddDefaultTokenProviders();
 
             // Configure Identity to use the same JWT claims as OpenIddict instead
@@ -95,78 +123,59 @@ namespace Jahshaka.Web
 
             services.AddTransient<IEmailSender, AuthMessageSender>();
             services.AddTransient<ISmsSender, AuthMessageSender>();
+            services.AddTransient<S3Service, S3Service>();
         }
 
         public void Configure(IApplicationBuilder app)
         {
             app.UseDeveloperExceptionPage();
 
+            // Add a middleware used to validate access
+            // tokens and protect the API endpoints.
+            app.UseOAuthValidation();
+
+            // If you prefer using JWT, don't forget to disable the automatic
+            // JWT -> WS-Federation claims mapping used by the JWT middleware:
+            //
+            // JwtSecurityTokenHandler.DefaultInboundClaimTypeMap.Clear();
+            // JwtSecurityTokenHandler.DefaultOutboundClaimTypeMap.Clear();
+            //
+            // app.UseJwtBearerAuthentication(new JwtBearerOptions
+            // {
+            //     Authority = "http://localhost:58795/",
+            //     Audience = "resource_server",
+            //     RequireHttpsMetadata = false,
+            //     TokenValidationParameters = new TokenValidationParameters
+            //     {
+            //         NameClaimType = OpenIdConnectConstants.Claims.Subject,
+            //         RoleClaimType = OpenIdConnectConstants.Claims.Role
+            //     }
+            // });
+
+            // Alternatively, you can also use the introspection middleware.
+            // Using it is recommended if your resource server is in a
+            // different application/separated from the authorization server.
+            //
+            // app.UseOAuthIntrospection(options =>
+            // {
+            //     options.Authority = new Uri("http://localhost:58795/");
+            //     options.Audiences.Add("resource_server");
+            //     options.ClientId = "resource_server";
+            //     options.ClientSecret = "875sqd4s5d748z78z7ds1ff8zz8814ff88ed8ea4z4zzd";
+            //     options.RequireHttpsMetadata = false;
+            // });
+
+            app.UseIdentity();
+
             app.UseStaticFiles();
-
-            app.UseWhen(context => context.Request.Path.StartsWithSegments("/api"), branch =>
-            {
-                // Add a middleware used to validate access
-                // tokens and protect the API endpoints.
-                branch.UseOAuthValidation();
-
-                // If you prefer using JWT, don't forget to disable the automatic
-                // JWT -> WS-Federation claims mapping used by the JWT middleware:
-                //
-                // JwtSecurityTokenHandler.DefaultInboundClaimTypeMap.Clear();
-                // JwtSecurityTokenHandler.DefaultOutboundClaimTypeMap.Clear();
-                //
-                // branch.UseJwtBearerAuthentication(new JwtBearerOptions
-                // {
-                //     Authority = "http://localhost:54540/",
-                //     Audience = "resource_server",
-                //     RequireHttpsMetadata = false,
-                //     TokenValidationParameters = new TokenValidationParameters
-                //     {
-                //         NameClaimType = OpenIdConnectConstants.Claims.Subject,
-                //         RoleClaimType = OpenIdConnectConstants.Claims.Role
-                //     }
-                // });
-
-                // Alternatively, you can also use the introspection middleware.
-                // Using it is recommended if your resource server is in a
-                // different application/separated from the authorization server.
-                //
-                // branch.UseOAuthIntrospection(options =>
-                // {
-                //     options.Authority = new Uri("http://localhost:54540/");
-                //     options.Audiences.Add("resource_server");
-                //     options.ClientId = "resource_server";
-                //     options.ClientSecret = "875sqd4s5d748z78z7ds1ff8zz8814ff88ed8ea4z4zzd";
-                //     options.RequireHttpsMetadata = false;
-                // });
-            });
-
-            app.UseWhen(context => !context.Request.Path.StartsWithSegments("/api"), branch =>
-            {
-                branch.UseStatusCodePagesWithReExecute("/error");
-
-                branch.UseIdentity();
-
-                branch.UseGoogleAuthentication(new GoogleOptions
-                {
-                    ClientId = "560027070069-37ldt4kfuohhu3m495hk2j4pjp92d382.apps.googleusercontent.com",
-                    ClientSecret = "n2Q-GEw9RQjzcRbU3qhfTj8f"
-                });
-
-                branch.UseTwitterAuthentication(new TwitterOptions
-                {
-                    ConsumerKey = "6XaCTaLbMqfj6ww3zvZ5g",
-                    ConsumerSecret = "Il2eFzGIrYhz6BWjYhVXBPQSfZuS4xoHpSSyD9PI"
-                });
-            });
 
             app.UseOpenIddict();
 
             app.UseMvcWithDefaultRoute();
 
-            // Seed the database with the sample applications.
-            // Note: in a real world application, this step should be part of a setup script.
-            InitializeAsync(app.ApplicationServices, CancellationToken.None).GetAwaiter().GetResult();
+            app.UseWelcomePage();
+
+
         }
 
         private async Task InitializeAsync(IServiceProvider services, CancellationToken cancellationToken)

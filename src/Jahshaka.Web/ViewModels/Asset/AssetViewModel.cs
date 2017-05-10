@@ -1,11 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
+using Jahshaka.Core.Data;
 using Jahshaka.Core.Enums;
-using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 
-namespace Jahshaka.AuthServer.Models
+namespace Jahshaka.Web.ViewModels.Asset
 {
-    public class Asset
+    public class AssetViewModel
     {
         public Guid Id { get; set; }
         public Guid UserId { get; set; }
@@ -16,6 +16,7 @@ namespace Jahshaka.AuthServer.Models
         public string MetaData { get; set; }
         public bool IsPublic { get; set; }
         public List<string> Tags { get; set; }
+        public DateTime CreatedAt { get; set; }
 
         public ApplicationUser User { get; set;  }
     }

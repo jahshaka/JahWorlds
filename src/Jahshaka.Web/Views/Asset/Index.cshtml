@@ -1,0 +1,44 @@
+@model ListAssetViewModel
+
+@{
+    ViewData["Title"] = "My Assets";
+}
+
+
+<h2 class="pull-left">@ViewData["Title"]</h2>
+<br/>
+<a class="pull-right btn btn-primary" asp-controller="Asset" asp-action="Create">Create</a>
+<div class="clearfix"></div>
+<br/><br/>
+@if (Model.Assets.Count() > 0)
+{
+    <table class="table table-condensed">
+        <thead>
+            <tr>
+                <th>Name</th>
+                <th>Type</th>
+                <th>Tags</th>
+                <th>Created At</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var asset in Model.Assets)
+            {
+                <tr>
+                    <td>@asset.Name</td>
+                    <td>@asset.Type</td>
+                    <td>@asset.Tags</td>
+                    <td>@asset.CreatedAt</td>
+                    <td>
+                        <button class="btn btn-warning btn-xs">Download</button>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+else
+{
+    <p>No asset found</p>
+}

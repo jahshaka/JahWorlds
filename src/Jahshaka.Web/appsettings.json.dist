@@ -1,0 +1,18 @@
+{
+    "ConnectionStrings": {
+        "DefaultConnection": "User ID=postgres;Password=postgres;Server=localhost;Port=5432;Database=jahshaka;Pooling=true;"
+    },
+    "S3ServiceOptions": {
+        "ProfileName": "",
+        "AccessKey": "",
+        "SecretKey": ""
+    },
+    "Logging": {
+        "IncludeScopes": false,
+        "LogLevel": {
+            "Default": "Debug",
+            "System": "Warning",
+            "Microsoft": "Warning"
+        }
+    }
+}

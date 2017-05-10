@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Hosting;
+﻿using System.IO;
+using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
 
@@ -9,6 +10,7 @@ namespace Jahshaka.Web
         public static void Main(string[] args)
         {
             var configuration = new ConfigurationBuilder()
+                .SetBasePath(Directory.GetCurrentDirectory())
                 .AddEnvironmentVariables()
                 .AddCommandLine(args)
                 .Build();
@@ -19,6 +21,7 @@ namespace Jahshaka.Web
                 .UseConfiguration(configuration)
                 .UseIISIntegration()
                 .UseKestrel()
+                .UseContentRoot(Directory.GetCurrentDirectory())
                 .UseStartup<Startup>()
                 .Build();
 

@@ -1,0 +1,61 @@
+@model CreateAssetViewModel
+
+@{
+    ViewData["Title"] = "Create Asset";
+}
+
+<br/>
+<br/>
+<br/>
+<h2>@ViewData["Title"]</h2>
+<div class="row">
+    <div class="col-md-8">
+        <section>
+            <form asp-controller="Asset" asp-action="Create" method="post" enctype="multipart/form-data" class="form-horizontal" role="form">
+                <h4>Use to create an asset.</h4>
+                <hr />
+                <div asp-validation-summary="All" class="text-danger"></div>
+                <div class="form-group">
+                    <label asp-for="Name" class="col-md-2 control-label"></label>
+                    <div class="col-md-10">
+                        <input asp-for="Name" class="form-control" />
+                        <span asp-validation-for="Name" class="text-danger"></span>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label asp-for="Type" class="col-md-2 control-label"></label>
+                    <div class="col-md-10">
+                        <select class="form-control" asp-for="Type" asp-items="Html.GetEnumSelectList<AssetType>()">
+                        </select>
+                        <span asp-validation-for="Type" class="text-danger"></span>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label asp-for="Upload" class="col-md-2 control-label"></label>
+                    <div class="col-md-10">
+                        <input asp-for="Upload"/>
+                        <span asp-validation-for="Upload" class="text-danger"></span>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label asp-for="Thumbnail" class="col-md-2 control-label"></label>
+                    <div class="col-md-10">
+                        <input asp-for="Thumbnail"/>
+                        <span asp-validation-for="Thumbnail" class="text-danger"></span>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label asp-for="IsPublic" class="col-md-2 control-label"></label>
+                    <div class="col-md-10">
+                        <input asp-for="IsPublic"/>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="col-md-10 col-md-offset-2">
+                        <input type="submit" value="Create" />
+                    </div>
+                </div>
+            </form>
+        </section>
+    </div>
+</div>

@@ -16,6 +16,7 @@ namespace Jahshaka.Core.Data
         public string MetaData { get; set; }
         public bool IsPublic { get; set; }
         public List<string> Tags { get; set; }
+        public DateTime CreatedAt { get; set; }
 
         public ApplicationUser User { get; set;  }
     }
