@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore.Metadata;
 
 namespace Jahshaka.AuthServer.Migrations
 {
-    public partial class AddDateColumnToAsset : Migration
+    public partial class AddTable : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {

@@ -65,13 +65,24 @@ namespace Jahshaka.Web.Controllers
                     string[] file = model.Upload.FileName.Split('.');
                     string ext = file[file.Length - 1];
 
-                    /*var supportedTypes = new[] { "jpg","png", "gif", "jpeg", "bmp", "svg" };
+                    var supportedTypes = new[] { "zip" };
 
                     if (!supportedTypes.Contains(ext))
                     {
                         ModelState.AddModelError(string.Empty, "Unsupported file extension.");
                         return View(model);
-                    }*/
+                    }
+
+                    string[] thumbnailFile = model.Thumbnail.FileName.Split('.');
+                    string thumbnailExt = thumbnailFile[thumbnailFile.Length - 1];
+
+                    var supportedThumbnailTypes = new[] { "jpg","png", "gif", "jpeg", "bmp", "svg" };
+
+                    if (!supportedThumbnailTypes.Contains(thumbnailExt))
+                    {
+                        ModelState.AddModelError(string.Empty, "Unsupported file extension.");
+                        return View(model);
+                    }
 
                     var asset = new Asset()
                     {
@@ -92,6 +103,15 @@ namespace Jahshaka.Web.Controllers
 
                     asset.Url = fileName;
 
+                    string thumbName = asset.Id.ToString() + "." + thumbnailExt;
+
+                    using (var stream = new FileStream(Path.Combine(filePath, thumbName), FileMode.Create))
+                    {
+                        await model.Thumbnail.CopyToAsync(stream);
+                    }
+
+                    asset.IconUrl = thumbName;
+
                     _appDbContext.Add(asset);
 
                     await _appDbContext.SaveChangesAsync();
@@ -107,6 +127,33 @@ namespace Jahshaka.Web.Controllers
             }
 
             return View(model);
+        }
+
+        public async Task<IActionResult> Download(Guid id)
+        {
+
+            var user = await _userManager.GetUserAsync(User);
+
+            var asset = _appDbContext.Assets
+                .FirstOrDefault(a => a.Id == id);
+
+            if (asset == null)
+            {
+                TempData["Error"] = "Asset not found";
+                return RedirectToAction("Index");
+            }
+
+            if (!asset.IsPublic && asset.UserId != user.Id)
+            {
+                TempData["Error"] = "Asset cannot be downloaded";
+                return RedirectToAction("Index");
+            }
+
+            var filePath = Path.Combine(_environment.WebRootPath, "uploads");
+            byte[] fileBytes = System.IO.File.ReadAllBytes($"{filePath}/{asset.Url}");
+
+            return File(fileBytes, "application/x-msdownload", $"{asset.Name}.zip");
+
         }
     }
 }

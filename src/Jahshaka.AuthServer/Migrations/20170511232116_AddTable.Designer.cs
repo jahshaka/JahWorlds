@@ -10,8 +10,8 @@ using Jahshaka.Core.Enums;
 namespace Jahshaka.AuthServer.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20170510174419_AddDateColumnToAsset")]
-    partial class AddDateColumnToAsset
+    [Migration("20170511232116_AddTable")]
+    partial class AddTable
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {

@@ -1,5 +1,8 @@
 @model ListAssetViewModel
 
+@inject SignInManager<ApplicationUser> SignInManager
+@inject UserManager<ApplicationUser> UserManager
+
 @{
     ViewData["Title"] = "My Assets";
 }
@@ -31,7 +34,14 @@
                     <td>@asset.Tags</td>
                     <td>@asset.CreatedAt</td>
                     <td>
-                        <button class="btn btn-warning btn-xs">Download</button>
+                        @if (SignInManager.IsSignedIn(User))
+                        {
+                            <a asp-controller="Asset" asp-action="Download" asp-route-id="@asset.Id" class="btn btn-warning btn-xs">Download</a>
+                        }
+                        else
+                        {
+                            <a asp-controller="Home" asp-action="Download" asp-route-id="@asset.Id" class="btn btn-warning btn-xs">Download</a>
+                        }
                     </td>
                 </tr>
             }

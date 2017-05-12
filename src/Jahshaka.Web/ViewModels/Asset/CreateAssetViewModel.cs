@@ -18,7 +18,7 @@ namespace Jahshaka.Web.ViewModels.Asset
         //[FileExtensions(Extensions = "zip")]
         public IFormFile Upload { get; set; }
 
-        //[Required]
+        [Required]
         //[FileExtensions(Extensions = "jpg,png,gif,jpeg,bmp,svg")]
         public IFormFile Thumbnail { get; set; }
 

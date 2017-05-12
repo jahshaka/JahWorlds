@@ -65,7 +65,6 @@ namespace Jahshaka.Web.Controllers
 
         public async Task<IActionResult> Download(Guid id)
         {
-            var user = await _userManager.GetUserAsync(User);
 
             var asset = _appDbContext.Assets
                 .FirstOrDefault(a => a.Id == id);
@@ -76,11 +75,11 @@ namespace Jahshaka.Web.Controllers
                 return RedirectToAction("Index");
             }
 
-            /*if (!asset.IsPublic || user != null && user.Id != asset.UserId )
+            if (!asset.IsPublic)
             {
                 TempData["Error"] = "Asset cannot be downloaded";
                 return RedirectToAction("Index");
-            }*/
+            }
 
             var filePath = Path.Combine(_environment.WebRootPath, "uploads");
             byte[] fileBytes = System.IO.File.ReadAllBytes($"{filePath}/{asset.Url}");
