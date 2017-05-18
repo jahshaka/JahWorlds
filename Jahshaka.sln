@@ -14,6 +14,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Jahshaka.Core", "src\Jahsha
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Jahshaka.Web", "src\Jahshaka.Web\Jahshaka.Web.csproj", "{49152954-BACB-498A-82FF-1C5B522EFE5D}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Jahshaka.API", "src\Jahshaka.API\Jahshaka.API.csproj", "{ABB9BAC7-F12A-4824-9DB4-8A5FF9271E0D}"
+EndProject
 
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -41,6 +43,10 @@ Global
 		{49152954-BACB-498A-82FF-1C5B522EFE5D}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{49152954-BACB-498A-82FF-1C5B522EFE5D}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{49152954-BACB-498A-82FF-1C5B522EFE5D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{ABB9BAC7-F12A-4824-9DB4-8A5FF9271E0D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{ABB9BAC7-F12A-4824-9DB4-8A5FF9271E0D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{ABB9BAC7-F12A-4824-9DB4-8A5FF9271E0D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{ABB9BAC7-F12A-4824-9DB4-8A5FF9271E0D}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
