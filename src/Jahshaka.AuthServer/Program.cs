@@ -11,7 +11,7 @@ namespace Jahshaka.AuthServer
         {
             var configuration = new ConfigurationBuilder()
                 .SetBasePath(Directory.GetCurrentDirectory())
-                .AddJsonFile("hosting.json", optional: true)
+                //.AddJsonFile("hosting.json", optional: true)
                 .AddEnvironmentVariables()
                 .AddCommandLine(args)
                 .Build();

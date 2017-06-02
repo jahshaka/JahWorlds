@@ -9,6 +9,9 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using OpenIddict.Models;
 using Jahshaka.Core.Data;
+using Jahshaka.Core.DataProtection.Repositories;
+using Microsoft.AspNetCore.DataProtection;
+using Microsoft.AspNetCore.DataProtection.Repositories;
 
 namespace Jahshaka.AuthServer
 {
@@ -40,6 +43,10 @@ namespace Jahshaka.AuthServer
 
         public void ConfigureServices(IServiceCollection services)
         {
+            // Add framework services.
+            services.AddDataProtection()
+                .SetApplicationName("Jahshaka.API.Startup");
+            
             services.AddMvc();
 
             var migrationsAssembly = typeof(Startup).GetTypeInfo().Assembly.GetName().Name;
@@ -99,6 +106,8 @@ namespace Jahshaka.AuthServer
                 // options.UseJsonWebTokens();
                 // options.AddEphemeralSigningKey();
             });
+            
+            services.AddTransient<IXmlRepository, DatabaseXmlRepository>();
         }
 
         public void Configure(IApplicationBuilder app)

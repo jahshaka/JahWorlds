@@ -39,7 +39,6 @@
     <PackageReference Include="ImageSharp.Drawing" Version="1.0.0-alpha6-00026" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="Data" />
     <Folder Include="Enums" />
     <Folder Include="Services\S3" />
   </ItemGroup>

@@ -78,7 +78,7 @@ namespace Jahshaka.AuthServer.Controllers
                     return BadRequest(new OpenIdConnectResponse
                     {
                         Error = OpenIdConnectConstants.Errors.InvalidGrant,
-                        ErrorDescription = "The username/password couple is invalid."
+                        ErrorDescription = "The username/password couple is invalid!"
                     });
                 }
 

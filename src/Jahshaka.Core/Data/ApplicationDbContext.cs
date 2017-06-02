@@ -16,6 +16,8 @@ namespace Jahshaka.Core.Data
 
         public virtual DbSet<Asset> Assets { get; set;}
         public new virtual DbSet<ApplicationUser> Users { get; set; }
+        
+        public virtual DbSet<XmlKey> XmlKeys { get; set; }
 
         protected override void OnModelCreating(ModelBuilder builder)
         {
@@ -32,6 +34,11 @@ namespace Jahshaka.Core.Data
             builder.Entity<ApplicationUser>(entity =>
             {
                 entity.ToTable<ApplicationUser>("Users");
+            });
+            
+            builder.Entity<XmlKey>(entity =>
+            {
+                entity.HasKey(e => e.Name);
             });
 
             // Customize the ASP.NET Identity model and override the defaults if needed.

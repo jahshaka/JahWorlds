@@ -18,8 +18,8 @@
     </None>
   </ItemGroup>
   <ItemGroup>
-    <PackageReference Include="AspNet.Security.OAuth.Introspection" Version="$(AspNetContribOpenIdExtensionsVersion)" />
-    <PackageReference Include="AspNet.Security.OAuth.Validation" Version="$(AspNetContribOpenIdExtensionsVersion)" />
+    <PackageReference Include="AspNet.Security.OAuth.Introspection" Version="1.0.0-*" />
+    <PackageReference Include="AspNet.Security.OAuth.Validation" Version="1.0.0-*" />
     <PackageReference Include="Microsoft.AspNetCore.Authentication.Cookies" Version="1.1.1" />
     <PackageReference Include="Microsoft.AspNetCore.Authentication.OpenIdConnect" Version="1.1.1" />
     <PackageReference Include="Microsoft.AspNetCore.Diagnostics" Version="1.1.1" />
