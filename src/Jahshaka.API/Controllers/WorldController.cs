@@ -80,6 +80,12 @@ namespace Jahshaka.API.Controllers
                     UserId = user.Id
                 };
 
+                world.WorldVersions.Add(new WorldVersion()
+                {
+                    WorldId = world.Id,
+                    VersionNumber = model.VersionNumber
+                });
+
                 _appDbContext.Worlds.Add(world);
 
                 await _appDbContext.SaveChangesAsync();
