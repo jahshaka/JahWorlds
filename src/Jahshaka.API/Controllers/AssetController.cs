@@ -12,6 +12,8 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using AspNet.Security.OAuth.Validation;
+using Jahshaka.Core.Managers;
+using Microsoft.Extensions.Logging;
 
 namespace Jahshaka.API.Controllers
 {
@@ -22,16 +24,19 @@ namespace Jahshaka.API.Controllers
         private readonly UserManager<ApplicationUser> _userManager;
         private readonly ApplicationDbContext _appDbContext;
         private IHostingEnvironment _environment;
-
+        private readonly AssetManager _assetManager;
+        
         public AssetController(
             UserManager<ApplicationUser> userManager,
             ApplicationDbContext appDbContext,
-            IHostingEnvironment environment
+            IHostingEnvironment environment,
+            AssetManager assetManager
         )
         {
             _userManager = userManager;
             _appDbContext = appDbContext;
             _environment = environment;
+            _assetManager = assetManager;
         }
 
         [HttpGet, Route("")]
@@ -57,7 +62,7 @@ namespace Jahshaka.API.Controllers
             return Ok(viewModel);
         }
         
-        [HttpPost]
+        [HttpPost, Route("upload")]
         public async Task<IActionResult> Create(CreateAssetViewModel model)
         {
             if (ModelState.IsValid)
@@ -65,91 +70,47 @@ namespace Jahshaka.API.Controllers
                 try
                 {
                     var user = await _userManager.GetUserAsync(User);
-
-                    var filePath = Path.Combine(_environment.WebRootPath, "uploads");
-                    string[] file = model.Upload.FileName.Split('.');
-                    string ext = file[file.Length - 1];
-
-                    var supportedTypes = new[] {"zip"};
-
-                    if (!supportedTypes.Contains(ext))
+                    
+                    if (model.Upload == null || model.Upload.Length == 0)
                     {
-                        return BadRequest(new ErrorViewModel()
-                        {
-                            Error = ErrorCode.ModelError,
-                            ErrorDescription = "Unsupported file extension."
-                        });
+                        return BadRequest(new ErrorViewModel() { Error = ErrorCode.ModelError, ErrorDescription = $"Invalid file data." });
+                    }
+                    
+                    if (model.Thumbnail == null || model.Thumbnail.Length == 0)
+                    {
+                        return BadRequest(new ErrorViewModel() { Error = ErrorCode.ModelError, ErrorDescription = $"Invalid thumbnail data." });
                     }
 
-                    string[] thumbnailFile = model.Thumbnail.FileName.Split('.');
-                    string thumbnailExt = thumbnailFile[thumbnailFile.Length - 1];
-
-                    var supportedThumbnailTypes = new[] {"jpg", "png", "gif", "jpeg", "bmp", "svg"};
-
-                    if (!supportedThumbnailTypes.Contains(thumbnailExt))
+                    if (model.UploadId == null)
                     {
-                        return BadRequest(new ErrorViewModel()
-                        {
-                            Error = ErrorCode.ModelError,
-                            ErrorDescription = "Unsupported thumbnail file extension."
-                        });
+                        model.UploadId = Guid.NewGuid().ToString();
                     }
-
-                    var asset = new Asset()
-                    {
-                        Id = Guid.NewGuid(),
-                        UserId = user.Id,
-                        Name = model.Name,
-                        Type = model.Type,
-                        IsPublic = model.IsPublic,
-                        CreatedAt = DateTime.UtcNow
-                    };
-
-                    string fileName = asset.Id.ToString() + "." + ext;
-
-                    using (var stream = new FileStream(Path.Combine(filePath, fileName), FileMode.Create))
-                    {
-                        await model.Upload.CopyToAsync(stream);
-                    }
-
-                    asset.Url = fileName;
-
-                    string thumbName = asset.Id.ToString() + "." + thumbnailExt;
-
-                    using (var stream = new FileStream(Path.Combine(filePath, thumbName), FileMode.Create))
-                    {
-                        await model.Thumbnail.CopyToAsync(stream);
-                    }
-
-                    asset.IconUrl = thumbName;
-
-                    _appDbContext.Add(asset);
-
-                    await _appDbContext.SaveChangesAsync();
+                    
+                    var asset = await _assetManager.SetAssetAsync(user.Id, model.Upload, model.Thumbnail, model.UploadId, model.Name, model.Type, model.IsPublic);
 
                     return Ok(asset.ToViewModel());
+                    
                 }
                 catch (Exception ex)
                 {
-                    Console.WriteLine("ERROR: " + ex.Message);
                     return BadRequest(new ErrorViewModel()
                     {
                         Error = ErrorCode.ModelError,
-                        ErrorDescription = "Something when wrong! Please try again."
+                        ErrorDescription = ex.Message
                     });
                 }
 
             }
-            else
+            
+            return BadRequest(new ErrorViewModel()
             {
-                return BadRequest(new ErrorViewModel()
-                {
-                    Error = ErrorCode.ModelError,
-                    ErrorDescription = "Something when wrong! Please try again."
-                });
-            }
+                Error = ErrorCode.ModelError,
+                ErrorDescription = ModelState?.GetFirstError()
+            });
+            
         }
-
+        
+        [HttpGet, Route("download")]
         public async Task<IActionResult> Download(Guid id)
         {
 

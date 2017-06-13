@@ -20,7 +20,7 @@ namespace Jahshaka.API.ViewModels.Mappers
                 ThumbnailUrl = source.ThumbnailUrl,
                 UserId = source.UserId,
                 CreatedAt = source.CreatedAt,
-                WorldVersions = (IList<WorldVersion>) source.WorldVersions
+                WorldVersions = source.WorldVersions
             };
 
             return destination;

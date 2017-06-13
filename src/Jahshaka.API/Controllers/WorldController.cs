@@ -59,6 +59,41 @@ namespace Jahshaka.API.Controllers
             return Ok(viewModel);
         }
         
+        [HttpPost, Route("")]
+        public async Task<IActionResult> Create([FromBody] CreateWorldViewModel model)
+        {
+            if (ModelState.IsValid)
+            {
+                var user = await _userManager.GetUserAsync(User);
+
+                if (user == null)
+                {
+                    return Unauthorized();
+                }
+
+                var world = new World()
+                {
+                    Id = Guid.NewGuid(),
+                    Name = model.Name,
+                    ThumbnailUrl = model.ThumbnailUrl,
+                    CreatedAt = DateTime.UtcNow,
+                    UserId = user.Id
+                };
+
+                _appDbContext.Worlds.Add(world);
+
+                await _appDbContext.SaveChangesAsync();
+
+                return Ok(world.ToViewModel());
+            }
+            
+            return BadRequest(new ErrorViewModel()
+            {
+                Error = ErrorCode.ModelError,
+                ErrorDescription = ModelState?.GetFirstError()
+            });
+        }
+        
         [HttpGet, Route("{id:guid}")]
         public async Task<IActionResult> GetWorld(Guid id)
         {
@@ -120,10 +155,13 @@ namespace Jahshaka.API.Controllers
                 return Unauthorized();
             }
 
-            var worldVersion = _appDbContext.WorldVersions.Include(w => w.World)
-                .FirstOrDefault(w => w.VersionNumber.Equals(versionNumber) && w.World.Id == id && w.World.UserId == user.Id);
+            var assets = _appDbContext.WorldVersionAssets
+                .Include(w => w.WorldVersion).ThenInclude(w => w.World)
+                .Include(w => w.Asset)
+                .Where(w => w.WorldVersion.VersionNumber.Equals(versionNumber) && w.WorldVersion.WorldId == id && w.WorldVersion.World.UserId == user.Id)
+                .ToList();
 
-            if (worldVersion == null)
+            if (assets == null)
             {
                 return BadRequest(new ErrorViewModel()
                 {
@@ -132,7 +170,7 @@ namespace Jahshaka.API.Controllers
                 });
             }
 
-            return Ok(worldVersion.ToVersionViewModel());
+            return Ok(assets.ToViewModel());
         }
     }
 }

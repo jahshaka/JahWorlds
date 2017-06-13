@@ -79,50 +79,6 @@ namespace Jahshaka.Core.Services.S3
                 return false;
             }
         }
-
-        /*
-        public async Task<IList<S3Object>> GetFilesListAsync(string bucketName)
-        {
-            var listObjectsRequest = new ListObjectsRequest
-            {
-                BucketName = bucketName,
-                Prefix = "15c149a6-c816-43b4-a962-08d3ff78ae84"
-            };
-
-            var listObjectsResponse = await _s3client.ListObjectsAsync(listObjectsRequest);
-
-            _logger.LogDebug($"Bucket '{bucketName}' has '{listObjectsResponse.S3Objects.Count}' objects.");
-
-            return listObjectsResponse.S3Objects.ToList();
-        }
-
-        public async Task<bool> ListFilesAsync(string bucketName)
-        {
-            try
-            {
-                var listObjectsRequest = new ListObjectsRequest
-                {
-                    BucketName = bucketName,
-                    Prefix = "15c149a6-c816-43b4-a962-08d3ff78ae84"
-                };
-                var listObjectsResponse = await _s3client.ListObjectsAsync(listObjectsRequest);
-                _logger.LogDebug(listObjectsResponse.S3Objects.Count.ToString());
-                foreach (var entry in listObjectsResponse.S3Objects)
-                {
-                    if (entry.Size > 0)
-                    {
-                        _logger.LogDebug("Found object with key {0}, size {1}, last modification date {2}", entry.Key,
-                            entry.Size, entry.LastModified);
-                    }
-                }
-                return true;
-            }
-            catch (AmazonS3Exception e)
-            {
-                _logger.LogCritical(e.Message);
-                return false;
-            }
-        }
-        */
+        
     }
 }

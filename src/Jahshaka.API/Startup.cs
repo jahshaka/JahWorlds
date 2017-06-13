@@ -6,6 +6,8 @@ using System.Threading.Tasks;
 using AspNet.Security.OpenIdConnect.Primitives;
 using Jahshaka.Core.Data;
 using Jahshaka.Core.DataProtection.Repositories;
+using Jahshaka.Core.Managers;
+using Jahshaka.Core.Services.S3;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.DataProtection;
 using Microsoft.AspNetCore.DataProtection.Repositories;
@@ -38,6 +40,9 @@ namespace Jahshaka.API
             // Add framework services.
             services.AddDataProtection()
                 .SetApplicationName("Jahshaka.API.Startup");
+            services.AddOptions();
+            
+            services.Configure<S3ServiceOptions>(Configuration.GetSection("S3ServiceOptions"));
 
             // Add framework services.
             services.AddMvc();
@@ -79,6 +84,8 @@ namespace Jahshaka.API
                 .AddEntityFrameworkCoreStores<ApplicationDbContext>();
             
             services.AddTransient<IXmlRepository, DatabaseXmlRepository>();
+            services.AddTransient<S3Service, S3Service>();
+            services.AddTransient<AssetManager, AssetManager>();
             
         }
 

@@ -17,5 +17,6 @@ namespace Jahshaka.Core.Data
         
         public virtual World World { get; set; }
         public virtual ICollection<Asset> Assets { get; set; }
+        public ICollection<WorldVersionAsset> WorldVersionAssets { get; set; }
     }
 }

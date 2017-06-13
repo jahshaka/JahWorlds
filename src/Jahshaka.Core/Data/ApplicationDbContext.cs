@@ -18,6 +18,7 @@ namespace Jahshaka.Core.Data
         public new virtual DbSet<ApplicationUser> Users { get; set; }
         public virtual DbSet<World> Worlds { get; set;}
         public virtual DbSet<WorldVersion> WorldVersions { get; set;}
+        public virtual DbSet<WorldVersionAsset> WorldVersionAssets { get; set;}
         public virtual DbSet<XmlKey> XmlKeys { get; set; }
 
         protected override void OnModelCreating(ModelBuilder builder)
@@ -45,6 +46,14 @@ namespace Jahshaka.Core.Data
                 entity.HasKey(e => e.Id);
                 
                 entity.HasOne(a => a.World).WithMany( a => a.WorldVersions).HasForeignKey(e => e.WorldId);
+            });
+            
+            builder.Entity<WorldVersionAsset>(entity =>
+            {
+                entity.HasKey(e => new { e.AssetId, e.WorldVersionId });
+                
+                entity.HasOne(a => a.Asset).WithMany( a => a.WorldVersionAssets).HasForeignKey(e => e.AssetId);
+                entity.HasOne(a => a.WorldVersion).WithMany( a => a.WorldVersionAssets).HasForeignKey(e => e.WorldVersionId);
             });
             
             builder.Entity<ApplicationUser>(entity =>

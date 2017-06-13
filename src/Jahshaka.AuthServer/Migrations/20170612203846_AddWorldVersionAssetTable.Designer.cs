@@ -10,9 +10,10 @@ using Jahshaka.Core.Enums;
 namespace Jahshaka.AuthServer.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20170612203846_AddWorldVersionAssetTable")]
+    partial class AddWorldVersionAssetTable
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
             modelBuilder
                 .HasAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.SerialColumn)
@@ -137,8 +138,6 @@ namespace Jahshaka.AuthServer.Migrations
                     b.Property<List<string>>("Tags");
 
                     b.Property<int>("Type");
-
-                    b.Property<string>("UploadId");
 
                     b.Property<string>("Url");
 

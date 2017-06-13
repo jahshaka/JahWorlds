@@ -3,27 +3,36 @@ using System.ComponentModel.DataAnnotations;
 using System.IO;
 using Jahshaka.Core.Enums;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
+using Newtonsoft.Json;
 
 namespace Jahshaka.API.ViewModels.Asset
 {
     public class CreateAssetViewModel
     {
         [Required]
+        [FromForm(Name = "name")]
         public string Name { get; set;  }
 
         [Required]
+        [FromForm(Name = "type")]
         public AssetType Type { get; set; }
 
         [Required]
-        //[FileExtensions(Extensions = "zip")]
+        [FromForm(Name = "upload")]
         public IFormFile Upload { get; set; }
 
         [Required]
-        //[FileExtensions(Extensions = "jpg,png,gif,jpeg,bmp,svg")]
+        [FromForm(Name = "thumbnail")]
         public IFormFile Thumbnail { get; set; }
-
+        
+        [FromForm(Name = "is_public")]
         public bool IsPublic { get; set; }
-
+        
+        [FromForm(Name = "tags")]
         public List<string> Tags { get; set; }
+        
+        [FromForm(Name = "upload_id")]
+        public string UploadId { get; set; }
     }
 }

@@ -12,6 +12,6 @@ namespace Jahshaka.API.ViewModels.World
         public string ThumbnailUrl { get; set; }
         public DateTime CreatedAt { get; set; }
         
-        public IList<WorldVersion> WorldVersions { get; set; }
+        public ICollection<WorldVersion> WorldVersions { get; set; }
     }
 }
