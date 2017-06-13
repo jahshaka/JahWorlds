@@ -19,5 +19,6 @@ namespace Jahshaka.Core.Data
         
         public ApplicationUser User { get; set;  }
         public ICollection<WorldVersion> WorldVersions { get; set; }
+        public ICollection<WorldVersionAsset> WorldVersionAssets { get; set; }
     }
 }

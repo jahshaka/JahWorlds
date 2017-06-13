@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.IO;
 using Jahshaka.Core.Enums;
@@ -34,5 +35,11 @@ namespace Jahshaka.API.ViewModels.Asset
         
         [FromForm(Name = "upload_id")]
         public string UploadId { get; set; }
+        
+        [FromForm(Name = "world_id")]
+        public string WorldId { get; set; }
+        
+        [FromForm(Name = "world_version_id")]
+        public int WorldVersionId { get; set; }
     }
 }

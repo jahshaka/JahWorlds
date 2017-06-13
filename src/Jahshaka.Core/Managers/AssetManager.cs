@@ -6,6 +6,7 @@ using Jahshaka.Core.Enums;
 using Jahshaka.Core.Services.S3;
 using Jahshaka.Core.Utilities;
 using Microsoft.AspNetCore.Http;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 
 namespace Jahshaka.Core.Managers
@@ -30,8 +31,7 @@ namespace Jahshaka.Core.Managers
         }
 
 
-        public async Task<Asset> SetAssetAsync(Guid userId, IFormFile file, IFormFile thumnbnail, string uploadId, string name, AssetType type, bool isPublic)
-        {
+        public async Task<Asset> SetAssetAsync(Guid userId, IFormFile file, IFormFile thumnbnail, string uploadId, string name, AssetType type, bool isPublic, string worldId, int worldVersionId){
             var user = _dbContext.Users.FirstOrDefault(u => u.Id.Equals(userId));
 
             if (user == null)
@@ -60,6 +60,26 @@ namespace Jahshaka.Core.Managers
             _dbContext.Assets.Add(asset);
 
             await _dbContext.SaveChangesAsync();
+            
+            if (!string.IsNullOrEmpty(worldId))
+            {
+                var worldVersion = _dbContext.WorldVersions
+                    .FirstOrDefault(w => w.Id == worldVersionId && w.WorldId.ToString().Equals(worldId));
+
+                if (worldVersion == null)
+                {
+                    throw new Exception($"World with id {worldId} and version {worldVersionId} not found.");
+                }
+
+                var worldVersionAsset = new WorldVersionAsset()
+                {
+                    WorldId = worldVersion.WorldId,
+                    WorldVersionId = worldVersion.Id,
+                    AssetId = asset.Id
+                };
+                
+                asset.WorldVersionAssets.Add(worldVersionAsset);
+            }
             
             var fileStream = AssetHelper.ToStream(file);
 

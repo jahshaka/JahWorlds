@@ -54,6 +54,7 @@ namespace Jahshaka.Core.Data
                 
                 entity.HasOne(a => a.Asset).WithMany( a => a.WorldVersionAssets).HasForeignKey(e => e.AssetId);
                 entity.HasOne(a => a.WorldVersion).WithMany( a => a.WorldVersionAssets).HasForeignKey(e => e.WorldVersionId);
+                entity.HasOne(a => a.World).WithMany( a => a.WorldVersionAssets).HasForeignKey(e => e.WorldId);
             });
             
             builder.Entity<ApplicationUser>(entity =>

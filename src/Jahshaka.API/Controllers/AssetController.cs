@@ -13,6 +13,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using AspNet.Security.OAuth.Validation;
 using Jahshaka.Core.Managers;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 
 namespace Jahshaka.API.Controllers
@@ -71,6 +72,11 @@ namespace Jahshaka.API.Controllers
                 {
                     var user = await _userManager.GetUserAsync(User);
                     
+                    if (user == null)
+                    {
+                        return Unauthorized();
+                    }
+                    
                     if (model.Upload == null || model.Upload.Length == 0)
                     {
                         return BadRequest(new ErrorViewModel() { Error = ErrorCode.ModelError, ErrorDescription = $"Invalid file data." });
@@ -86,7 +92,7 @@ namespace Jahshaka.API.Controllers
                         model.UploadId = Guid.NewGuid().ToString();
                     }
                     
-                    var asset = await _assetManager.SetAssetAsync(user.Id, model.Upload, model.Thumbnail, model.UploadId, model.Name, model.Type, model.IsPublic);
+                    var asset = await _assetManager.SetAssetAsync(user.Id, model.Upload, model.Thumbnail, model.UploadId, model.Name, model.Type, model.IsPublic, model.WorldId, model.WorldVersionId);
 
                     return Ok(asset.ToViewModel());
                     
