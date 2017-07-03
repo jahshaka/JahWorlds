@@ -12,6 +12,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using AspNet.Security.OAuth.Validation;
 using Jahshaka.API.ViewModels.World;
+using Jahshaka.Core.Managers;
 using Microsoft.EntityFrameworkCore;
 
 namespace Jahshaka.API.Controllers
@@ -23,16 +24,19 @@ namespace Jahshaka.API.Controllers
         private readonly UserManager<ApplicationUser> _userManager;
         private readonly ApplicationDbContext _appDbContext;
         private IHostingEnvironment _environment;
+        private readonly AssetManager _assetManager;
 
         public WorldController(
             UserManager<ApplicationUser> userManager,
             ApplicationDbContext appDbContext,
-            IHostingEnvironment environment
+            IHostingEnvironment environment,
+            AssetManager assetManager
         )
         {
             _userManager = userManager;
             _appDbContext = appDbContext;
             _environment = environment;
+            _assetManager = assetManager;
         }
 
         [HttpGet, Route("")]
@@ -125,7 +129,7 @@ namespace Jahshaka.API.Controllers
             return Ok(world.ToViewModel());
         }
         
-        [HttpGet, Route("{id:guid}/{version_number:float}")]
+        [HttpGet, Route("{id:guid}/version/{version_number:float}")]
         public async Task<IActionResult> GetWorldVersion(Guid id, float versionNumber)
         {
             var user = await _userManager.GetUserAsync(User);
@@ -151,7 +155,7 @@ namespace Jahshaka.API.Controllers
         }
         
         
-        [HttpGet, Route("{id:guid}/{version_number:float}/assets")]
+        [HttpGet, Route("{id:guid}/version/{version_number:float}/assets")]
         public async Task<IActionResult> GetWorldVersionAssets(Guid id, float versionNumber)
         {
             var user = await _userManager.GetUserAsync(User);
@@ -177,6 +181,59 @@ namespace Jahshaka.API.Controllers
             }
 
             return Ok(assets.ToViewModel());
+        }
+        
+        [HttpPost, Route("{id:guid}/version/{version_number:float}/asset/upload")]
+        public async Task<IActionResult> Upload(CreateWorldAssetViewModel model)
+        {
+            if (ModelState.IsValid)
+            {
+                try
+                {
+                    var user = await _userManager.GetUserAsync(User);
+                    
+                    if (user == null)
+                    {
+                        return Unauthorized();
+                    }
+                    
+                    if (model.Upload == null || model.Upload.Length == 0)
+                    {
+                        return BadRequest(new ErrorViewModel() { Error = ErrorCode.ModelError, ErrorDescription = $"Invalid file data." });
+                    }
+                    
+                    if (model.Thumbnail == null || model.Thumbnail.Length == 0)
+                    {
+                        return BadRequest(new ErrorViewModel() { Error = ErrorCode.ModelError, ErrorDescription = $"Invalid thumbnail data." });
+                    }
+
+                    if (model.UploadId == null)
+                    {
+                        model.UploadId = Guid.NewGuid().ToString();
+                    }
+                    
+                    var asset = await _assetManager.SetAssetAsync(user.Id, model.Upload, model.Thumbnail, model.UploadId, model.Name, model.Type, model.IsPublic, model.WorldId, model.WorldVersionId);
+
+                    return Ok(asset.ToViewModel());
+                    
+                }
+                catch (Exception ex)
+                {
+                    return BadRequest(new ErrorViewModel()
+                    {
+                        Error = ErrorCode.ModelError,
+                        ErrorDescription = ex.Message
+                    });
+                }
+
+            }
+            
+            return BadRequest(new ErrorViewModel()
+            {
+                Error = ErrorCode.ModelError,
+                ErrorDescription = ModelState?.GetFirstError()
+            });
+            
         }
     }
 }
