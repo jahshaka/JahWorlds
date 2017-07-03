@@ -1,6 +1,8 @@
 rsync -avz -e 'ssh -p 5678' --del artifacts/jahshaka-auth-server/ root@192.241.172.251:/var/www/aspnet/Jahshaka.AuthServer
+rsync -avz -e 'ssh -p 5678' --del artifacts/jahshaka-api/ root@192.241.172.251:/var/www/aspnet/Jahshaka.API
 rsync -avz -e 'ssh -p 5678' --del artifacts/jahshaka-web/ root@192.241.172.251:/var/www/aspnet/Jahshaka.Web
 
 ssh -p 5678 root@192.241.172.251 "supervisorctl restart jahshaka-auth-server; tail -vf -n 100 /var/log/jahshaka-auth-server.out.log;"
+ssh -p 5678 root@192.241.172.251 "supervisorctl restart jahshaka-api; tail -vf -n 100 /var/log/jahshaka-api.out.log;"
 ssh -p 5678 root@192.241.172.251 "supervisorctl restart jahshaka-web; tail -vf -n 100 /var/log/jahshaka-web.out.log;"
 
