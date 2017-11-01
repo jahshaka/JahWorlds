@@ -12,6 +12,7 @@ using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.DataProtection;
 using Microsoft.AspNetCore.DataProtection.Repositories;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
@@ -23,17 +24,12 @@ namespace Jahshaka.API
 {
     public class Startup
     {
-        public Startup(IHostingEnvironment env)
+        public Startup(IConfiguration configuration)
         {
-            var builder = new ConfigurationBuilder()
-                .SetBasePath(env.ContentRootPath)
-                .AddJsonFile("appsettings.json", optional: true, reloadOnChange: true)
-                .AddJsonFile($"appsettings.{env.EnvironmentName}.json", optional: true)
-                .AddEnvironmentVariables();
-            Configuration = builder.Build();
+            Configuration = configuration;
         }
 
-        public IConfigurationRoot Configuration { get; }
+        public IConfiguration Configuration { get; }
 
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
@@ -70,8 +66,13 @@ namespace Jahshaka.API
             });
 
             // Register the Identity services.
-            services.AddIdentity<ApplicationUser, IdentityRole<Guid>>()
+            /*services.AddIdentity<ApplicationUser, IdentityRole<Guid>>()
                 .AddEntityFrameworkStores<ApplicationDbContext, Guid>()
+                .AddDefaultTokenProviders();*/
+
+            services.AddIdentity<ApplicationUser, IdentityRole<Guid>>()
+                //.AddEntityFrameworkStores<ApplicationDbContext, Guid>()
+                //.AddUserStore<Guid>()
                 .AddDefaultTokenProviders();
 
             // Configure Identity to use the same JWT claims as OpenIddict instead
@@ -103,7 +104,7 @@ namespace Jahshaka.API
             
             app.UseStaticFiles();
             
-            app.UseOAuthValidation();
+            //app.UseOAuthValidation();
             
             app.UseMvc();
             

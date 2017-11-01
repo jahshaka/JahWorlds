@@ -116,7 +116,7 @@ namespace Jahshaka.API.Controllers
             
         }
         
-        [HttpGet, Route("download")]
+        [HttpGet, Route("/{id:Guid}/download")]
         public async Task<IActionResult> Download(Guid id)
         {
 

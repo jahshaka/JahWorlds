@@ -12,34 +12,19 @@ using Jahshaka.Core.Data;
 using Jahshaka.Core.DataProtection.Repositories;
 using Microsoft.AspNetCore.DataProtection;
 using Microsoft.AspNetCore.DataProtection.Repositories;
+using Microsoft.AspNetCore.Identity;
 
 namespace Jahshaka.AuthServer
 {
     public class Startup
     {
         private readonly string _rootPath;
-        public IConfigurationRoot Configuration { get; }
-
-        public Startup(IHostingEnvironment env)
+        public Startup(IConfiguration configuration)
         {
-            _rootPath = env.ContentRootPath;
-
-            Console.WriteLine(_rootPath);
-
-            var builder = new ConfigurationBuilder()
-                .SetBasePath(_rootPath)
-                .AddJsonFile("appsettings.json")
-                .AddJsonFile($"appsettings.{env.EnvironmentName}.json", optional: true);
-
-            if (env.IsDevelopment())
-            {
-                // For more details on using the user secret store see http://go.microsoft.com/fwlink/?LinkID=532709
-                //builder.AddUserSecrets();
-            }
-
-            builder.AddEnvironmentVariables();
-            Configuration = builder.Build();
+            Configuration = configuration;
         }
+
+        public IConfiguration Configuration { get; }
 
         public void ConfigureServices(IServiceCollection services)
         {
@@ -67,7 +52,7 @@ namespace Jahshaka.AuthServer
 
             // Register the Identity services.
             services.AddIdentity<ApplicationUser, IdentityRole<Guid>>()
-                .AddEntityFrameworkStores<ApplicationDbContext, Guid>()
+                //.AddEntityFrameworkStores<ApplicationDbContext, Guid>()
                 .AddDefaultTokenProviders();
 
             // Configure Identity to use the same JWT claims as OpenIddict instead
@@ -116,7 +101,8 @@ namespace Jahshaka.AuthServer
 
             // Add a middleware used to validate access
             // tokens and protect the API endpoints.
-            app.UseOAuthValidation();
+
+            //app.UseOAuthValidation();
 
             // If you prefer using JWT, don't forget to disable the automatic
             // JWT -> WS-Federation claims mapping used by the JWT middleware:
@@ -149,7 +135,11 @@ namespace Jahshaka.AuthServer
             //     options.RequireHttpsMetadata = false;
             // });
 
-            app.UseOpenIddict();
+            //app.UseOpenIddict();
+            
+            app.UseStaticFiles();
+
+            app.UseAuthentication();
 
             app.UseMvcWithDefaultRoute();
 

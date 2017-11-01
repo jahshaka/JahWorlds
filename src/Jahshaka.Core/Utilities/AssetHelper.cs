@@ -1,6 +1,6 @@
 ﻿using System.IO;
-using ImageSharp;
-using ImageSharp.Processing;
+using SixLabors.ImageSharp;
+using SixLabors.ImageSharp.Helpers;
 using Microsoft.AspNetCore.Http;
 using System;
 
@@ -15,7 +15,7 @@ namespace Jahshaka.Core.Utilities
             MemoryStream temp = new MemoryStream();
 
             var image = Image.Load(stream);
-            image.Resize(size, size).Save(temp);
+            //image.Resize(size, size).Save(temp);
 
             image.SaveAsJpeg(output);
             return output;
