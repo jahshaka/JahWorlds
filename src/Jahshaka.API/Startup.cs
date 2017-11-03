@@ -36,7 +36,12 @@ namespace Jahshaka.API
         {
             // Add framework services.
             services.AddDataProtection()
-                .SetApplicationName("Jahshaka.API.Startup");
+                .SetApplicationName("Jahshaka")
+                .AddKeyManagementOptions(options =>
+                {
+                    options.XmlRepository = services.BuildServiceProvider().CreateScope().ServiceProvider.GetRequiredService<IXmlRepository>();
+                });
+                
             services.AddOptions();
             
             services.Configure<S3ServiceOptions>(Configuration.GetSection("S3ServiceOptions"));
@@ -70,10 +75,13 @@ namespace Jahshaka.API
                 .AddEntityFrameworkStores<ApplicationDbContext, Guid>()
                 .AddDefaultTokenProviders();*/
 
-            services.AddIdentity<ApplicationUser, IdentityRole<Guid>>()
-                //.AddEntityFrameworkStores<ApplicationDbContext, Guid>()
-                //.AddUserStore<Guid>()
+            services.AddIdentity<ApplicationUser, Role>()
+                .AddEntityFrameworkStores<ApplicationDbContext>()
                 .AddDefaultTokenProviders();
+
+
+            services.AddAuthentication()
+                .AddOAuthValidation();
 
             // Configure Identity to use the same JWT claims as OpenIddict instead
             // of the legacy WS-Federation claims it uses by default (ClaimTypes),

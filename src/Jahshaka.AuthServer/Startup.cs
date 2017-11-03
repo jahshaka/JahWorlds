@@ -31,7 +31,7 @@ namespace Jahshaka.AuthServer
             
             // Add framework services.
             services.AddDataProtection()
-                .SetApplicationName("Jahshaka.API.Startup")
+                .SetApplicationName("Jahshaka")
                 .AddKeyManagementOptions(options =>
                 {
                     options.XmlRepository = services.BuildServiceProvider().CreateScope().ServiceProvider.GetRequiredService<IXmlRepository>();
