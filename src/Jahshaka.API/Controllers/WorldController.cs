@@ -17,7 +17,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Jahshaka.API.Controllers
 {
-    [Authorize(ActiveAuthenticationSchemes = OAuthValidationDefaults.AuthenticationScheme)]
+    [Authorize(AuthenticationSchemes = OAuthValidationDefaults.AuthenticationScheme)]
     [Route("world")]
     public class WorldController : Controller
     {

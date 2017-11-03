@@ -104,7 +104,7 @@ namespace Jahshaka.API
             
             app.UseStaticFiles();
             
-            //app.UseOAuthValidation();
+            app.UseAuthentication();
             
             app.UseMvc();
             

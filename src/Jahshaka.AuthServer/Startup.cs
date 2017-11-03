@@ -13,12 +13,12 @@ using Jahshaka.Core.DataProtection.Repositories;
 using Microsoft.AspNetCore.DataProtection;
 using Microsoft.AspNetCore.DataProtection.Repositories;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.Extensions.Logging;
 
 namespace Jahshaka.AuthServer
 {
     public class Startup
     {
-        private readonly string _rootPath;
         public Startup(IConfiguration configuration)
         {
             Configuration = configuration;
@@ -28,11 +28,29 @@ namespace Jahshaka.AuthServer
 
         public void ConfigureServices(IServiceCollection services)
         {
+            
             // Add framework services.
             services.AddDataProtection()
-                .SetApplicationName("Jahshaka.API.Startup");
-            
-            services.AddMvc();
+                .SetApplicationName("Jahshaka.API.Startup")
+                .AddKeyManagementOptions(options =>
+                {
+                    options.XmlRepository = services.BuildServiceProvider().CreateScope().ServiceProvider.GetRequiredService<IXmlRepository>();
+                });
+
+            services.AddOptions();
+
+            // Configure Identity to use the same JWT claims as OpenIddict instead
+            // of the legacy WS-Federation claims it uses by default (ClaimTypes),
+            // which saves you from doing the mapping in your authorization controller.
+            services.Configure<IdentityOptions>(options =>
+            {
+                options.ClaimsIdentity.UserNameClaimType = OpenIdConnectConstants.Claims.Name;
+                options.ClaimsIdentity.UserIdClaimType = OpenIdConnectConstants.Claims.Subject;
+                options.ClaimsIdentity.RoleClaimType = OpenIdConnectConstants.Claims.Role;
+            });
+
+            services.AddMvc()
+                .AddJsonOptions(options => options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore);
 
             var migrationsAssembly = typeof(Startup).GetTypeInfo().Assembly.GetName().Name;
 
@@ -51,19 +69,18 @@ namespace Jahshaka.AuthServer
             });
 
             // Register the Identity services.
+            /*
             services.AddIdentity<ApplicationUser, IdentityRole<Guid>>()
-                //.AddEntityFrameworkStores<ApplicationDbContext, Guid>()
+                .AddEntityFrameworkStores<ApplicationDbContext, Guid>()
+                .AddDefaultTokenProviders();
+            */
+
+            services.AddIdentity<ApplicationUser, Role>()
+                .AddEntityFrameworkStores<ApplicationDbContext>()
                 .AddDefaultTokenProviders();
 
-            // Configure Identity to use the same JWT claims as OpenIddict instead
-            // of the legacy WS-Federation claims it uses by default (ClaimTypes),
-            // which saves you from doing the mapping in your authorization controller.
-            services.Configure<IdentityOptions>(options =>
-            {
-                options.ClaimsIdentity.UserNameClaimType = OpenIdConnectConstants.Claims.Name;
-                options.ClaimsIdentity.UserIdClaimType = OpenIdConnectConstants.Claims.Subject;
-                options.ClaimsIdentity.RoleClaimType = OpenIdConnectConstants.Claims.Role;
-            });
+
+            services.AddAuthentication();
 
             // Register the OpenIddict services.
             services.AddOpenIddict(options =>
@@ -90,13 +107,18 @@ namespace Jahshaka.AuthServer
                 //
                 // options.UseJsonWebTokens();
                 // options.AddEphemeralSigningKey();
+
+                services.AddCors();
             });
-            
+
             services.AddTransient<IXmlRepository, DatabaseXmlRepository>();
+            
         }
 
-        public void Configure(IApplicationBuilder app)
+        public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory)
         {
+            loggerFactory.AddConsole(Configuration.GetSection("Logging"));
+
             app.UseDeveloperExceptionPage();
 
             // Add a middleware used to validate access
@@ -135,15 +157,13 @@ namespace Jahshaka.AuthServer
             //     options.RequireHttpsMetadata = false;
             // });
 
-            //app.UseOpenIddict();
-            
             app.UseStaticFiles();
 
             app.UseAuthentication();
 
             app.UseMvcWithDefaultRoute();
 
-            app.UseWelcomePage();
+            loggerFactory.CreateLogger<Startup>().LogInformation("Application Configuration completed.");
         }
     }
 }

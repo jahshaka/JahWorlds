@@ -1,6 +1,7 @@
 ﻿using System;
 using System.IO;
 using System.Reflection;
+using Microsoft.AspNetCore;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
@@ -8,22 +9,19 @@ using Serilog;
 
 namespace Jahshaka.AuthServer
 {
+    /*
     public static class Program
     {
+        
       public static void Main(string[] args)
         {
             var configuration = new ConfigurationBuilder()
                 .SetBasePath(Directory.GetCurrentDirectory())
-                .AddJsonFile("hosting.json", optional: true)
+                .AddJsonFile("hosting.json", optional: false)
                 .AddEnvironmentVariables()
                 .AddCommandLine(args)
                 .Build();
 
-            Log.Logger = new LoggerConfiguration()
-                .ReadFrom.Configuration(configuration)
-                .Enrich.FromLogContext()
-                .WriteTo.Console()
-                .CreateLogger();
 
             try
             {
@@ -38,9 +36,10 @@ namespace Jahshaka.AuthServer
                 Log.CloseAndFlush();
             }
         }
-
         public static IWebHost BuildWebHost(string[] args, IConfigurationRoot configuration)
         {
+
+            Console.WriteLine(args);
 
             return new WebHostBuilder()
                 .UseConfiguration(configuration)
@@ -69,21 +68,33 @@ namespace Jahshaka.AuthServer
                         config.AddCommandLine(args);
                     }
                 })
-                /*
                 .ConfigureLogging((hostingContext, logging) =>
                 {
                     logging.AddConfiguration(hostingContext.Configuration.GetSection("Logging"));
                     logging.AddConsole();
                     logging.AddDebug();
-                })*/
+                })
                 .UseIISIntegration()
                 .UseDefaultServiceProvider((context, options) =>
                 {
                     //options.ValidateScopes = context.HostingEnvironment.IsDevelopment();
                 })
                 .UseStartup<Startup>()
-                .UseSerilog()
+                //.UseSerilog()
                 .Build();
         }
+    }  
+    */
+    public class Program
+    {
+        public static void Main(string[] args)
+        {
+            BuildWebHost(args).Run();
+        }
+
+        public static IWebHost BuildWebHost(string[] args) =>
+            WebHost.CreateDefaultBuilder(args)
+                .UseStartup<Startup>()
+                .Build();
     }
 }

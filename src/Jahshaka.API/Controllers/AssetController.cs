@@ -18,7 +18,7 @@ using Microsoft.Extensions.Logging;
 
 namespace Jahshaka.API.Controllers
 {
-    [Authorize(ActiveAuthenticationSchemes = OAuthValidationDefaults.AuthenticationScheme)]
+    [Authorize(AuthenticationSchemes = OAuthValidationDefaults.AuthenticationScheme)]
     [Route("assets")]
     public class AssetController : Controller
     {

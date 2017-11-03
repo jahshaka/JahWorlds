@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Jahshaka.Core.Data
 {
-    public class ApplicationDbContext : IdentityDbContext<ApplicationUser, IdentityRole<Guid>, Guid>
+    public class ApplicationDbContext : IdentityDbContext<ApplicationUser, Role, Guid, IdentityUserClaim<Guid>, UserRole, IdentityUserLogin<Guid>, IdentityRoleClaim<Guid>, IdentityUserToken<Guid>>
     {
         public ApplicationDbContext(DbContextOptions options)
             : base(options) { }
@@ -16,6 +16,7 @@ namespace Jahshaka.Core.Data
         }
 
         public virtual DbSet<Asset> Assets { get; set;}
+        public new virtual DbSet<Role> Roles { get; set; }
         public new virtual DbSet<ApplicationUser> Users { get; set; }
         public virtual DbSet<World> Worlds { get; set;}
         public virtual DbSet<WorldVersion> WorldVersions { get; set;}
@@ -66,6 +67,16 @@ namespace Jahshaka.Core.Data
             builder.Entity<XmlKey>(entity =>
             {
                 entity.HasKey(e => e.Name);
+            });
+
+            builder.Entity<Role>(entity =>
+            {
+                entity.ToTable("Roles");
+            });
+
+            builder.Entity<UserRole>(entity =>
+            {
+                entity.ToTable<UserRole>("UserRoles");
             });
 
             // Customize the ASP.NET Identity model and override the defaults if needed.
