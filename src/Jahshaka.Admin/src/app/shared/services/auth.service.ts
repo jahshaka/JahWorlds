@@ -21,6 +21,7 @@ export class AuthService {
     private resourceServerUrl: string = environment.resourceServerUrl;
     private clientId: string = environment.clientId;
     private clientSecret: string = environment.clientSecret;
+    private grantType: string = environment.grantType;
 
     public constructor(private httpClient: HttpClient) {
     }
@@ -37,15 +38,15 @@ export class AuthService {
         var random = Math.floor(Math.random() * 5000 + 1);
 
         let data = {
-            client_id: this.clientId,
-            client_secret: this.clientSecret,
-            grant_type: 'urn:ietf:params:oauth:grant-type:2fa',
+            //client_id: this.clientId,
+            //client_secret: this.clientSecret,
+            grant_type: this.grantType,
             username: model.username,
-            password: model.password,
-            scope: scope,
-            device_type: 'WebBrowser',
-            device_id: `deviceId${random}`,
-            device_name: navigator.userAgent
+            password: model.password
+            //scope: scope,
+            //device_type: 'WebBrowser',
+            //device_id: `deviceId${random}`,
+            //device_name: navigator.userAgent
         };
 
         return this.httpClient.post(this.authServerUrl + '/connect/token', data, {}, {

@@ -14,6 +14,7 @@ using Microsoft.AspNetCore.DataProtection;
 using Microsoft.AspNetCore.DataProtection.Repositories;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Logging;
+using Microsoft.AspNetCore.HttpOverrides;
 
 namespace Jahshaka.AuthServer
 {
@@ -125,6 +126,21 @@ namespace Jahshaka.AuthServer
             loggerFactory.AddConsole(Configuration.GetSection("Logging"));
 
             app.UseDeveloperExceptionPage();
+
+            app.UseCors(policyBuilder =>
+            {
+                policyBuilder.AllowAnyHeader();
+                policyBuilder.AllowAnyMethod();
+                policyBuilder.AllowAnyOrigin();
+                policyBuilder.AllowCredentials();
+            });
+
+            app.UseForwardedHeaders(new ForwardedHeadersOptions
+            {
+                ForwardedHeaders = ForwardedHeaders.XForwardedFor | ForwardedHeaders.XForwardedHost | ForwardedHeaders.XForwardedProto
+            });
+
+            app.UseHttpMethodOverride();
 
             // Add a middleware used to validate access
             // tokens and protect the API endpoints.

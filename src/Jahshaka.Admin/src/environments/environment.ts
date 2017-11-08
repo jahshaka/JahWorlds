@@ -5,8 +5,9 @@
 
 export const environment = {
     production: false,
-    resourceServerUrl: 'http://localhost:5000',
-    authServerUrl: 'http://account.lascomoney.caricoin.com',
-    clientId: 'admin',
-    clientSecret: 'secret_secret_secret'
+    resourceServerUrl: 'http://localhost:6001',
+    authServerUrl: 'http://localhost:5000',
+    clientId: '',
+    clientSecret: '',
+    grantType: 'password'
 };
