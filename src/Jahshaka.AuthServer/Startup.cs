@@ -80,7 +80,12 @@ namespace Jahshaka.AuthServer
                 .AddDefaultTokenProviders();
 
 
-            services.AddAuthentication();
+            services.AddAuthentication()
+                .AddFacebook(options => {
+                    options.AppId = "1788029188150533";
+                    options.AppSecret = "829d42ac7193d0522ee8e6f50d98e473";
+
+                });
 
             // Register the OpenIddict services.
             services.AddOpenIddict(options =>
