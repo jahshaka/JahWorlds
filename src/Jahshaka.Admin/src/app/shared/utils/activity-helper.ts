@@ -1,4 +1,7 @@
 ﻿import {ActivityModel} from "../models/activity.model";
+import { Injectable } from "@angular/core";
+
+@Injectable()
 export class ActivityHelper
 {
 

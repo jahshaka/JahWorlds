@@ -1,9 +1,6 @@
 
 import { CanActivateChild, Routes } from '@angular/router';
 
-import { IndividualsComponent } from "./components/users/individuals.component";
-import { IndividualComponent } from "./components/users/individual.component";
-
 import { StarterViewComponent } from "./views/appviews/starterview.component";
 import { LoginComponent } from "./components/auth/login.component";
 
@@ -21,14 +18,6 @@ export const ROUTES: Routes = [
         path: '',
         canActivateChild: [AuthGuard],
         children: [
-            // App views
-            {
-                path: 'users', component: BasicLayoutComponent,
-                children: [
-                  { path: 'individuals', component: IndividualsComponent },
-                  { path: 'individuals/:id', component: IndividualComponent }
-                ]
-            },
             {
                 path: '', component: BasicLayoutComponent,
                 children: [

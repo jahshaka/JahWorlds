@@ -25,23 +25,24 @@ export class SessionService {
 
     public constructor(private router: Router, private httpService: HttpService, private authService: AuthService) { }
 
-    public getCurrentUser()
-    {
+    public getCurrentUser() {
         return this.httpService.get(this.resourceServerUrl + '/users/me');
     }
 
     public getUser() {
-        this.getCurrentUser().subscribe(response => {
-            /*let user: UserModel = {
-                id: response.id
-            };*/
+        this.httpService.get(this.resourceServerUrl + '/users/me')
+        .map(res => res.json())
+        .subscribe(users =>  users = users);
+        /*this.getCurrentUser().subscribe(response => {
 
-            var user = new UserModel();
+            let user = new UserModel();
             user.id = response.id;
+
+            //var user = deserialize(UserModel, response);
 
             this.userSource.next(user);
         }, error => {
             this.userSource.next(null);
-        });
+        });*/
     }
 }

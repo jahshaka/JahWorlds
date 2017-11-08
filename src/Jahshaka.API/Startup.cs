@@ -111,6 +111,14 @@ namespace Jahshaka.API
             loggerFactory.AddDebug();
             
             app.UseStaticFiles();
+
+            app.UseCors(policy =>
+            {
+                policy.AllowAnyHeader();
+                policy.AllowAnyMethod();
+                policy.AllowAnyOrigin();
+                policy.AllowCredentials();
+            });
             
             app.UseAuthentication();
             
