@@ -9,5 +9,13 @@
             "System": "Warning",
             "Microsoft": "Warning"
         }
+    },
+    "Google": {
+        "ClientId" : "",
+        "ClientSecret" : ""
+    },
+    "Facebook": {
+        "AppId" : "",
+        "AppSecret" : ""
     }
 }

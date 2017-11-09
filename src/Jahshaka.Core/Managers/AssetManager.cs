@@ -32,6 +32,7 @@ namespace Jahshaka.Core.Managers
 
 
         public async Task<Asset> SetAssetAsync(Guid userId, IFormFile file, IFormFile thumnbnail, string uploadId, string name, AssetType type, bool isPublic, string worldId, int worldVersionId){
+            
             var user = _dbContext.Users.FirstOrDefault(u => u.Id.Equals(userId));
 
             if (user == null)
@@ -83,11 +84,11 @@ namespace Jahshaka.Core.Managers
             
             var fileStream = AssetHelper.ToStream(file);
 
-            asset.Url = await _s3Service.UploadFileFromStreamAsync(fileStream, BucketName, userId.ToString(), $"{asset.Id}-asset.zip");
+            asset.Url = await _s3Service.UploadFileFromStreamAsync(fileStream, BucketName+"/Assets", userId.ToString(), $"{asset.Id}-{file.FileName}");
             
             var thumbnailStream = AssetHelper.Resize(ThumbnailSize, thumnbnail);
 
-            asset.IconUrl = await _s3Service.UploadFileFromStreamAsync(thumbnailStream, BucketName, userId.ToString(), $"{asset.Id}-thumbnail.jpg");
+            asset.IconUrl = await _s3Service.UploadFileFromStreamAsync(thumbnailStream, BucketName+"/Thumbnails", userId.ToString(), $"{asset.Id}-{thumnbnail.FileName}");
  
             _dbContext.Update(asset);
 
