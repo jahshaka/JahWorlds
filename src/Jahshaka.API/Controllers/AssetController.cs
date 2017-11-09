@@ -144,7 +144,7 @@ namespace Jahshaka.API.Controllers
             }
 
             //var filePath = Path.Combine(_environment.WebRootPath, "uploads");
-            //byte[] fileBytes = System.IO.File.ReadAllBytes(asset.Url);
+            byte[] fileBytes = System.IO.File.ReadAllBytes(asset.Url);
 
             return File(asset.Url, "application/x-msdownload", $"{asset.Name}.zip");
 
