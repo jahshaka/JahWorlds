@@ -64,7 +64,7 @@ namespace Jahshaka.API.Controllers
         }
         
         [HttpPost, Route("upload")]
-        public async Task<IActionResult> Create(CreateAssetViewModel model)
+        public async Task<IActionResult> Upload(CreateAssetViewModel model)
         {
             if (ModelState.IsValid)
             {
@@ -116,7 +116,7 @@ namespace Jahshaka.API.Controllers
             
         }
         
-        [HttpGet, Route("/{id:Guid}/download")]
+        [HttpGet, Route("{id:Guid}/download")]
         public async Task<IActionResult> Download(Guid id)
         {
 
@@ -143,10 +143,10 @@ namespace Jahshaka.API.Controllers
                 });
             }
 
-            var filePath = Path.Combine(_environment.WebRootPath, "uploads");
-            byte[] fileBytes = System.IO.File.ReadAllBytes($"{filePath}/{asset.Url}");
+            //var filePath = Path.Combine(_environment.WebRootPath, "uploads");
+            //byte[] fileBytes = System.IO.File.ReadAllBytes(asset.Url);
 
-            return File(fileBytes, "application/x-msdownload", $"{asset.Name}.zip");
+            return File(asset.Url, "application/x-msdownload", $"{asset.Name}.zip");
 
         }
     }
