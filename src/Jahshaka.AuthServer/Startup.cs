@@ -80,13 +80,14 @@ namespace Jahshaka.AuthServer
                 .AddEntityFrameworkStores<ApplicationDbContext>()
                 .AddDefaultTokenProviders();
 
+            services.ConfigureApplicationCookie(options => options.LoginPath = "/Account/Login");
 
             services.AddAuthentication()
-                /*.AddFacebook(options => {
-                    options.AppId = Configuration["Facebook:AppId"]; 
-                    options.AppSecret = Configuration["Facebook:AppSecret"];
+                .AddFacebook(options => {
+                    options.AppId = "1788029188150533"; //Configuration["Facebook:AppId"]; 
+                    options.AppSecret = "829d42ac7193d0522ee8e6f50d98e473"; //Configuration["Facebook:AppSecret"];
                 })
-                .AddGoogle(options => {
+                /*.AddGoogle(options => {
                     options.ClientId = Configuration["Google:ClientId"];
                     options.ClientSecret = Configuration["Google:ClientSecret"];
                 })*/;

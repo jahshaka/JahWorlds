@@ -1,0 +1,93 @@
+﻿<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>@ViewData["Title"] - Jahshaka</title>
+
+        <link rel="dns-prefetch" href="//maxcdn.bootstrapcdn.com">
+        <link rel="dns-prefetch" href="//fonts.googleapis.com">
+        <link rel="dns-prefetch" href="//cdnjs.cloudflare.com">
+        <link rel="dns-prefetch" href="//Jahshaka.com">
+        <link rel="dns-prefetch" href="//cache.Jahshaka.com">
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+        <link rel="stylesheet" href="//fonts.googleapis.com/css?family=Open+Sans">
+        <link rel="stylesheet" href="~/assets/css/style.css" />
+        <link rel="stylesheet" href="~/assets/css/Jahshaka.css" />
+    </head>
+    <body>
+        <div id="header" class="navbar navbar-inverse navbar-fixed-top">
+            <div class="container">
+                <div class="navbar-header">
+                    <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                    </button>
+                    <a asp-controller="Home" asp-action="Index" class="navbar-brand">
+                        <img id="logo" src="~/assets/img/Jahshaka.png" />
+                        <img id="logo2" src="~/assets/img/Jahshaka.png" />
+                    </a>
+                </div>
+                <div class="navbar-collapse collapse links">
+                    @await Html.PartialAsync("_LoginPartial")
+                </div>
+            </div>
+        </div>
+        <div id="view-container" class="container body-content">
+            @RenderBody()
+            <!--
+            <hr />
+            <footer>
+                <p>&copy; 2017 - Jahshaka</p>
+            </footer>
+                -->
+        </div>
+        <div class="footer-btm">
+            <div class="container">
+                <ul class="et-social-icons">
+                    <li class="et-social-icon et-social-facebook">
+                        <span>&nbsp;</span>
+                        <a class="icon" href="https://www.facebook.com/getJahshaka/">
+                            <span class="title">Facebook</span>
+                        </a>
+                    </li>
+                    <li class="et-social-icon et-social-twitter">
+                        <span>&nbsp;</span>
+                        <a class="icon" href="https://twitter.com/Jahshaka">
+                            <span class="title">Twitter</span>
+                        </a>
+                    </li>
+                    <li class="et-social-icon et-social-google-plus">
+                        <span>&nbsp;</span>
+                        <a class="icon" href="https://plus.google.com/+Jahshaka">
+                            <span class="title">Google Plus</span>
+                        </a>
+                    </li>
+                    <li class="et-social-icon et-social-linkedin">
+                        <span>&nbsp;</span>
+                        <a class="icon" href="https://www.linkedin.com/company/Jahshaka-ltd">
+                            <span class="title">LinkedIn</span>
+                        </a>
+                    </li>
+                    <li class="et-social-icon et-social-instagram">
+                        <span>&nbsp;</span>
+                        <a class="icon" href="https://www.instagram.com/Jahshaka/">
+                            <span class="title">Instagram</span>
+                        </a>
+                    </li>
+                </ul>
+                <p>Copyright © 2016 Jahshaka Ltd. All rights reserved. <a href="https://www.Jahshaka.com/privacy/">Privacy Policy</a> • <a href="https://www.Jahshaka.com/terms/">Terms of Services</a></p>
+            </div>
+        </div>
+
+        <script src="~/lib/jquery/dist/jquery.js"></script>
+        <script src="~/lib/bootstrap/dist/js/bootstrap.js"></script>
+        <script src="~/lib/hammer.js/hammer.js"></script>
+        <script src="~/lib/bootstrap-touch-carousel/dist/js/bootstrap-touch-carousel.js"></script>
+        <script src="~/js/site.js" asp-append-version="true"></script>
+
+        @RenderSection("scripts", required: false)
+    </body>
+</html>
