@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using System.Security.Claims;
 using Microsoft.AspNetCore.Authentication;
+using System.Linq;
 
 namespace Jahshaka.AuthServer.Controllers
 {
@@ -108,14 +109,21 @@ namespace Jahshaka.AuthServer.Controllers
                 ErrorMessage = $"Error from external provider: {remoteError}";
                 return RedirectToAction(nameof(Login));
             }
+
             var info = await _signInManager.GetExternalLoginInfoAsync();
+
             if (info == null)
             {
                 return RedirectToAction(nameof(Login));
             }
 
+            var token = info.AuthenticationTokens.Single(x => x.Name == "access_token").Value;
+            Console.WriteLine($"------------> Access Token: {token}");
+
+
             // Sign in the user with this external login provider if the user already has a login.
             var result = await _signInManager.ExternalLoginSignInAsync(info.LoginProvider, info.ProviderKey, isPersistent: false, bypassTwoFactor: true);
+
             if (result.Succeeded)
             {
                 //_logger.LogInformation("User logged in with {Name} provider.", info.LoginProvider);

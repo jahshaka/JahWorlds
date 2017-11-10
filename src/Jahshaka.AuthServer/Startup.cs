@@ -1,12 +1,17 @@
 ﻿using System;
 using System.Reflection;
 using AspNet.Security.OpenIdConnect.Primitives;
+using AspNet.Security.OpenIdConnect.Primitives;
 using Microsoft.AspNetCore.Builder;
+using Microsoft.AspNetCore.DataProtection;
+using Microsoft.AspNetCore.DataProtection.Repositories;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Hosting;
+using Microsoft.Extensions.Logging;
 using OpenIddict.Models;
 using Jahshaka.Core.Data;
 using Jahshaka.Core.DataProtection.Repositories;
@@ -15,6 +20,8 @@ using Microsoft.AspNetCore.DataProtection.Repositories;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Logging;
 using Microsoft.AspNetCore.HttpOverrides;
+using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.Authentication.OpenIdConnect;
 
 namespace Jahshaka.AuthServer
 {
@@ -83,13 +90,18 @@ namespace Jahshaka.AuthServer
             services.ConfigureApplicationCookie(options => options.LoginPath = "/Account/Login");
 
             services.AddAuthentication()
+                .UseOAuthValidation(options => {
+                    options.SaveTokens = true;
+                })
                 .AddFacebook(options => {
                     options.AppId = "1788029188150533"; //Configuration["Facebook:AppId"]; 
                     options.AppSecret = "829d42ac7193d0522ee8e6f50d98e473"; //Configuration["Facebook:AppSecret"];
+                    options.SaveTokens = true;
                 })
                 .AddGoogle(options => {
                     options.ClientId = "312477755191-aq6a2esar48u7pavkhob4kli7m4295ic.apps.googleusercontent.com";
                     options.ClientSecret = "5UxcqWRQkDnTudLZGYniOG5t";
+                    options.SaveTokens = true;
                 });
 
             // Register the OpenIddict services.
