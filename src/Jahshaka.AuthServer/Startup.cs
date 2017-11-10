@@ -87,10 +87,10 @@ namespace Jahshaka.AuthServer
                     options.AppId = "1788029188150533"; //Configuration["Facebook:AppId"]; 
                     options.AppSecret = "829d42ac7193d0522ee8e6f50d98e473"; //Configuration["Facebook:AppSecret"];
                 })
-                /*.AddGoogle(options => {
-                    options.ClientId = Configuration["Google:ClientId"];
-                    options.ClientSecret = Configuration["Google:ClientSecret"];
-                })*/;
+                .AddGoogle(options => {
+                    options.ClientId = "312477755191-aq6a2esar48u7pavkhob4kli7m4295ic.apps.googleusercontent.com";
+                    options.ClientSecret = "5UxcqWRQkDnTudLZGYniOG5t";
+                });
 
             // Register the OpenIddict services.
             services.AddOpenIddict(options =>
