@@ -14,7 +14,8 @@ namespace Jahshaka.Core.Data
         {
 
         }
-
+        public virtual DbSet<Application> Applications { get; set; }
+        public virtual DbSet<ApplicationVersion> ApplicationVersions { get; set; }
         public virtual DbSet<Asset> Assets { get; set;}
         public new virtual DbSet<Role> Roles { get; set; }
         public new virtual DbSet<ApplicationUser> Users { get; set; }
@@ -26,6 +27,28 @@ namespace Jahshaka.Core.Data
         protected override void OnModelCreating(ModelBuilder builder)
         {
             base.OnModelCreating(builder);
+
+            builder.Entity<Application>(entity =>
+            {
+                entity.ToTable<Application>("OpenIddictApplications");
+
+                entity.HasMany(e => e.Versions).WithOne(e => e.Application).HasForeignKey(e => e.ApplicationId);
+            });
+
+            builder.Entity<Authorization>(entity =>
+            {
+                entity.ToTable<Authorization>("OpenIddictAuthorizations");
+            });
+
+            builder.Entity<Scope>(entity =>
+            {
+                entity.ToTable<Scope>("OpenIddictScopes");
+            });
+
+            builder.Entity<Token>(entity =>
+            {
+                entity.ToTable<Token>("OpenIddictTokens");
+            });
 
             builder.Entity<Asset>(entity =>
             {

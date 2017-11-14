@@ -89,10 +89,15 @@ namespace Jahshaka.AuthServer
 
             services.ConfigureApplicationCookie(options => options.LoginPath = "/Account/Login");
 
-            services.AddAuthentication()
-                .UseOAuthValidation(options => {
-                    options.SaveTokens = true;
+            services.AddAuthentication().AddCookie()
+                .AddOAuthValidation(options => {
+                    options.SaveToken = true;
                 })
+                /*.AddOpenIdConnect(options => {
+                    options.SaveTokens = true;
+                    options.ClientId = "myClient";
+                    options.ClientSecret = "secret_secret_secret";
+                }) */
                 .AddFacebook(options => {
                     options.AppId = "1788029188150533"; //Configuration["Facebook:AppId"]; 
                     options.AppSecret = "829d42ac7193d0522ee8e6f50d98e473"; //Configuration["Facebook:AppSecret"];
@@ -105,7 +110,7 @@ namespace Jahshaka.AuthServer
                 });
 
             // Register the OpenIddict services.
-            services.AddOpenIddict(options =>
+            services.AddOpenIddict<Application, Authorization, Scope, Token>(options =>
             {
                 // Register the Entity Framework stores.
                 options.AddEntityFrameworkCoreStores<ApplicationDbContext>();
@@ -116,10 +121,16 @@ namespace Jahshaka.AuthServer
                 options.AddMvcBinders();
 
                 // Enable the token endpoint.
-                options.EnableTokenEndpoint("/connect/token");
+                options.EnableAuthorizationEndpoint("/connect/authorize")
+                       .EnableLogoutEndpoint("/connect/logout")
+                       .EnableTokenEndpoint("/connect/token")
+                       .EnableUserinfoEndpoint("/api/userinfo");
 
                 // Enable the password flow.
-                options.AllowPasswordFlow();
+                options.AllowAuthorizationCodeFlow()
+                       .AllowPasswordFlow()
+                       .AllowRefreshTokenFlow()
+                       .AllowCustomFlow("urn:ietf:params:oauth:grant-type:external_account");
 
                 // During development, you can disable the HTTPS requirement.
                 options.DisableHttpsRequirement();
@@ -201,6 +212,11 @@ namespace Jahshaka.AuthServer
             app.UseMvcWithDefaultRoute();
 
             loggerFactory.CreateLogger<Startup>().LogInformation("Application Configuration completed.");
+
+            var initializer = new ApplicationInitialization(app);
+
+            initializer.Run();
         }
+        
     }
 }
