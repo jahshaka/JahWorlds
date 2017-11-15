@@ -22,5 +22,10 @@ namespace Jahshaka.AuthServer.ViewModels.Account
         [Required]
         [Display(Name = "LastName")]
         public string LastName { get; set; }
+
+        [DataType(DataType.Password)]
+        [Display(Name = "Confirm password")]
+        [Compare("Password", ErrorMessage = "The password and confirmation password do not match.")]
+        public string ConfirmPassword { get; set; }
     }
 }

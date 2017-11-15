@@ -382,12 +382,44 @@ namespace Jahshaka.AuthServer.Controllers
                     result = await _userManager.AddLoginAsync(user, info);
                     if (result.Succeeded)
                     {
-                        await _signInManager.SignInAsync(user, isPersistent: false);
+                        var userData = _applicationDbContext.Users.FirstOrDefault(u => u.Email == user.Email);
 
-                        await _signInManager.UpdateExternalAuthenticationTokensAsync(info);
+                        if(userData == null){
+                            return BadRequest(new OpenIdConnectResponse
+                            {
+                                Error = OpenIdConnectConstants.Errors.ServerError,
+                                ErrorDescription = "The specified user is not allowed to sign in."
+                            });
+                        }
+
+                        var data = new List<KeyValuePair<string, string>>
+                        {
+                            new KeyValuePair<string, string>("grant_type", "urn:ietf:params:oauth:grant-type:external_account"),
+                            new KeyValuePair<string, string>("user_id", userData.Id.ToString() ),
+                            new KeyValuePair<string, string>("concurrency_stamp", userData.ConcurrencyStamp )
+                        };
+
+                        //var body = JsonConvert.SerializeObject(data);
+
+                        var response = await _httpClient.PostAsync("connect/token", new FormUrlEncodedContent(data));
+
+                        var content = await response.Content.ReadAsStringAsync();
+
+                        _logger.LogDebug($"Conetnt:   {content}");
+                        _logger.LogDebug($"Status Code:   {response.StatusCode}");
+                        _logger.LogDebug($"URI:   {response.RequestMessage.RequestUri}");
+
+                        if (!response.IsSuccessStatusCode)
+                        {
+                            throw new Exception($"Unable to submit request: {content}.");
+                        }
+
+                        var resp = JsonConvert.DeserializeObject<ExternalUserTokenViewModel>(content);
+
+                        return Ok(resp);
                         
                         //_logger.LogInformation("User created an account using {Name} provider.", info.LoginProvider);
-                        return RedirectToLocal(returnUrl);
+                        //return RedirectToLocal(returnUrl);
                     }
                 }
                 AddErrors(result);

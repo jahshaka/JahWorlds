@@ -1,0 +1,16 @@
+[Unit]
+Description=Jahshaka Auth Server
+
+[Service]
+User=root
+WorkingDirectory=/var/www/aspnet/Jahshaka.AuthServer
+ExecStart=/usr/bin/dotnet /var/www/aspnet/Jahshaka.AuthServer/Jahshaka.AuthServer.dll
+Restart=always
+RestartSec=15
+StandardOutput=syslog
+StandardError=syslog
+SyslogIdentifier=jahshaka.auth.server
+Environment=ASPNETCORE_ENVIRONMENT=Development
+
+[Install]
+WantedBy=multi-user.target
