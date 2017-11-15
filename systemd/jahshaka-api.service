@@ -1,0 +1,16 @@
+[Unit]
+Description=Jahshaka API
+
+[Service]
+User=root
+WorkingDirectory=/var/www/aspnet/Jahshaka.API
+ExecStart=/usr/bin/dotnet /var/www/aspnet/Jahshaka.API/Jahshaka.API.dll
+Restart=always
+RestartSec=15
+StandardOutput=syslog
+StandardError=syslog
+SyslogIdentifier=jahshaka.api
+Environment=ASPNETCORE_ENVIRONMENT=Development
+
+[Install]
+WantedBy=multi-user.target

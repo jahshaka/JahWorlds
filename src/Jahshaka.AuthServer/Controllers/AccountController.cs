@@ -425,6 +425,8 @@ namespace Jahshaka.AuthServer.Controllers
                 AddErrors(result);
             }
 
+            _logger.LogInformation($"MODEL DATA {model}");
+
             ViewData["ReturnUrl"] = returnUrl;
             return View(nameof(ExternalLogin), model);
         }
