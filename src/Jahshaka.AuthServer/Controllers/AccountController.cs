@@ -287,76 +287,71 @@ namespace Jahshaka.AuthServer.Controllers
             if (info == null)
             {
                 return RedirectToAction(nameof(Login));
-            }
-
-            var token = info.AuthenticationTokens.Single(x => x.Name == "access_token").Value;
-            Console.WriteLine($"------------> Access Token: {token}");
-
-            
+            }            
 
             var address = info.Principal.FindFirstValue(ClaimTypes.Email);
-            Console.WriteLine($"------------> Email: {address}");
-
+            var lastname = info.Principal.FindFirstValue(ClaimTypes.Surname);
+            var firstname = info.Principal.FindFirstValue(ClaimTypes.GivenName);
+            _logger.LogInformation($"User Email Address: {address}");
+            _logger.LogInformation($"User lastname: {lastname}");
+            _logger.LogInformation($"User firstname: {firstname}");
 
             // Sign in the user with this external login provider if the user already has a login.
             var result = await _signInManager.ExternalLoginSignInAsync(info.LoginProvider, info.ProviderKey, isPersistent: false, bypassTwoFactor: true);
 
-            if (result.Succeeded)
-            {
-
-                //var user = await _userManager.GetUserAsync(HttpContext.User);
-
-                var user = _applicationDbContext.Users.FirstOrDefault(u => u.Email == address);
-
-                if(user == null){
-                    return BadRequest(new OpenIdConnectResponse
-                    {
-                        Error = OpenIdConnectConstants.Errors.ServerError,
-                        ErrorDescription = "The specified user is not allowed to sign in."
-                    });
-                }
-
-                var data = new List<KeyValuePair<string, string>>
-                {
-                    new KeyValuePair<string, string>("grant_type", "urn:ietf:params:oauth:grant-type:external_account"),
-                    new KeyValuePair<string, string>("user_id", user.Id.ToString() ),
-                    new KeyValuePair<string, string>("concurrency_stamp", user.ConcurrencyStamp )
-                };
-
-                //var body = JsonConvert.SerializeObject(data);
-
-                var response = await _httpClient.PostAsync("connect/token", new FormUrlEncodedContent(data));
-
-                var content = await response.Content.ReadAsStringAsync();
-
-                _logger.LogDebug($"Conetnt:   {content}");
-                _logger.LogDebug($"Status Code:   {response.StatusCode}");
-                _logger.LogDebug($"URI:   {response.RequestMessage.RequestUri}");
-
-                if (!response.IsSuccessStatusCode)
-                {
-                    throw new Exception($"Unable to submit request: {content}.");
-                }
-
-                var resp = JsonConvert.DeserializeObject<ExternalUserTokenViewModel>(content);
-
-                return Ok(resp);
-
-                //_logger.LogInformation("User logged in with {Name} provider.", info.LoginProvider);
-                //return RedirectToLocal(returnUrl);
-            }
             if (result.IsLockedOut)
             {
                 return RedirectToAction(nameof(Lockout));
             }
-            else
-            {
-                // If the user does not have an account, then ask the user to create an account.
-                ViewData["ReturnUrl"] = returnUrl;
-                ViewData["LoginProvider"] = info.LoginProvider;
-                var email = info.Principal.FindFirstValue(ClaimTypes.Email);
-                return View("ExternalLogin", new ExternalLoginViewModel { Email = email });
+
+            var user = _applicationDbContext.Users.FirstOrDefault(u => u.Email == address);
+
+            if(user == null){
+
+                var newUser = new ApplicationUser { UserName = address, Email = address, LastName = lastname, FirstName = firstname };
+                
+                var res = await _userManager.CreateAsync(newUser);
+
+                user = _applicationDbContext.Users.FirstOrDefault(u => u.Email == newUser.Email);
+
+                _logger.LogCritical($"New user data: {newUser}");
+
+                /*
+                return BadRequest(new OpenIdConnectResponse
+                {
+                    Error = OpenIdConnectConstants.Errors.ServerError,
+                    ErrorDescription = "The specified user is not allowed to sign in."
+                });
+                */
             }
+
+            var data = new List<KeyValuePair<string, string>>
+            {
+                new KeyValuePair<string, string>("grant_type", "urn:ietf:params:oauth:grant-type:external_account"),
+                new KeyValuePair<string, string>("user_id", user.Id.ToString() ),
+                new KeyValuePair<string, string>("concurrency_stamp", user.ConcurrencyStamp )
+            };
+
+            //var body = JsonConvert.SerializeObject(data);
+
+            var response = await _httpClient.PostAsync("connect/token", new FormUrlEncodedContent(data));
+
+            var content = await response.Content.ReadAsStringAsync();
+
+            _logger.LogDebug($"Conetnt:   {content}");
+            _logger.LogDebug($"Status Code:   {response.StatusCode}");
+            _logger.LogDebug($"URI:   {response.RequestMessage.RequestUri}");
+
+            if (!response.IsSuccessStatusCode)
+            {
+                throw new Exception($"Unable to submit request: {content}.");
+            }
+
+            var resp = JsonConvert.DeserializeObject<ExternalUserTokenViewModel>(content);
+
+            return Ok(resp);
+
+                
         }
 
         [HttpPost]
