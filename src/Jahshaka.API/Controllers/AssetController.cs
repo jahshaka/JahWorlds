@@ -91,8 +91,10 @@ namespace Jahshaka.API.Controllers
                     {
                         model.UploadId = Guid.NewGuid().ToString();
                     }
+
+                    Boolean IsPublic = false;
                     
-                    var asset = await _assetManager.SetAssetAsync(user.Id, model.Upload, model.Thumbnail, model.UploadId, model.Name, model.Type, model.IsPublic, null, 0);
+                    var asset = await _assetManager.SetAssetAsync(user.Id, model.Upload, model.Thumbnail, model.UploadId, model.Name, model.Type, IsPublic, null, 0);
 
                     return Ok(asset.ToViewModel());
                     
