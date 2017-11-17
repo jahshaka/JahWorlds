@@ -308,7 +308,13 @@ namespace Jahshaka.AuthServer.Controllers
 
             if(user == null){
 
-                var newUser = new ApplicationUser { UserName = address, Email = address, LastName = lastname, FirstName = firstname };
+                var newUser = new ApplicationUser { 
+                    UserName = address, 
+                    Email = address, 
+                    LastName = lastname, 
+                    FirstName = firstname,
+                    CreatedAt = DateTime.UtcNow
+                };
                 
                 var res = await _userManager.CreateAsync(newUser);
 
