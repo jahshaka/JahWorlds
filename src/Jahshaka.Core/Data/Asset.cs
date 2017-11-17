@@ -18,8 +18,8 @@ namespace Jahshaka.Core.Data
         public bool IsPublic { get; set; }
         public List<string> Tags { get; set; }
         public DateTime CreatedAt { get; set; }
-
         public ApplicationUser User { get; set;  }
+        public Collection Collection { get; set;  }
         public ICollection<WorldVersionAsset> WorldVersionAssets { get; set; }
     }
 }
