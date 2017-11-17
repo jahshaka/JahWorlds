@@ -17,18 +17,30 @@
           </ul>
         </div>
         <div class="logo-element">
-          IN+
+          JX+
         </div>
       </li>
-      <li [ngClass]="{active: activeRoute('starter')}">
-        <a [routerLink]="['/starterview']"><i class="fa fa-th-large"></i> <span class="nav-label">Starter view</span></a>
+
+      <li [ngClass]="{active: activeRoute('dashboard')}">
+        <a [routerLink]="['/dashboard']"><i class="fa fa-bar-chart-o"></i> <span class="nav-label">Dashboard</span></a>
       </li>
+
+      <li [ngClass]="{active: activeRoute('assets')}">
+        <a [routerLink]="['/assets']"><i class="fa fa-th-large"></i> <span class="nav-label">Assets</span></a>
+      </li>
+
       <li [ngClass]="{active: activeRoute('users')}">
         <a href="#"><i class="fa fa-users"></i> <span class="nav-label">Users</span> <span class="fa arrow"></span> </a>
         <ul class="nav nav-second-level collapse" [ngClass]="{in: activeRoute('users')}">
           <li [ngClass]="{active: activeRoute('individuals')}"><a [routerLink]="['/users/individuals']">Individuals</a></li>
-          <li [ngClass]="{active: activeRoute('businesses')}"><a [routerLink]="['/users/businesses']">Businesses</a></li>
-          <li [ngClass]="{active: activeRoute('agents')}"><a [routerLink]="['/users/agents']">Agents</a></li>
+          <li [ngClass]="{active: activeRoute('admin')}"><a [routerLink]="['/users/admin']">Admin</a></li>
+        </ul>
+      </li>
+
+      <li [ngClass]="{active: activeRoute('settings')}">
+        <a href="#"><i class="fa fa-gears"></i> <span class="nav-label">Settings</span> <span class="fa arrow"></span> </a>
+        <ul class="nav nav-second-level collapse" [ngClass]="{in: activeRoute('collections')}">
+          <li [ngClass]="{active: activeRoute('collections')}"><a [routerLink]="['/settings/collections']">Collections</a></li>
         </ul>
       </li>
     </ul>

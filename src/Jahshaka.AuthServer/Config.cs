@@ -54,5 +54,30 @@ namespace Jahshaka.AuthServer
 
             return applications;
         }
+
+        public static IEnumerable<InitialUser> GetUsers()
+        {
+            var users = new List<InitialUser>();
+
+            users.Add(new InitialUser
+            {
+                FirstName = "Admin",
+                LastName = "User",
+                Password = "password",
+                EmailAddress = "admin@jahfx.com",
+                PhoneNumber = "18768555989"
+            });
+
+            return users;
+        }
+
+        public class InitialUser
+        {
+            public string FirstName { get; set; }
+            public string LastName { get; set; }
+            public string Password { get; set; }
+            public string EmailAddress { get; set; }
+            public string PhoneNumber { get; set; }
+        }
     }
 }

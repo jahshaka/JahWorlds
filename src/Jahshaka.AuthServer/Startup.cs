@@ -83,7 +83,14 @@ namespace Jahshaka.AuthServer
                 .AddDefaultTokenProviders();
             */
 
-            services.AddIdentity<ApplicationUser, Role>()
+            services.AddIdentity<ApplicationUser, Role>(options =>
+            {
+                options.Password.RequireLowercase = false;
+                options.Password.RequireNonAlphanumeric = false;
+                options.Password.RequireUppercase = false;
+                options.Password.RequiredLength = 6;
+                options.Password.RequireDigit = false;
+            })
                 .AddEntityFrameworkStores<ApplicationDbContext>()
                 .AddDefaultTokenProviders();
 

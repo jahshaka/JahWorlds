@@ -19,7 +19,6 @@ import { ConnectivityUtil } from './shared/utils/connectivity-util';
 
 // App views
 import { DashboardsModule } from './views/dashboards/dashboards.module';
-//import { AppviewsModule } from './views/appviews/appviews.module';
 
 // App modules/components
 import { LayoutsModule } from './components/common/layouts/layouts.module';
@@ -28,12 +27,16 @@ import {Ng2PaginationModule} from 'ng2-pagination';
 import {ActivityHelper} from './shared/utils/activity-helper';
 import { AssetListComponent } from 'app/components/assets/asset-list.component';
 import { StarterViewComponent } from 'app/views/appviews/starterview.component';
+import { CollectionsComponent } from 'app/components/settings/collections/collections.component';
+import { DashboardComponent } from 'app/components/dashboard/dashboard.component';
 
 @NgModule({
     declarations: [
         AppComponent,
         LoginComponent,
-        StarterViewComponent
+        CollectionsComponent,
+        AssetListComponent,
+        DashboardComponent
     ],
     imports: [
         BrowserModule,
@@ -41,7 +44,6 @@ import { StarterViewComponent } from 'app/views/appviews/starterview.component';
         HttpModule,
         DashboardsModule,
         LayoutsModule,
-        //AppviewsModule,
         RouterModule.forRoot(ROUTES),
         Ng2PaginationModule
     ],

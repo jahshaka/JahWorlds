@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using Jahshaka.Core.Enums;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 
@@ -20,6 +21,8 @@ namespace Jahshaka.Core.Data
         public string LastName { get; set; }
 
         public DateTime CreatedAt { get; set; }
+
+        public UserType UserType { get; set; }
 
         public virtual ICollection<Asset> Assets { get; set; }
         
