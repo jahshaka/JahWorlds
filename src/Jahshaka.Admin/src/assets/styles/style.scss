@@ -56,3 +56,7 @@
     margin: 0;
   }
 }
+
+li.node-menu-item:first{
+  display: none !important;
+}

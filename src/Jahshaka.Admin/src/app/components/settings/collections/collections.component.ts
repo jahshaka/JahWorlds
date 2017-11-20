@@ -93,7 +93,7 @@ export class CollectionsComponent {
 
         const parent = e.node.parent;
 
-        let data = {
+        const data = {
             name: e.node.value,
             collection_id: parent.id === 0 ? null : parent.id
         }
@@ -104,9 +104,41 @@ export class CollectionsComponent {
                 e.node.id = response.id;
             });
 
-        console.log(e.node.value);
-        console.log(e.node.id);
-
     };
+
+    public handleRemoved(e: NodeEvent) {
+        console.log(e);
+        /*
+        this.collectionService.Remove(e.node.id).then(
+            (response) => {
+                console.log(response);
+                console.log('Removed successfully');
+            });
+        */
+    }
+
+    public handleRenamed(e: NodeEvent) {
+        console.log(e);
+
+        this.collectionService.Rename(e.node.value, e.node.id).then(
+            (response) => {
+                console.log(response);
+                console.log('Renamed successfully');
+            });
+
+    }
+
+    public handleMoved(e: NodeEvent) {
+        console.log(e);
+
+        const parent = e.node.parent;
+
+        this.collectionService.Update(e.node.id, parent.id).then(
+            (response) => {
+                console.log(response);
+                console.log('Update successfully');
+            });
+
+    }
 
 }

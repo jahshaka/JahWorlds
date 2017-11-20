@@ -30,6 +30,9 @@
                     <tree 
                         [tree]="tree" 
                         (nodeCreated)="handleCreate($event)"
+                        (nodeMoved)="handleMoved($event)"
+                        (nodeRemoved)="handleRemoved($event)"
+                        (nodeRenamed)="handleRenamed($event)"
                         (nodeSelected)="logEvent($event)">
                     </tree>
                 </div>

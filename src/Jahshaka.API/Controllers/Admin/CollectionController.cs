@@ -206,7 +206,7 @@ namespace Jahshaka.API.Controllers.Admin
 
 
         [HttpPost, Route("{id}/update")]
-        public async Task<IActionResult> Update(int id, CreateCollectionViewModel model)
+        public async Task<IActionResult> Update(int id, [FromBody] UpdateCollectionViewModel model)
         {
             if (ModelState.IsValid)
             {
@@ -230,9 +230,125 @@ namespace Jahshaka.API.Controllers.Admin
                         });
                     }
 
+                    var collectionParent = _dbContext.Collections.FirstOrDefault(c => c.Id.Equals(model.CollectionParentId));
+
+                    if(collectionParent == null)
+                    {
+                        return BadRequest(new ErrorViewModel()
+                        {
+                            Error = ErrorCode.ModelError,
+                            ErrorDescription = "Parent collection not found"
+                        });
+                    }
+
+                    collection.CollectionId = collectionParent.Id;
+                    
+                    _dbContext.Update(collection);
+
+                    await _dbContext.SaveChangesAsync();
+
+                    return Ok(collection.ToViewModel());
+                    
+                }
+                catch (Exception ex)
+                {
+                    return BadRequest(new ErrorViewModel()
+                    {
+                        Error = ErrorCode.ModelError,
+                        ErrorDescription = ex.Message
+                    });
+                }
+
+            }
+            
+            return BadRequest(new ErrorViewModel()
+            {
+                Error = ErrorCode.ModelError,
+                ErrorDescription = ModelState?.GetFirstError()
+            });
+            
+        }
+
+
+        [HttpPost, Route("{id}/remove")]
+        public async Task<IActionResult> Remove(int id)
+        {
+            if (ModelState.IsValid)
+            {
+                try
+                {
+                    var user = await _userManager.GetUserAsync(User);
+                    
+                    if (user == null || !user.UserType.Equals(UserType.Admin))
+                    {
+                        return Unauthorized();
+                    }
+
+                    var collection = _dbContext.Collections.FirstOrDefault(c => c.Id.Equals(id));
+
+                    if(collection == null)
+                    {
+                        return BadRequest(new ErrorViewModel()
+                        {
+                            Error = ErrorCode.ModelError,
+                            ErrorDescription = "Collection not found"
+                        });
+                    }
+                    
+                    _dbContext.Remove(collection);
+
+                    await _dbContext.SaveChangesAsync();
+
+                    return Ok();
+                    
+                }
+                catch (Exception ex)
+                {
+                    return BadRequest(new ErrorViewModel()
+                    {
+                        Error = ErrorCode.ModelError,
+                        ErrorDescription = ex.Message
+                    });
+                }
+
+            }
+            
+            return BadRequest(new ErrorViewModel()
+            {
+                Error = ErrorCode.ModelError,
+                ErrorDescription = ModelState?.GetFirstError()
+            });
+            
+        }
+
+        [HttpPost, Route("{id}/rename")]
+        public async Task<IActionResult> Rename(int id, [FromBody] RenameCollectionViewModel model)
+        {
+            if (ModelState.IsValid)
+            {
+                try
+                {
+                    var user = await _userManager.GetUserAsync(User);
+                    
+                    if (user == null || !user.UserType.Equals(UserType.Admin))
+                    {
+                        return Unauthorized();
+                    }
+
+                    var collection = _dbContext.Collections.FirstOrDefault(c => c.Id.Equals(id));
+
+                    if(collection == null)
+                    {
+                        return BadRequest(new ErrorViewModel()
+                        {
+                            Error = ErrorCode.ModelError,
+                            ErrorDescription = "Collection not found"
+                        });
+                    }
+                    
                     collection.Name = model.Name;
                     
-                    _dbContext.Collections.Add(collection);
+                    _dbContext.Update(collection);
 
                     await _dbContext.SaveChangesAsync();
 
