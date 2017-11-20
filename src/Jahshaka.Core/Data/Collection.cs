@@ -10,8 +10,11 @@ namespace Jahshaka.Core.Data
     {
         public int Id { get; set; }
         public string Name { get; set;  }
+        public int? CollectionId { get; set; }
         public DateTime CreatedAt { get; set; }
         public virtual ICollection<Asset> Assets { get; set; }
+        public virtual ICollection<Collection> Collections { get; set; }
+        public virtual Collection CollectionParent { get; set; }
 
     }
 }

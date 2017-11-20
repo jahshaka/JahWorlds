@@ -9,6 +9,7 @@ namespace Jahshaka.Core.Data
     {
         public Guid Id { get; set; }
         public Guid UserId { get; set; }
+        public int? CollectionId { get; set; }
         public string UploadId { get; set; }
         public string Name { get; set;  }
         public AssetType Type { get; set; }

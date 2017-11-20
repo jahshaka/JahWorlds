@@ -13,9 +13,10 @@ using System.Collections.Generic;
 namespace Jahshaka.AuthServer.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20171120153401_AddCollectionTable")]
+    partial class AddCollectionTable
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -203,7 +204,7 @@ namespace Jahshaka.AuthServer.Migrations
 
                     b.HasIndex("CollectionId");
 
-                    b.ToTable("Collections");
+                    b.ToTable("Collection");
                 });
 
             modelBuilder.Entity("Jahshaka.Core.Data.Role", b =>

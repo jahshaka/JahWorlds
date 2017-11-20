@@ -17,6 +17,7 @@ namespace Jahshaka.Core.Data
         public virtual DbSet<Application> Applications { get; set; }
         public virtual DbSet<ApplicationVersion> ApplicationVersions { get; set; }
         public virtual DbSet<Asset> Assets { get; set;}
+        public virtual DbSet<Collection> Collections { get; set;}
         public new virtual DbSet<Role> Roles { get; set; }
         public new virtual DbSet<ApplicationUser> Users { get; set; }
         public virtual DbSet<World> Worlds { get; set;}
@@ -50,11 +51,19 @@ namespace Jahshaka.Core.Data
                 entity.ToTable<Token>("OpenIddictTokens");
             });
 
+            builder.Entity<Collection>(entity =>
+            {
+                entity.HasKey(a => a.Id);
+
+                entity.HasOne(a => a.CollectionParent).WithMany( a => a.Collections).HasForeignKey(e => e.CollectionId).IsRequired(false);
+            });
+
             builder.Entity<Asset>(entity =>
             {
                 entity.HasKey(a => a.Id);
 
                 entity.HasOne(a => a.User).WithMany( a => a.Assets).HasForeignKey(e => e.UserId);
+                entity.HasOne(a => a.Collection).WithMany( a => a.Assets).HasForeignKey(e => e.CollectionId);
 
             });
 
