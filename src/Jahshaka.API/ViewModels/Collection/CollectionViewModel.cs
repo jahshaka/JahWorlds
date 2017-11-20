@@ -17,9 +17,6 @@ namespace Jahshaka.API.ViewModels.Collection
         [JsonProperty("created_at")]
         public DateTime CreatedAt { get; set; }
 
-        [JsonProperty("collection_parent")]
-        public CollectionViewModel CollectionParent { get; set; }
-
         [JsonProperty("collections")]
         public ICollection<CollectionViewModel> Collections { get; set; }
 
