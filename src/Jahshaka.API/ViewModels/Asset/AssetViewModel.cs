@@ -35,6 +35,9 @@ namespace Jahshaka.API.ViewModels.Asset
         [JsonProperty("tags")]
         public List<string> Tags { get; set; }
         
+        [JsonProperty("collection_id")]
+        public int? CollectionId { get; set; }
+        
         [JsonProperty("created_at")]
         public DateTime CreatedAt { get; set; }
         

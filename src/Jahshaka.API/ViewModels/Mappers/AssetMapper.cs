@@ -23,6 +23,7 @@ namespace Jahshaka.API.ViewModels.Mappers
             destination.MetaData = source.MetaData;
             destination.Tags = source.Tags;
             destination.UserId = source.UserId;
+            destination.CollectionId = source.CollectionId;
             destination.CreatedAt = source.CreatedAt;
 
             return destination;
