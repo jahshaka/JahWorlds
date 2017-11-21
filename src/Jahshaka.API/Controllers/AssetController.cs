@@ -121,7 +121,7 @@ namespace Jahshaka.API.Controllers
             });
             
         }
-        
+        /*
         [HttpGet, Route("{id:Guid}/download")]
         public async Task<IActionResult> Download(Guid id)
         {
@@ -155,5 +155,6 @@ namespace Jahshaka.API.Controllers
             return File(asset.Url, "application/x-msdownload", $"{asset.Name}.zip");
 
         }
+        */
     }
 }

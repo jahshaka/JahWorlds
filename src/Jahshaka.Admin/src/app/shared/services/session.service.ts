@@ -13,7 +13,7 @@ import { environment } from '../../../environments/environment';
 import { HttpService } from './http.service';
 import { AuthService } from './auth.service';
 import { UserModel } from '../models/user.model';
-import { BehaviorSubject } from "rxjs/BehaviorSubject";
+import { BehaviorSubject } from 'rxjs/BehaviorSubject';
 
 @Injectable()
 export class SessionService {

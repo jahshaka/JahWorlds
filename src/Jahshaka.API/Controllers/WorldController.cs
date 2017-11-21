@@ -38,7 +38,7 @@ namespace Jahshaka.API.Controllers
             _environment = environment;
             _assetManager = assetManager;
         }
-
+        /*
         [HttpGet, Route("")]
         public async Task<IActionResult> Index()
         {
@@ -220,9 +220,9 @@ namespace Jahshaka.API.Controllers
 
                     //Add collection id
                     
-                    /*var asset = await _assetManager.SetAssetAsync(user.Id, model.Upload, model.Thumbnail, model.UploadId, model.Name, model.Type, model.IsPublic, model.WorldId, model.WorldVersionId);
+                    //var asset = await _assetManager.SetAssetAsync(user.Id, model.Upload, model.Thumbnail, model.UploadId, model.Name, model.Type, model.IsPublic, model.WorldId, model.WorldVersionId);
 
-                    return Ok(asset.ToViewModel());*/
+                    //return Ok(asset.ToViewModel());
                     
                 }
                 catch (Exception ex)
@@ -243,5 +243,6 @@ namespace Jahshaka.API.Controllers
             });
             
         }
+        */
     }
 }

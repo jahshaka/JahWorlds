@@ -7,7 +7,7 @@ export const environment = {
     production: false,
     resourceServerUrl: 'http://localhost:6001',
     authServerUrl: 'http://localhost:5000',
-    clientId: '',
-    clientSecret: '',
+    clientId: 'admin',
+    clientSecret: 'secret_secret_secret',
     grantType: 'password'
 };

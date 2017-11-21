@@ -7,8 +7,7 @@ export class HttpErrorHandler {
     constructor(private router: Router) { }
 
     handle(error: any) {
-        if (error.status === 401)
-        {
+        if (error.status === 401) {
             this.router.navigate(['login']);
         }
     }

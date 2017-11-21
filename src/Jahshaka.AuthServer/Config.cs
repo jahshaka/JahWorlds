@@ -19,8 +19,8 @@ namespace Jahshaka.AuthServer
                 ClientId = "admin",
                 ClientSecret = Crypto.HashPassword("secret_secret_secret"),
                 DisplayName = "Admin Portal",
-                PostLogoutRedirectUris = { new Uri("http://localhost:7000/signout-callback-oidc") },
-                RedirectUris = { new Uri("http://localhost:7000/signin-oidc") },
+                PostLogoutRedirectUris = { new Uri("http://localhost:5000/signout-callback-oidc") },
+                RedirectUris = { new Uri("http://localhost:5000/signin-oidc") },
                 Type = OpenIddictConstants.ClientTypes.Confidential
             });
 

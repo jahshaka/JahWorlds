@@ -22,7 +22,7 @@ namespace Jahshaka.API.Controllers
             _assetManager = assetManager;
             _appDbContext = appDbContext;
         }
-        
+        /*
         [HttpGet, Route("assets")]
         public IActionResult GetAssets()
         {
@@ -38,5 +38,6 @@ namespace Jahshaka.API.Controllers
 
             return Ok(viewModel);
         }
+        */
     }
 }

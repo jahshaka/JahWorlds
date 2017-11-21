@@ -10,8 +10,8 @@ import { HttpErrorHandler } from './shared/services/http-error-handler';
 import { SessionService } from './shared/services/session.service';
 import { ConnectivityUtil } from './shared/utils/connectivity-util';
 import { UserModel } from './shared/models/user.model';
-import { Observable } from "rxjs/Observable";
-import { SessionStateModel } from "app/shared/models/session-state.model";
+import { Observable } from 'rxjs/Observable';
+import { SessionStateModel } from 'app/shared/models/session-state.model';
 
 @Component({
     selector: 'app-root',
@@ -23,13 +23,12 @@ export class AppComponent implements OnInit {
     user: UserModel = null;
 
     constructor(private router: Router, private authService: AuthService, private sessionService: SessionService, private connectivityUtil: ConnectivityUtil) {
-
     }
 
     ngOnInit() {
         this.connectivityUtil.isOnline.subscribe(isOnline => {
             if (!isOnline) {
-                console.log("Offline");
+                console.log('Offline');
             }
 
         });
