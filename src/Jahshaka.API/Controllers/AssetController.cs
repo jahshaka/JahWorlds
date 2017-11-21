@@ -41,7 +41,7 @@ namespace Jahshaka.API.Controllers
         }
 
         [HttpGet, Route("")]
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(int? collection_id = null )
         {
             var user = await _userManager.GetUserAsync(User);
 
@@ -53,11 +53,15 @@ namespace Jahshaka.API.Controllers
             var assets = _appDbContext.Assets
                 .Where(a => a.UserId == user.Id)
                 .OrderByDescending(a => a.CreatedAt)
-                .ToList();
+                .AsQueryable();
+            
+            if(collection_id != null){
+                assets = assets.Where(a => a.CollectionId.Equals(collection_id));
+            }
 
             var viewModel = new ListAssetViewModel()
             {
-                Assets = assets.ToViewModel()
+                Assets = assets.ToList().ToViewModel()
             };
 
             return Ok(viewModel);
@@ -94,7 +98,7 @@ namespace Jahshaka.API.Controllers
 
                     Boolean IsPublic = false;
                     
-                    var asset = await _assetManager.SetAssetAsync(user.Id, model.Upload, model.Thumbnail, model.UploadId, model.Name, model.Type, IsPublic, null, 0);
+                    var asset = await _assetManager.SetAssetAsync(user.Id, model.Upload, model.Thumbnail, model.UploadId, model.Name, model.Type, model.CollectionId, IsPublic, null, 0);
 
                     return Ok(asset.ToViewModel());
                     

@@ -211,10 +211,18 @@ namespace Jahshaka.API.Controllers
                     {
                         model.UploadId = Guid.NewGuid().ToString();
                     }
-                    
-                    var asset = await _assetManager.SetAssetAsync(user.Id, model.Upload, model.Thumbnail, model.UploadId, model.Name, model.Type, model.IsPublic, model.WorldId, model.WorldVersionId);
 
-                    return Ok(asset.ToViewModel());
+                    return BadRequest(new ErrorViewModel()
+                    {
+                        Error = ErrorCode.ModelError,
+                        ErrorDescription = "Something went wrong"
+                    });
+
+                    //Add collection id
+                    
+                    /*var asset = await _assetManager.SetAssetAsync(user.Id, model.Upload, model.Thumbnail, model.UploadId, model.Name, model.Type, model.IsPublic, model.WorldId, model.WorldVersionId);
+
+                    return Ok(asset.ToViewModel());*/
                     
                 }
                 catch (Exception ex)

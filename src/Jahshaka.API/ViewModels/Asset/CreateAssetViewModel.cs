@@ -26,6 +26,10 @@ namespace Jahshaka.API.ViewModels.Asset
         [Required]
         [FromForm(Name = "thumbnail")]
         public IFormFile Thumbnail { get; set; }
+
+        [Required]
+        [FromForm(Name = "collection_id")]
+        public int CollectionId { get; set;  }
         
         /*[FromForm(Name = "is_public")]
         public bool IsPublic { get; set; }*/

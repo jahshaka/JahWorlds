@@ -31,13 +31,20 @@ namespace Jahshaka.Core.Managers
         }
 
 
-        public async Task<Asset> SetAssetAsync(Guid userId, IFormFile file, IFormFile thumnbnail, string uploadId, string name, AssetType type, bool isPublic, string worldId, int worldVersionId){
+        public async Task<Asset> SetAssetAsync(Guid userId, IFormFile file, IFormFile thumnbnail, string uploadId, string name, AssetType type, int collectionId, bool isPublic, string worldId, int worldVersionId){
             
             var user = _dbContext.Users.FirstOrDefault(u => u.Id.Equals(userId));
 
             if (user == null)
             {
                 throw new Exception($"No user with id='{userId}' was found.");
+            }
+
+            var collection = _dbContext.Collections.FirstOrDefault(c => c.Id.Equals(collectionId));
+
+            if(collection == null)
+            {
+                throw new Exception($"Collection not found.");
             }
 
             var asset = _dbContext.Assets.FirstOrDefault(p => p.UploadId.Equals(uploadId));
@@ -55,6 +62,7 @@ namespace Jahshaka.Core.Managers
                 Type = type,
                 IsPublic = isPublic,
                 UploadId = uploadId,
+                CollectionId = collection.Id,
                 CreatedAt = DateTime.UtcNow
             };
 
