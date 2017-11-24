@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
-import { TreeModel, NodeEvent, NodeMenuItemAction, Ng2TreeSettings } from 'ng2-tree';
+import { TreeModel, NodeEvent, Ng2TreeSettings } from 'ng2-tree';
 import { CollectionService } from 'app/shared/services/collection.service';
 
 @Component({
@@ -30,52 +30,34 @@ export class CollectionsComponent {
         loadChildren : (callback) => {
             this.collectionService.GetAll().subscribe(
                 (response) => {
-                    /*const children: Array<TreeModel> = [];
-                    for (const collection of response){
-
-                        const data = {
-                            id: collection.id,
-                            value: collection.name,
-                            children: []
-                        };
-
-                        children.push(data);
-                    };*/
-                    callback(this.setChildren(response));
+                    callback(this.setCollection(response));
                 }, (error) => {
                     console.log(error);
                 });
         }
-        /*children: [
-          {
-            value: 'Object-oriented programming',
-            id: 5,
-            children: [
-              {value: 'Java', id: 2},
-              {value: 'C++', id: 3},
-              {value: 'C#', id: 4}
-            ]
-          },
-          {
-            value: 'Prototype-based programming',
-            id: 6,
-            children: [
-              {value: 'JavaScript', id: 7},
-              {value: 'CoffeeScript', id: 8},
-              {value: 'Lua', id: 9}
-            ]
-          }
-        ]*/
     };
 
-    public setChildren(arg): Array<TreeModel>  {
+    public setCollection(arg): Array<TreeModel>  {
         const children: Array<TreeModel> = [];
         if (arg) {
             for (const value of arg) {
                 children.push({
                     id: value.id,
                     value: value.name,
-                    children: this.setChildren(value.collections)
+                    children: this.setCollection(value.collections).concat(this.setAsset(value.assets))
+                });
+            }
+        }
+        return children;
+    };
+
+    public setAsset(arg): Array<TreeModel>  {
+        const children: Array<TreeModel> = [];
+        if (arg) {
+            for (const value of arg) {
+                children.push({
+                    id: value.id,
+                    value: value.name
                 });
             }
         }

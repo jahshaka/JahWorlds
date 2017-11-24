@@ -1,7 +1,7 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { detectBody } from '../../../app.helpers';
-import { UserModel } from "app/shared/models/user.model";
-import { SessionService } from "app/shared/services/session.service";
+import { UserModel } from 'app/shared/models/user.model';
+import { SessionService } from 'app/shared/services/session.service';
 
 declare var jQuery: any;
 

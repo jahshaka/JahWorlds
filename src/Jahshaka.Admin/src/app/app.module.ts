@@ -22,10 +22,10 @@ import { DashboardsModule } from './views/dashboards/dashboards.module';
 
 // App modules/components
 import { LayoutsModule } from './components/common/layouts/layouts.module';
-import {UserService} from './shared/services/user.service';
-import {CollectionService} from './shared/services/collection.service';
-import {Ng2PaginationModule} from 'ng2-pagination';
-import {ActivityHelper} from './shared/utils/activity-helper';
+import { UserService } from './shared/services/user.service';
+import { CollectionService } from './shared/services/collection.service';
+import { AssetService } from './shared/services/asset.service';
+import { Ng2PaginationModule } from 'ng2-pagination';
 import { AssetListComponent } from 'app/components/assets/asset-list.component';
 import { StarterViewComponent } from 'app/views/appviews/starterview.component';
 import { CollectionsComponent } from 'app/components/settings/collections/collections.component';
@@ -59,8 +59,8 @@ import { TreeModule } from 'ng2-tree';
         ConnectivityUtil,
         AuthService,
         UserService,
-        ActivityHelper,
-        CollectionService
+        CollectionService,
+        AssetService
     ],
     bootstrap: [AppComponent]
 })

@@ -99,6 +99,7 @@ namespace Jahshaka.API.Controllers.Admin
 
                 var queryable = _dbContext.Collections
                     .Include(c => c.Collections)
+                    .Include(c => c.Assets)
                     .AsEnumerable()
                     .Where(c => c.CollectionId==null)
                     .OrderByDescending(c => c.CreatedAt)
