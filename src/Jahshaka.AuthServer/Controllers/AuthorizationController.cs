@@ -18,6 +18,7 @@ using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Http.Authentication;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using OpenIddict.Core;
 
@@ -31,12 +32,14 @@ namespace Jahshaka.AuthServer.Controllers
         private readonly SignInManager<ApplicationUser> _signInManager;
         private readonly UserManager<ApplicationUser> _userManager;
         private readonly ApplicationDbContext _applicationDbContext;
+        protected ILogger _logger;
 
         public AuthorizationController(
             OpenIddictApplicationManager<Application> applicationManager,
             IOptions<IdentityOptions> identityOptions,
             SignInManager<ApplicationUser> signInManager,
             UserManager<ApplicationUser> userManager,
+            ILoggerFactory loggerFactory,
             ApplicationDbContext applicationDbContext)
         {
             _applicationManager = applicationManager;
@@ -44,6 +47,7 @@ namespace Jahshaka.AuthServer.Controllers
             _signInManager = signInManager;
             _userManager = userManager;
             _applicationDbContext = applicationDbContext;
+            _logger = loggerFactory.CreateLogger<AuthorizationController>();
         }
 
         #region Authorization code, implicit and implicit flows
@@ -238,7 +242,7 @@ namespace Jahshaka.AuthServer.Controllers
                     return BadRequest(new OpenIdConnectResponse
                     {
                         Error = OpenIdConnectConstants.Errors.InvalidGrant,
-                        ErrorDescription = "The username/password couple is invalid."
+                        ErrorDescription = "The email/password couple is invalid."
                     });
                 }
 
@@ -268,7 +272,7 @@ namespace Jahshaka.AuthServer.Controllers
                     return BadRequest(new OpenIdConnectResponse
                     {
                         Error = OpenIdConnectConstants.Errors.InvalidGrant,
-                        ErrorDescription = "The username/password couple is invalid!"
+                        ErrorDescription = "The email/password couple is invalid!"
                     });
                 }
 
@@ -283,7 +287,7 @@ namespace Jahshaka.AuthServer.Controllers
                     return BadRequest(new OpenIdConnectResponse
                     {
                         Error = OpenIdConnectConstants.Errors.InvalidGrant,
-                        ErrorDescription = "The username/password couple is invalid."
+                        ErrorDescription = "The email/password couple is invalid."
                     });
                 }
 

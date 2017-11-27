@@ -105,6 +105,63 @@ namespace Jahshaka.AuthServer.Controllers
             // If we got this far, something failed, redisplay form
             return View(model);
         }
+
+        [HttpGet]
+        [AllowAnonymous]
+        public IActionResult AddPassword(string returnUrl = null)
+        {
+
+            ViewData["ReturnUrl"] = returnUrl;
+            return View();
+        }
+
+        [HttpPost]
+        [AllowAnonymous]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> AddPassword(AddPasswordViewModel model, string returnUrl = null)
+        {
+            ViewData["ReturnUrl"] = returnUrl;
+            if (ModelState.IsValid)
+            {
+                // This doesn't count login failures towards account lockout
+                // To enable password failures to trigger account lockout, set lockoutOnFailure: true
+                var user = await _userManager.GetUserAsync(User);
+
+                if (user == null)
+                {
+                    return BadRequest();
+                }
+
+                if(user.PasswordHash != null){
+                    return BadRequest(new OpenIdConnectResponse
+                    {
+                        Error = OpenIdConnectConstants.Errors.ServerError,
+                        ErrorDescription = "The specified user is already has a password."
+                    });
+                }
+
+                //var passwordHash = _userManager.PasswordHasher.HashPassword(model.Password);
+
+                var result = await _userManager.AddPasswordAsync(user, model.Password);
+
+                if (result.Succeeded)
+                {
+                    //_logger.LogInformation("User logged in.");
+                    return RedirectToLocal(null);
+                } else {
+                    return BadRequest(new OpenIdConnectResponse
+                    {
+                        Error = OpenIdConnectConstants.Errors.ServerError,
+                        ErrorDescription = "Password could not be added."
+                    });
+                }
+            }
+
+            // If we got this far, something failed, redisplay form
+            return View(model);
+        }
+
+
         /*
         [HttpGet]
         [AllowAnonymous]
@@ -234,6 +291,7 @@ namespace Jahshaka.AuthServer.Controllers
                     CreatedAt = DateTime.UtcNow
                 };
                 var result = await _userManager.CreateAsync(user, model.Password);
+
                 if (result.Succeeded)
                 {
                     return Ok();
@@ -292,9 +350,9 @@ namespace Jahshaka.AuthServer.Controllers
             var address = info.Principal.FindFirstValue(ClaimTypes.Email);
             var lastname = info.Principal.FindFirstValue(ClaimTypes.Surname);
             var firstname = info.Principal.FindFirstValue(ClaimTypes.GivenName);
-            _logger.LogInformation($"User Email Address: {address}");
-            _logger.LogInformation($"User lastname: {lastname}");
-            _logger.LogInformation($"User firstname: {firstname}");
+            //_logger.LogInformation($"User Email Address: {address}");
+            //_logger.LogInformation($"User lastname: {lastname}");
+            //_logger.LogInformation($"User firstname: {firstname}");
 
             // Sign in the user with this external login provider if the user already has a login.
             var result = await _signInManager.ExternalLoginSignInAsync(info.LoginProvider, info.ProviderKey, isPersistent: false, bypassTwoFactor: true);
@@ -329,6 +387,11 @@ namespace Jahshaka.AuthServer.Controllers
                     ErrorDescription = "The specified user is not allowed to sign in."
                 });
                 */
+            }
+
+            //if(await _userManager.HasPasswordAsync(user)) {
+            if(user.PasswordHash == null) {
+                return RedirectToAction(nameof(AddPassword));
             }
 
             var data = new List<KeyValuePair<string, string>>
@@ -370,6 +433,7 @@ namespace Jahshaka.AuthServer.Controllers
             {
                 // Get the information about the user from the external login provider
                 var info = await _signInManager.GetExternalLoginInfoAsync();
+
                 if (info == null)
                 {
                     throw new ApplicationException("Error loading external login information during confirmation.");
@@ -391,6 +455,10 @@ namespace Jahshaka.AuthServer.Controllers
                                 Error = OpenIdConnectConstants.Errors.ServerError,
                                 ErrorDescription = "The specified user is not allowed to sign in."
                             });
+                        }
+
+                        if(user.PasswordHash == null){
+                            return RedirectToAction(nameof(AddPassword));
                         }
 
                         var data = new List<KeyValuePair<string, string>>
