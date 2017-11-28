@@ -17,6 +17,7 @@ namespace Jahshaka.Core.Data
         public virtual DbSet<Application> Applications { get; set; }
         public virtual DbSet<ApplicationVersion> ApplicationVersions { get; set; }
         public virtual DbSet<Asset> Assets { get; set;}
+        public virtual DbSet<Category> Categories { get; set;}
         public virtual DbSet<Collection> Collections { get; set;}
         public new virtual DbSet<Role> Roles { get; set; }
         public new virtual DbSet<ApplicationUser> Users { get; set; }
@@ -51,11 +52,17 @@ namespace Jahshaka.Core.Data
                 entity.ToTable<Token>("OpenIddictTokens");
             });
 
+            builder.Entity<Category>(entity =>
+            {
+                entity.HasKey(a => a.Id);
+            });
+
             builder.Entity<Collection>(entity =>
             {
                 entity.HasKey(a => a.Id);
 
                 entity.HasOne(a => a.CollectionParent).WithMany( a => a.Collections).HasForeignKey(e => e.CollectionId).IsRequired(false);
+                entity.HasOne(a => a.User).WithMany( a => a.Collections).HasForeignKey(e => e.UserId).IsRequired(false);
             });
 
             builder.Entity<Asset>(entity =>
@@ -64,6 +71,7 @@ namespace Jahshaka.Core.Data
 
                 entity.HasOne(a => a.User).WithMany( a => a.Assets).HasForeignKey(e => e.UserId);
                 entity.HasOne(a => a.Collection).WithMany( a => a.Assets).HasForeignKey(e => e.CollectionId);
+                entity.HasOne(a => a.Category).WithMany( a => a.Assets).HasForeignKey(e => e.CategoryId);
 
             });
 

@@ -25,6 +25,8 @@ namespace Jahshaka.Core.Data
         public UserType UserType { get; set; }
 
         public virtual ICollection<Asset> Assets { get; set; }
+
+        public virtual ICollection<Collection> Collections { get; set; }
         
         public virtual ICollection<World> Worlds { get; set; }
     }

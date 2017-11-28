@@ -9,6 +9,7 @@ namespace Jahshaka.Core.Data
     {
         public Guid Id { get; set; }
         public Guid UserId { get; set; }
+        public int? CategoryId { get; set; }
         public int? CollectionId { get; set; }
         public string UploadId { get; set; }
         public string Name { get; set;  }
@@ -21,6 +22,7 @@ namespace Jahshaka.Core.Data
         public DateTime CreatedAt { get; set; }
         public ApplicationUser User { get; set;  }
         public Collection Collection { get; set;  }
+        public Category Category { get; set;  }
         public ICollection<WorldVersionAsset> WorldVersionAssets { get; set; }
     }
 }
