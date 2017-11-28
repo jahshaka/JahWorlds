@@ -123,6 +123,59 @@ namespace Jahshaka.API.Controllers
             
         }
 
+        [HttpPost, Route("{id}/rename")]
+        public async Task<IActionResult> Rename(int id, [FromBody] RenameCollectionViewModel model)
+        {
+            if (ModelState.IsValid)
+            {
+                try
+                {
+                    var user = await _userManager.GetUserAsync(User);
+                    
+                    if (user == null)
+                    {
+                        return Unauthorized();
+                    }
+
+                    var collection = _dbContext.Collections.FirstOrDefault(c => c.Id.Equals(id) && c.UserId.Equals(user.Id));
+
+                    if(collection == null)
+                    {
+                        return BadRequest(new ErrorViewModel()
+                        {
+                            Error = ErrorCode.ModelError,
+                            ErrorDescription = "Collection not found"
+                        });
+                    }
+                    
+                    collection.Name = model.Name;
+                    
+                    _dbContext.Update(collection);
+
+                    await _dbContext.SaveChangesAsync();
+
+                    return Ok(collection.ToViewModel());
+                    
+                }
+                catch (Exception ex)
+                {
+                    return BadRequest(new ErrorViewModel()
+                    {
+                        Error = ErrorCode.ModelError,
+                        ErrorDescription = ex.Message
+                    });
+                }
+
+            }
+            
+            return BadRequest(new ErrorViewModel()
+            {
+                Error = ErrorCode.ModelError,
+                ErrorDescription = ModelState?.GetFirstError()
+            });
+            
+        }
+
     }
 }
 
