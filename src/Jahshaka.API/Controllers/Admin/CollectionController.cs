@@ -33,7 +33,7 @@ namespace Jahshaka.API.Controllers.Admin
         {
             _logger = loggerFactory.CreateLogger<CollectionController>();
         }
-
+        /*
         [HttpGet, Route("")]
         public async Task<IActionResult> Index(int? page = null)
         {
@@ -174,36 +174,6 @@ namespace Jahshaka.API.Controllers.Admin
             });
             
         }
-
-        /*[HttpGet, Route("{id}")]
-        public async Task<IActionResult> Get(int id)
-        {
-            try
-                    .ToList(); 
-            {
-                var user = await _userManager.GetUserAsync(User);
-
-                if (user == null || !user.UserType.Equals(UserType.Admin))
-                {
-                    return Unauthorized();
-                }
-
-                var queryable = _dbContext.Collections
-                    .Include(c => c.Collections)
-                    .Where(c => c.CollectionId==null); 
-
-                return Ok(queryable.ToViewModel());
-            }
-            catch (Exception ex)
-            {
-                _logger.LogCritical(ex.Message);
-
-                return BadRequest(new ErrorViewModel { 
-                    Error = ErrorCode.ServerError, 
-                    ErrorDescription = GetEnvironmentErrorMessage(ex) 
-                });
-            }
-        }*/
 
 
         [HttpPost, Route("{id}/update")]
@@ -374,6 +344,37 @@ namespace Jahshaka.API.Controllers.Admin
             });
             
         }
+        */
+
+        /*[HttpGet, Route("{id}")]
+        public async Task<IActionResult> Get(int id)
+        {
+            try
+                    .ToList(); 
+            {
+                var user = await _userManager.GetUserAsync(User);
+
+                if (user == null || !user.UserType.Equals(UserType.Admin))
+                {
+                    return Unauthorized();
+                }
+
+                var queryable = _dbContext.Collections
+                    .Include(c => c.Collections)
+                    .Where(c => c.CollectionId==null); 
+
+                return Ok(queryable.ToViewModel());
+            }
+            catch (Exception ex)
+            {
+                _logger.LogCritical(ex.Message);
+
+                return BadRequest(new ErrorViewModel { 
+                    Error = ErrorCode.ServerError, 
+                    ErrorDescription = GetEnvironmentErrorMessage(ex) 
+                });
+            }
+        }*/
 
         /*[HttpPost, Route("{int:id}/add/{int:collection_id}")]
         public async Task<IActionResult> AddCollection(int id, int collection_id)
