@@ -42,8 +42,9 @@ namespace Jahshaka.API.Controllers.Admin
         }
 
         [HttpGet, Route("")]
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(int? page, AssetType? type, int? is_public, string query)
         {
+
             var user = await _userManager.GetUserAsync(User);
 
             if (user == null || user.UserType != UserType.Admin)
@@ -51,16 +52,46 @@ namespace Jahshaka.API.Controllers.Admin
                 return Unauthorized();
             }
 
-            var assets = _appDbContext.Assets
-                .OrderByDescending(a => a.CreatedAt)
+            int pageNumber = page ?? 1;
+            int pageSize = 20;
+
+            var queryable = _appDbContext.Assets
+                .AsQueryable();  
+
+            if(type != null){
+                queryable = queryable.Where(a => a.Type.Equals(type));
+            }
+
+            if(is_public != null){
+                bool isPublic = is_public == 0 ? false : true;
+                queryable = queryable.Where(a => a.IsPublic.Equals(isPublic));
+            }
+
+            if(query != null){
+                //queryable = queryable.Where(a => a.Type.Equals(type));
+            }
+                
+            var total = queryable.Count();
+
+            var pageResult = queryable
+                .OrderByDescending(c => c.CreatedAt)
+                .Skip((pageNumber - 1) * pageSize)
+                .Take(pageSize)
                 .ToList();
 
-            var viewModel = new ListAssetViewModel()
+            var model = new PagedListViewModel<AssetViewModel>()
             {
-                Assets = assets.ToViewModel()
+                Items = pageResult.ToViewModel(),
+
+                Paging = new PagingOptionsViewModel()
+                {
+                    CurrentPage = pageNumber,
+                    TotalItems = total,
+                    PageSize = pageSize
+                }
             };
 
-            return Ok(viewModel);
+            return Ok(model);
         }
     }
 }

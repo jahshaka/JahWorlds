@@ -1,39 +1,34 @@
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
-import { AssetService } from 'app/shared/services/asset.service';
-import { AssetModel } from 'app/shared/models/asset.model';
+import { UserModel } from 'app/shared/models/user.model';
 import { deserialize } from 'json-typescript-mapper';
+import { UserService } from 'app/shared/services/user.service';
 
 @Component({
-    selector: 'asset-list',
-    templateUrl: 'asset-list.component.html'
+    selector: 'users-list',
+    templateUrl: 'user-list.component.html'
 })
 
-export class AssetListComponent {
+export class UserListComponent {
 
-    public assets: Array<AssetModel>;
+    public users: Array<UserModel>;
     public loading: boolean;
     public total: boolean;
     public size: boolean;
 
-    public filter = {
-        type: '',
-        query: null,
-        is_public: ''
-    };
-
-    public constructor(private assetService: AssetService) {
-        this.getResource(1);
+    public constructor(private userService: UserService) {
+        this.getIndividuals(1);
     }
 
-    public getResource(page: number): number {
-        this.assets = [];
+    public getIndividuals(page: number): number {
+        this.users = [];
         this.loading = true;
-        this.assetService.Get(page, this.filter).subscribe(
+        this.userService.All(page).subscribe(
             (response) => {
                 for (const item of response.items) {
-                    this.assets.push(deserialize(AssetModel, item));
+                    this.users.push(deserialize(UserModel, item));
                 }
+                console.log('Users', this.users);
                 this.total = response.paging.total_items;
                 this.size = response.paging.page_size;
                 this.loading = false;

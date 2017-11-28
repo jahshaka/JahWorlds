@@ -16,6 +16,7 @@ import { HttpService } from './shared/services/http.service';
 import { HttpErrorHandler } from './shared/services/http-error-handler';
 import { SessionService } from './shared/services/session.service';
 import { ConnectivityUtil } from './shared/utils/connectivity-util';
+import { NgxPaginationModule } from 'ngx-pagination';
 
 // App views
 import { DashboardsModule } from './views/dashboards/dashboards.module';
@@ -25,20 +26,18 @@ import { LayoutsModule } from './components/common/layouts/layouts.module';
 import { UserService } from './shared/services/user.service';
 import { CollectionService } from './shared/services/collection.service';
 import { AssetService } from './shared/services/asset.service';
-import { Ng2PaginationModule } from 'ng2-pagination';
 import { AssetListComponent } from 'app/components/assets/asset-list.component';
+import { UserListComponent } from 'app/components/users/user-list.component';
 import { StarterViewComponent } from 'app/views/appviews/starterview.component';
-import { CollectionsComponent } from 'app/components/settings/collections/collections.component';
 import { DashboardComponent } from 'app/components/dashboard/dashboard.component';
-import { TreeModule } from 'ng2-tree';
 
 @NgModule({
     declarations: [
         AppComponent,
         LoginComponent,
-        CollectionsComponent,
         AssetListComponent,
-        DashboardComponent
+        DashboardComponent,
+        UserListComponent
     ],
     imports: [
         BrowserModule,
@@ -47,8 +46,7 @@ import { TreeModule } from 'ng2-tree';
         DashboardsModule,
         LayoutsModule,
         RouterModule.forRoot(ROUTES),
-        Ng2PaginationModule,
-        TreeModule
+        NgxPaginationModule,
     ],
     providers: [{ provide: LocationStrategy, useClass: HashLocationStrategy },
         HttpClient,

@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using Jahshaka.API.ViewModels.Asset;
+using System.Reflection;
 
 namespace Jahshaka.API.ViewModels.Mappers
 {
@@ -16,7 +17,7 @@ namespace Jahshaka.API.ViewModels.Mappers
 
             destination.Id = source.Id;
             destination.Name = source.Name;
-            destination.Type = source.Type;
+            destination.Type = source.Type.ToString();
             destination.Url = source.Url;
             destination.IconUrl = source.IconUrl;
             destination.IsPublic = source.IsPublic;

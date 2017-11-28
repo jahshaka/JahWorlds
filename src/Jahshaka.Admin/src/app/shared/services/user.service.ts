@@ -19,35 +19,7 @@ export class UserService {
 
   public constructor(private router: Router, private httpService: HttpService) { }
 
-  public getIndividuals(page, query) {
-    var queryString = "?page="+page;
-    if (query!=null&&query!=""){
-      queryString += "&query="+query;
-    }
-    return this.httpService.get(this.resourceServerUrl + '/admin/users/individuals'+queryString);
-  }
-
-  public getBusinesses(page, query) {
-    var queryString = "?page="+page;
-    if (query!=null&&query!=""){
-      queryString += "&query="+query;
-    }
-    return this.httpService.get(this.resourceServerUrl + '/admin/users/businesses'+queryString);
-  }
-
-  public getAgents(page, query) {
-    var queryString = "?page="+page;
-    if (query!=null&&query!=""){
-      queryString += "&query="+query;
-    }
-    return this.httpService.get(this.resourceServerUrl + '/admin/users/agents'+queryString);
-  }
-
-  public getUser(id) {
-    return this.httpService.get(this.resourceServerUrl + '/admin/users/' + id);
-  }
-
-  public getActivities(id) {
-    return this.httpService.get(this.resourceServerUrl + '/admin/users/' + id + '/activities');
+  public All(page: number) {
+    return this.httpService.get(`${this.resourceServerUrl}/admin/users?page=${page}`);
   }
 }

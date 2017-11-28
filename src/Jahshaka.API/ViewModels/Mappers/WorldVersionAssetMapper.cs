@@ -18,7 +18,7 @@ namespace Jahshaka.API.ViewModels.Mappers
             {
                 Id = source.Asset.Id,
                 Name = source.Asset.Name,
-                Type = source.Asset.Type,
+                //Type = source.Asset.Type,
                 Url = source.Asset.Url,
                 IconUrl = source.Asset.IconUrl,
                 IsPublic = source.Asset.IsPublic,

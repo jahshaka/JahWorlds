@@ -4,55 +4,79 @@
             <div class="ibox float-e-margins">
                 <div class="ibox-content">
                     <div class="col-lg-3 form-group">
-                        <label class="control-label">Name</label>
-                        <input type="text" class="form-control"/>
+                        <label class="control-label">Search</label>
+                        <input type="text" class="form-control" [(ngModel)]="filter.query"/>
                     </div>
                     <div class="col-lg-2 form-group">
                         <label class="control-label">Type</label>
-                        <select class="form-control">
+                        <select class="form-control" [(ngModel)]="filter.type">
                             <option value="">All</option>
-                        </select>
-                    </div>
-                    <div class="col-lg-3 form-group">
-                        <label class="control-label">Collection</label>
-                        <select class="form-control">
-                            <option value="">All</option>
+                            <option value="0">Shader</option>
+                            <option value="1">Material</option>
+                            <option value="2">Texture</option>
+                            <option value="3">Video</option>
+                            <option value="4">CubeMap</option>
+                            <option value="5">Object</option>
+                            <option value="6">SoundEffect</option>
+                            <option value="7">Music</option>                            
                         </select>
                     </div>
                     <div class="col-lg-2 form-group">
                         <label class="control-label">Public</label>
-                        <select class="form-control">
+                        <select class="form-control" [(ngModel)]="filter.is_public">
                             <option value="">All</option>
-                            <option value="">Yes</option>
-                            <option value="">No</option>
+                            <option value="1">Yes</option>
+                            <option value="0">No</option>
                         </select>
                     </div>
                     <div class="col-lg-2 form-group">
-                        <button class="btn btn-success" style="margin-top:21px">UPDATE</button>
+                        <button class="btn btn-success" style="margin-top:21px" (click)="getResource(1)">UPDATE</button>
                     </div>
                     <div class="clearfix"></div>
                 </div>
             </div>
         </div>
     </div>
+    
     <div class="row">
         <div class="col-lg-12">
-            <div class="file-box">
+            <div class="file-box" *ngFor="let value of assets | paginate : { itemsPerPage:size, currentPage:page, id : 1, totalItems:total }">
                 <div class="file">
                     <a href="#">
                         <span class="corner"></span>
 
                         <div class="icon">
-                            <i class="fa fa-folder"></i>
+                            <!--<i class="fa fa-folder"></i>-->
+                            <img src="{{value.iconUrl}}" width="inherit">
                         </div>
                         <div class="file-name">
-                            Document_2014.doc
+                            {{value.name}}
                             <br>
-                            <small>Added: Jan 11, 2014</small>
+                            <small>Added: {{value.createdAt | date : 'MMM dd, y hh:mm a'}}</small>
                         </div>
                     </a>
                 </div>
             </div>
+
+            <div class="clearfix"></div>
+            
+            <pagination-controls *ngIf="assets.length"
+                (pageChange)="page = getResource($event)"
+                id="1"
+                maxSize="6"
+                directionLinks="true"
+                autohide="true">
+            </pagination-controls>
+    
+            <div class="alert alert-warning" *ngIf="!loading && !assets.length">
+                No asset found
+            </div>
+
+            <div class="ibox-content loadwrap" style="text-align:center;color:#1c84c6" *ngIf="loading">
+                <i class="fa fa-3x fa-spinner fa-spin"></i>
+            </div>
+            
         </div>
+
     </div>
 </div>

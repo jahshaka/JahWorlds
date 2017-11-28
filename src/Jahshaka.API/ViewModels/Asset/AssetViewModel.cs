@@ -18,7 +18,7 @@ namespace Jahshaka.API.ViewModels.Asset
         public string Name { get; set;  }
         
         [JsonProperty("type")]
-        public AssetType Type { get; set; }
+        public string Type { get; set; }
         
         [JsonProperty("url")]
         public string Url { get; set; }

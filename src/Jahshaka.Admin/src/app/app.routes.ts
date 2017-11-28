@@ -10,8 +10,8 @@ import { TopNavigationLayoutComponent } from './components/common/layouts/topNav
 
 import { AuthGuard } from './shared/services/auth-guard';
 import { AssetListComponent } from 'app/components/assets/asset-list.component';
-import { CollectionsComponent } from 'app/components/settings/collections/collections.component';
 import { DashboardComponent } from 'app/components/dashboard/dashboard.component';
+import { UserListComponent } from 'app/components/users/user-list.component';
 
 export const ROUTES: Routes = [
     { path: '', redirectTo: 'dashboard', pathMatch: 'full' },
@@ -33,9 +33,9 @@ export const ROUTES: Routes = [
                 ]
             },
             {
-                path: 'settings', component: BasicLayoutComponent,
+                path: 'users', component: BasicLayoutComponent,
                 children: [
-                    { path: 'collections', component: CollectionsComponent }
+                    { path: '', component: UserListComponent }
                 ]
             }
         ]
