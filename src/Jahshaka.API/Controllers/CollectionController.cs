@@ -65,6 +65,64 @@ namespace Jahshaka.API.Controllers
             }
         }
 
+        [HttpPost, Route("create")]
+        public async Task<IActionResult> Create([FromBody] CreateCollectionViewModel model)
+        {
+            if (ModelState.IsValid)
+            {
+                try
+                {
+                    var user = await _userManager.GetUserAsync(User);
+                    
+                    if (user == null)
+                    {
+                        return Unauthorized();
+                    }
+
+                    var collection = new Collection(){
+                        Name = model.Name,
+                        CreatedAt = DateTime.UtcNow,
+                        UserId = user.Id
+                    };
+
+                    if(model.CollectionId != null)
+                    {
+                        var collectionParent = _dbContext.Collections.FirstOrDefault(c => c.Id.Equals(model.CollectionId));
+
+                        if(collectionParent == null)
+                        {
+                            throw new Exception("Parent collection not found");
+                        }
+
+                        collection.CollectionId = collectionParent.Id;
+                    }
+                    
+                    _dbContext.Collections.Add(collection);
+
+                    await _dbContext.SaveChangesAsync();
+
+                    return Ok(collection.ToViewModel());
+                    
+                }
+                catch (Exception ex)
+                {
+                    return BadRequest(new ErrorViewModel()
+                    {
+                        Error = ErrorCode.ModelError,
+                        ErrorDescription = ex.Message
+                    });
+                }
+
+            }
+            
+            return BadRequest(new ErrorViewModel()
+            {
+                Error = ErrorCode.ModelError,
+                ErrorDescription = ModelState?.GetFirstError()
+            });
+            
+        }
+
     }
 }
 
