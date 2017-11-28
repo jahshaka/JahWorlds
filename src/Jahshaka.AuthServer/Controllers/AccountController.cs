@@ -20,6 +20,7 @@ using System.Text;
 using System.Net.Http;
 using System.Net.Http.Headers;
 using Microsoft.Extensions.Logging;
+using Microsoft.AspNetCore.Mvc.ModelBinding;
 
 namespace Jahshaka.AuthServer.Controllers
 {
@@ -330,7 +331,7 @@ namespace Jahshaka.AuthServer.Controllers
             return Challenge(properties, provider);
         }
 
-        [HttpGet]
+        [HttpGet, Produces("application/json")]
         [AllowAnonymous]
         public async Task<IActionResult> ExternalLoginCallback(string returnUrl = null, string remoteError = null)
         {
@@ -423,7 +424,7 @@ namespace Jahshaka.AuthServer.Controllers
                 
         }
 
-        [HttpPost]
+        [HttpPost, Produces("application/json")]
         [AllowAnonymous]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> ExternalLoginConfirmation(ExternalLoginViewModel model, string returnUrl = null)
@@ -496,8 +497,14 @@ namespace Jahshaka.AuthServer.Controllers
 
             _logger.LogInformation($"MODEL DATA {model}");
 
-            ViewData["ReturnUrl"] = returnUrl;
-            return View(nameof(ExternalLogin), model);
+            return BadRequest(new OpenIdConnectResponse()
+            {
+                Error = OpenIdConnectConstants.Errors.ServerError,
+                ErrorDescription = ModelState?.Values.FirstOrDefault(m => m.ValidationState == ModelValidationState.Invalid)?.Errors.FirstOrDefault()?.ErrorMessage
+            });
+
+            //ViewData["ReturnUrl"] = returnUrl;
+            //return View(nameof(ExternalLogin), model);
         }
 
         [HttpGet]
