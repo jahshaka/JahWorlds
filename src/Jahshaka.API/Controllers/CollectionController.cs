@@ -48,7 +48,7 @@ namespace Jahshaka.API.Controllers
                 var queryable = _dbContext.Collections
                     .Include(c => c.Collections)
                     .AsEnumerable()
-                    .Where(c => c.CollectionId==null)
+                    .Where(c => c.CollectionId==null && c.UserId.Equals(user.Id))
                     .OrderByDescending(c => c.CreatedAt)
                     .ToList();  
 

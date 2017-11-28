@@ -10,6 +10,9 @@ namespace Jahshaka.API.ViewModels.Collection
     {
         [JsonProperty("id")]
         public int Id { get; set; }
+
+        [JsonProperty("user_id")]
+        public Guid? UserId { get; set; }
         
         [JsonProperty("name")]
         public string Name { get; set;  }

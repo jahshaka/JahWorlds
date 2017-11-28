@@ -121,6 +121,59 @@ namespace Jahshaka.API.Controllers
             });
             
         }
+        
+        [HttpPost, Route("{asset_id:Guid}/change_collection/{collection_id}")]
+        public async Task<IActionResult> ChangeCollection(Guid asset_id, int collection_id)
+        {
+            try
+            {
+                var user = await _userManager.GetUserAsync(User);
+                
+                if (user == null)
+                {
+                    return Unauthorized();
+                }
+                
+                var asset = _appDbContext.Assets.FirstOrDefault(a => a.UserId.Equals(user.Id) && a.Id.Equals(asset_id));
+
+                if (asset == null)
+                {
+                    return BadRequest(new ErrorViewModel()
+                    {
+                        Error = ErrorCode.ModelError,
+                        ErrorDescription = "Asset not found for this user"
+                    });
+                }
+
+                var collection = _appDbContext.Collections.FirstOrDefault(a => a.UserId.Equals(user.Id) && a.Id.Equals(collection_id));
+
+                if (asset == null)
+                {
+                    return BadRequest(new ErrorViewModel()
+                    {
+                        Error = ErrorCode.ModelError,
+                        ErrorDescription = "Collection not found for this user"
+                    });
+                }
+
+                asset.CollectionId = collection.Id;
+
+                _appDbContext.Update(asset);
+
+                await _appDbContext.SaveChangesAsync();
+
+                return Ok(asset.ToViewModel());
+                
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(new ErrorViewModel()
+                {
+                    Error = ErrorCode.ModelError,
+                    ErrorDescription = ex.Message
+                });
+            }            
+        }
         /*
         [HttpGet, Route("{id:Guid}/download")]
         public async Task<IActionResult> Download(Guid id)

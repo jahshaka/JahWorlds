@@ -18,6 +18,7 @@ namespace Jahshaka.API.ViewModels.Mappers
             destination.Id = source.Id;
             destination.Name = source.Name;
             destination.CreatedAt = source.CreatedAt;
+            destination.UserId = source.UserId;
 
             if(source.Collections != null){
                 destination.Collections = source.Collections.ToList().ToViewModel();
