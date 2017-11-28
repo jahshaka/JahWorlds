@@ -390,11 +390,14 @@ namespace Jahshaka.AuthServer.Controllers
                 */
             }
 
+            /*
+            Redirect to set password
             //if(await _userManager.HasPasswordAsync(user)) {
             if(user.PasswordHash == null) {
                 return RedirectToAction(nameof(AddPassword));
             }
-
+            */
+            
             var data = new List<KeyValuePair<string, string>>
             {
                 new KeyValuePair<string, string>("grant_type", "urn:ietf:params:oauth:grant-type:external_account"),
@@ -458,10 +461,12 @@ namespace Jahshaka.AuthServer.Controllers
                             });
                         }
 
+                        /*
+                        Redirect to set password
                         if(user.PasswordHash == null){
                             return RedirectToAction(nameof(AddPassword));
                         }
-
+                        */
                         var data = new List<KeyValuePair<string, string>>
                         {
                             new KeyValuePair<string, string>("grant_type", "urn:ietf:params:oauth:grant-type:external_account"),

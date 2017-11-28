@@ -15,6 +15,7 @@ export class LoginComponent {
 
     error: string;
 
+    loginButton = { name: 'Login', disabled: false};
 
     public constructor(private sessionService: SessionService, private authService: AuthService, private router: Router) {
         this.model = new LoginModel();
@@ -22,6 +23,9 @@ export class LoginComponent {
 
 
     login() {
+        this.loginButton.name = 'Loading...';
+        this.loginButton.disabled = true;
+
         this.authService.token({
             username: this.model.username,
             password: this.model.password,
@@ -30,10 +34,16 @@ export class LoginComponent {
             (tokenResponse) => {
                 this.authService.setAuthData(tokenResponse);
 
+                this.loginButton.name = 'Login';
+                this.loginButton.disabled = false;
+
                 this.router.navigate(['home']);
 
             }, (tokenResponse) => {
                 this.error = tokenResponse.error_description;
+
+                this.loginButton.name = 'Login';
+                this.loginButton.disabled = false;
             });
     }
 }

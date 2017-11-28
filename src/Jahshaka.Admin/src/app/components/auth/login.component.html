@@ -12,13 +12,7 @@
       <div class="form-group">
         <input [(ngModel)]="model.password" type="password" class="form-control" name="password" placeholder="Password" required="">
       </div>
-      <button type="submit" class="btn btn-success block full-width m-b">Login</button>
-      <button class="ladda-button btn btn-primary" data-style="expand-left">
-        <span class="ladda-label">Submit</span>
-        <span class="ladda-spinner"></span>
-        <div class="ladda-progress" style="width: 0px;"></div>
-      </button>
-      <a href="#"><small>Forgot password?</small></a>
+      <button type="submit" class="btn btn-success block full-width m-b" [disabled]="!loginForm.form.valid||loginButton.disabled">{{loginButton.name}}</button>
     </form>
   </div>
 </div>
