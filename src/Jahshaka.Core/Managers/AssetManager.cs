@@ -94,7 +94,7 @@ namespace Jahshaka.Core.Managers
 
             asset.Url = await _s3Service.UploadFileFromStreamAsync(fileStream, BucketName+"/Assets", userId.ToString(), $"{asset.Id}-{file.FileName}");
             
-            var thumbnailStream = AssetHelper.Resize(ThumbnailSize, thumnbnail);
+            var thumbnailStream = AssetHelper.SaveAsJpeg(thumnbnail);
 
             asset.IconUrl = await _s3Service.UploadFileFromStreamAsync(thumbnailStream, BucketName+"/Thumbnails", userId.ToString(), $"{asset.Id}-{thumnbnail.FileName}");
  

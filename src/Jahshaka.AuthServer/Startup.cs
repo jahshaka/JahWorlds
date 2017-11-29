@@ -148,7 +148,8 @@ namespace Jahshaka.AuthServer
                 // options.UseJsonWebTokens();
                 // options.AddEphemeralSigningKey();
 
-                options.SetAccessTokenLifetime(TimeSpan.FromMinutes(1440))
+                //options.SetAccessTokenLifetime(TimeSpan.FromMinutes(1440))
+                options.SetAccessTokenLifetime(TimeSpan.FromMinutes(1))
                     .SetRefreshTokenLifetime(TimeSpan.FromDays(60));
 
                 services.AddCors();

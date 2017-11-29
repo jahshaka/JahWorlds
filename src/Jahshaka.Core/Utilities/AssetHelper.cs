@@ -8,7 +8,7 @@ namespace Jahshaka.Core.Utilities
 {
     public static class AssetHelper
     {
-        public static MemoryStream Resize(int size, IFormFile file)
+        public static MemoryStream SaveAsJpeg(IFormFile file)
         {
             Stream stream = file.OpenReadStream();
             MemoryStream output = new MemoryStream();
@@ -20,6 +20,19 @@ namespace Jahshaka.Core.Utilities
             image.SaveAsJpeg(output);
             return output;
         }
+
+        /*public static MemoryStream Resize(int size, IFormFile file)
+        {
+            Stream stream = file.OpenReadStream();
+            MemoryStream output = new MemoryStream();
+            MemoryStream temp = new MemoryStream();
+
+            var image = Image.Load(stream);
+            image.Size(size, size).Save(temp);
+
+            image.SaveAsJpeg(output);
+            return output;
+        }*/
 
         public static MemoryStream ToStream(IFormFile file)
         {

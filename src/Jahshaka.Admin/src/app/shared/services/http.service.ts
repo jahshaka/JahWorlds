@@ -41,9 +41,9 @@ export class HttpService {
     }
 
     private request(requestMethod: RequestMethod, url: string, data: any = {}, params: any = {}): Observable<any> {
-        let authData = this.authService.getAuthData();
+        const authData = this.authService.getAuthData();
 
-        let headers = {};
+        const headers = {};
 
         if (authData != null && authData.access_token) {
             headers['Authorization'] = 'Bearer ' + authData.access_token;
@@ -51,9 +51,10 @@ export class HttpService {
 
         headers['Content-Type'] = 'application/json';
 
-        let stream = this.httpClient.request(requestMethod, url, data, params, headers)
+        const stream = this.httpClient.request(requestMethod, url, data, params, headers)
             .catch((error: any) => {
-                if (error.status == 401) {
+                console.log(error.status);
+                if (error.status === 401) {
                     if (authData != null) {
                         if (authData.refresh_token) {
                             return this.authService
