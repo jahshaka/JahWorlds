@@ -174,6 +174,47 @@ namespace Jahshaka.API.Controllers
                 });
             }            
         }
+
+        [HttpDelete, Route("{id:Guid}/delete")]
+        public async Task<IActionResult> Delete(Guid id)
+        {
+            try 
+            {
+
+                var user = await _userManager.GetUserAsync(User);
+
+                if (user == null)
+                {
+                    return Unauthorized();
+                }
+
+                var asset = _appDbContext.Assets.FirstOrDefault(a => a.Id == id && a.UserId.Equals(user.Id));
+
+                if (asset == null)
+                {
+                    return BadRequest(new ErrorViewModel()
+                    {
+                        Error = ErrorCode.ModelError,
+                        ErrorDescription = "Asset not found."
+                    });
+                }
+
+                await _assetManager.RemoveAssetAsync(asset.Id);
+
+                return Ok();
+
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(new ErrorViewModel()
+                {
+                    Error = ErrorCode.ModelError,
+                    ErrorDescription = ex.Message
+                });
+            }     
+
+        }
+
         /*
         [HttpGet, Route("{id:Guid}/download")]
         public async Task<IActionResult> Download(Guid id)

@@ -79,6 +79,30 @@ namespace Jahshaka.Core.Services.S3
                 return false;
             }
         }
+
+        public async Task<bool> RemoveFileAsync(string bucket, string dir, string filename)
+        {
+            try
+            {
+
+                String fileKey = $"{dir}/{filename}";
+
+                DeleteObjectRequest deleteObjectRequest = new DeleteObjectRequest {
+                    BucketName = bucket,
+                    Key = fileKey
+                };
+
+                await _s3client.DeleteObjectAsync(deleteObjectRequest);
+
+                return true;
+            }
+            catch (AmazonS3Exception e)
+            {
+                _logger.LogCritical(e.Message);
+
+                return false;
+            }
+        }
         
     }
 }

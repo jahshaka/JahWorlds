@@ -104,5 +104,32 @@ namespace Jahshaka.Core.Managers
 
             return asset;
         }
+
+        public async Task<Boolean> RemoveAssetAsync(Guid assetId)
+        {
+
+            var asset = _dbContext.Assets.FirstOrDefault(a => a.Id.Equals(assetId));
+
+            if (asset == null)
+            {
+                throw new Exception($"Asset with id {assetId} not found.");
+            }
+
+            String[] url = asset.Url.Split('/');
+
+            await _s3Service.RemoveFileAsync(BucketName+"/Assets", asset.UserId.ToString(), url.Last());
+
+            String[] iconUrl = asset.IconUrl.Split('/');
+
+            await _s3Service.RemoveFileAsync(BucketName+"/Thumbnails", asset.UserId.ToString(), iconUrl.Last());
+
+            _dbContext.Remove(asset);
+
+            await _dbContext.SaveChangesAsync();
+
+            _logger.LogInformation($"Asset deleted successfully");
+
+            return true;
+        }
     }
 }
