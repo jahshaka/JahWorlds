@@ -360,6 +360,8 @@ namespace Jahshaka.AuthServer.Controllers
 
             if (!request.IsRefreshTokenGrantType())
             {
+                _logger.LogWarning($"Not refresh token grant type");
+
                 // Set the list of scopes granted to the client application.
                 // Note: the offline_access scope must be granted
                 // to allow OpenIddict to return a refresh token.

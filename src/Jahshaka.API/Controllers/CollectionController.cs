@@ -176,6 +176,65 @@ namespace Jahshaka.API.Controllers
             
         }
 
+        [HttpDelete, Route("{id}/delete")]
+        public async Task<IActionResult> Delete(int id)
+        {
+            
+            try 
+            {
+
+                var user = await _userManager.GetUserAsync(User);
+
+                if (user == null)
+                {
+                    return Unauthorized();
+                }
+
+                var collection = _dbContext.Collections
+                    .Include(c => c.Collections)
+                    .Include(c => c.Assets)
+                    .AsEnumerable()
+                    .FirstOrDefault(a => a.Id == id && a.UserId.Equals(user.Id));
+
+                if (collection == null)
+                {
+                    return BadRequest(new ErrorViewModel()
+                    {
+                        Error = ErrorCode.ModelError,
+                        ErrorDescription = "Collection not found."
+                    });
+                }
+
+                if(collection.Assets.Count() > 0 || collection.Collections.Count() > 0)
+                {
+                    return BadRequest(new ErrorViewModel()
+                    {
+                        Error = ErrorCode.ModelError,
+                        ErrorDescription = "Cannot delete collection with assets/collections."
+                    });
+                }
+
+                _dbContext.Remove(collection);
+
+                await _dbContext.SaveChangesAsync();
+
+                return Ok();
+
+            }
+            catch (Exception ex)
+            {
+
+                _logger.LogCritical(ex.Message);
+
+                return BadRequest(new ErrorViewModel()
+                {
+                    Error = ErrorCode.ModelError,
+                    ErrorDescription = ex.Message
+                });
+            }     
+
+        }
+
     }
 }
 

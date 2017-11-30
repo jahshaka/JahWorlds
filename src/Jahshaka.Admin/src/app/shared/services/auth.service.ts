@@ -27,26 +27,15 @@ export class AuthService {
     }
 
     public token(model: AccessTokenModel): Observable<Response> {
-        let scope = 'openid profile email';
-
-        if (model.persistent) {
-            scope += ' offline_access';
-        } else {
-            scope += ' offline_access';
-        }
+        let scope = 'openid profile email offline_access';
 
         var random = Math.floor(Math.random() * 5000 + 1);
 
-        let data = {
-            //client_id: this.clientId,
-            //client_secret: this.clientSecret,
+        const data = {
             grant_type: this.grantType,
             username: model.username,
-            password: model.password
-            //scope: scope,
-            //device_type: 'WebBrowser',
-            //device_id: `deviceId${random}`,
-            //device_name: navigator.userAgent
+            password: model.password,
+            scope: scope
         };
 
         return this.httpClient.post(this.authServerUrl + '/connect/token', data, {}, {
@@ -55,7 +44,7 @@ export class AuthService {
     }
 
     public refreshToken(model: RefreshTokenModel): Observable<Response> {
-        let data = {
+        const data = {
             client_id: this.clientId,
             client_secret: this.clientSecret,
             grant_type: 'refresh_token',
@@ -68,8 +57,8 @@ export class AuthService {
     }
 
     public userInfo(): Observable<Response> {
-        let accessToken: string = 'invalid_access_token';
-        let authData = this.getAuthData();
+        let accessToken = 'invalid_access_token';
+        const authData = this.getAuthData();
 
         if (authData != null && authData.access_token) {
             accessToken = authData.access_token;
@@ -97,11 +86,11 @@ export class AuthService {
 
     public logout(): Observable<any> {
 
-        let authData = this.getAuthData();
+        const authData = this.getAuthData();
 
         if (authData != null) {
 
-            let token = authData.access_token;
+            const token = authData.access_token;
 
             if (token != null) {
 
