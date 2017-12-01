@@ -401,9 +401,12 @@ namespace Jahshaka.AuthServer.Controllers
             var data = new List<KeyValuePair<string, string>>
             {
                 new KeyValuePair<string, string>("grant_type", "urn:ietf:params:oauth:grant-type:external_account"),
+                new KeyValuePair<string, string>("scope", "openid profile email offline_access" ),
                 new KeyValuePair<string, string>("user_id", user.Id.ToString() ),
                 new KeyValuePair<string, string>("concurrency_stamp", user.ConcurrencyStamp )
             };
+
+            _logger.LogDebug($"DATA: {data}");
 
             //var body = JsonConvert.SerializeObject(data);
 
@@ -470,9 +473,12 @@ namespace Jahshaka.AuthServer.Controllers
                         var data = new List<KeyValuePair<string, string>>
                         {
                             new KeyValuePair<string, string>("grant_type", "urn:ietf:params:oauth:grant-type:external_account"),
+                            new KeyValuePair<string, string>("scope", "openid profile email offline_access" ),
                             new KeyValuePair<string, string>("user_id", userData.Id.ToString() ),
                             new KeyValuePair<string, string>("concurrency_stamp", userData.ConcurrencyStamp )
                         };
+
+                        _logger.LogDebug($"DATA: {data}");
 
                         //var body = JsonConvert.SerializeObject(data);
 

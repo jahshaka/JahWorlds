@@ -45,8 +45,8 @@ export class AuthService {
 
     public refreshToken(model: RefreshTokenModel): Observable<Response> {
         const data = {
-            client_id: this.clientId,
-            client_secret: this.clientSecret,
+            //client_id: this.clientId,
+            //client_secret: this.clientSecret,
             grant_type: 'refresh_token',
             refresh_token: model.refreshToken
         };
