@@ -29,7 +29,9 @@ export class ApplicationComponent implements OnInit {
     };
 
     public app = {
-        id: null
+        id: null,
+        download_url: null,
+        notes: null
     };
 
     public constructor(private applicationService: ApplicationService, private route: ActivatedRoute, public toastr: ToastrService) {
