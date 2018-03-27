@@ -1,6 +1,7 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace Jahshaka.AuthServer.ViewModels.Account {
+namespace Jahshaka.AuthServer.ViewModels.Account 
+{
     public class LoginViewModel {
         [Required]
         [EmailAddress]

@@ -1,4 +1,5 @@
 import { BrowserModule } from '@angular/platform-browser';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { HttpModule } from '@angular/http';
@@ -27,26 +28,33 @@ import { UserService } from './shared/services/user.service';
 import { CollectionService } from './shared/services/collection.service';
 import { AssetService } from './shared/services/asset.service';
 import { AssetListComponent } from 'app/components/assets/asset-list.component';
+import { AssetAddComponent } from 'app/components/assets/asset-add';
 import { UserListComponent } from 'app/components/users/user-list.component';
 import { StarterViewComponent } from 'app/views/appviews/starterview.component';
 import { DashboardComponent } from 'app/components/dashboard/dashboard.component';
+import { TagInputModule } from 'ngx-chips';
+import { NgUploaderModule } from 'ngx-uploader';
 
 @NgModule({
     declarations: [
         AppComponent,
         LoginComponent,
         AssetListComponent,
+        AssetAddComponent,
         DashboardComponent,
         UserListComponent
     ],
     imports: [
         BrowserModule,
+        BrowserAnimationsModule,
         FormsModule,
         HttpModule,
         DashboardsModule,
         LayoutsModule,
         RouterModule.forRoot(ROUTES),
         NgxPaginationModule,
+        TagInputModule,
+        NgUploaderModule
     ],
     providers: [{ provide: LocationStrategy, useClass: HashLocationStrategy },
         HttpClient,

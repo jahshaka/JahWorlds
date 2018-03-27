@@ -17,7 +17,7 @@ export class HttpClient {
     public constructor(private http: Http, private connectivityUtil: ConnectivityUtil) { }
 
     public request(requestMethod: RequestMethod, url: string, data: any = {}, params: any = {}, headers: any = {}): Observable<Response> {
-        let options = new Options();
+        const options = new Options();
 
         options.method = requestMethod;
         options.headers = headers;
@@ -29,7 +29,7 @@ export class HttpClient {
     }
 
     public get(url: string, params: any = {}, headers: any = {}): Observable<Response> {
-        let options = new Options();
+        const options = new Options();
 
         options.method = RequestMethod.Get;
         options.headers = headers;
@@ -40,7 +40,7 @@ export class HttpClient {
     }
 
     public post(url: string, data: any = {}, params: any = {}, headers: any = {}): Observable<Response> {
-        let options = new Options();
+        const options = new Options();
 
         options.method = RequestMethod.Post;
         options.headers = headers;
@@ -52,7 +52,7 @@ export class HttpClient {
     }
 
     public put(url: string, headers: any = {}): Observable<Response> {
-        let options = new Options();
+        const options = new Options();
 
         options.method = RequestMethod.Put;
         options.headers = headers;
@@ -62,7 +62,7 @@ export class HttpClient {
     }
 
     public delete(url: string, headers: any = {}): Observable<Response> {
-        let options = new Options();
+        const options = new Options();
 
         options.method = RequestMethod.Delete;
         options.headers = headers;
@@ -78,13 +78,13 @@ export class HttpClient {
         options.params = (options.params || {});
         options.data = (options.data || {});
 
-        let requestOptions = new RequestOptions();
+        const requestOptions = new RequestOptions();
         requestOptions.method = options.method;
         requestOptions.url = options.url;
         requestOptions.headers = options.headers;
         requestOptions.search = new URLSearchParams();
 
-        for (let key in options.params) {
+        for (const key in options.params) {
             requestOptions.search.append(key, options.params[key]);
         }
 
@@ -92,7 +92,7 @@ export class HttpClient {
         if (requestOptions.headers['Content-Type'] == 'application/x-www-form-urlencoded') {
             let body: string[] = [];
 
-            for (let key in options.data) {
+            for (const key in options.data) {
                 if (options.data.hasOwnProperty(key)) {
                     body.push(key + '=' + encodeURIComponent(options.data[key]));
                 }

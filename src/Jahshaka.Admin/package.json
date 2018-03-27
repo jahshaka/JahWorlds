@@ -21,6 +21,7 @@
     "@angular/platform-browser-dynamic": "^4.4.6",
     "@angular/platform-server": "^4.4.6",
     "@angular/router": "^4.4.6",
+    "angular4-files-upload": "^1.0.2",
     "animate.css": "3.1.1",
     "bootstrap": "^3.3.7",
     "chart.js": "^2.5.0",
@@ -36,7 +37,10 @@
     "ng2-pagination": "^2.0.2",
     "ng2-tree": "2.0.0-alpha.10",
     "ngx-bootstrap": "^1.6.6",
+    "ngx-chips": "^1.6.7",
+    "ngx-input-file": "^1.0.2",
     "ngx-pagination": "^3.0.3",
+    "ngx-uploader": "^4.2.4",
     "peity": "^3.2.1",
     "rxjs": "^5.4.1",
     "zone.js": "^0.8.14"

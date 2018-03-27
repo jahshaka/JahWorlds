@@ -351,9 +351,7 @@ namespace Jahshaka.AuthServer.Controllers
             var address = info.Principal.FindFirstValue(ClaimTypes.Email);
             var lastname = info.Principal.FindFirstValue(ClaimTypes.Surname);
             var firstname = info.Principal.FindFirstValue(ClaimTypes.GivenName);
-            //_logger.LogInformation($"User Email Address: {address}");
-            //_logger.LogInformation($"User lastname: {lastname}");
-            //_logger.LogInformation($"User firstname: {firstname}");
+            //var avatar = info.Principal.FindFirstValue(ClaimTypes.);
 
             // Sign in the user with this external login provider if the user already has a login.
             var result = await _signInManager.ExternalLoginSignInAsync(info.LoginProvider, info.ProviderKey, isPersistent: false, bypassTwoFactor: true);

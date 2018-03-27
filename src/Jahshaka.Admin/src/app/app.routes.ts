@@ -12,6 +12,7 @@ import { AuthGuard } from './shared/services/auth-guard';
 import { AssetListComponent } from 'app/components/assets/asset-list.component';
 import { DashboardComponent } from 'app/components/dashboard/dashboard.component';
 import { UserListComponent } from 'app/components/users/user-list.component';
+import { AssetAddComponent } from 'app/components/assets/asset-add';
 
 export const ROUTES: Routes = [
     { path: '', redirectTo: 'dashboard', pathMatch: 'full' },
@@ -29,7 +30,8 @@ export const ROUTES: Routes = [
             {
                 path: 'assets', component: BasicLayoutComponent,
                 children: [
-                    { path: '', component: AssetListComponent }
+                    { path: '', component: AssetListComponent },
+                    { path: 'new', component: AssetAddComponent }
                 ]
             },
             {
