@@ -36,6 +36,7 @@
       <li [ngClass]="{active: activeRoute('settings')}">
         <a href="#"><i class="fa fa-gears"></i> <span class="nav-label">Settings</span> <span class="fa arrow"></span> </a>
         <ul class="nav nav-second-level collapse" [ngClass]="{in: activeRoute('collections')}">
+          <li [ngClass]="{active: activeRoute('applications')}"><a [routerLink]="['/settings/applications']">Applications</a></li>
           <li [ngClass]="{active: activeRoute('categories')}"><a [routerLink]="['/settings/categories']">Categories</a></li>
         </ul>
       </li>

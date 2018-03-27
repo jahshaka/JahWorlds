@@ -1,0 +1,119 @@
+<div class="wrapper wrapper-content animated fadeInRight">
+  <div class="row">
+    <div class="col-lg-12">
+      <div class="ibox float-e-margins">
+        <div class="ibox-title">
+          <h5>Applications</h5>
+        </div>
+        <div class="ibox-content">
+          <div class="col-lg-8">
+            <div class="input-group">
+              <input type="text" placeholder="Search" class="input-sm form-control" [(ngModel)]="query">
+              <span class="input-group-btn">
+                <button type="button" class="btn btn-sm btn-success">Search</button>
+              </span>
+            </div>
+          </div>
+          <div class="col-lg-4">
+            <a class="pull-right btn btn-sm btn-primary" (click)="modal.open()">Create Application</a>
+          </div>
+          <div class="clearfix"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-lg-12">
+      <div class="ibox float-e-margins">
+        <div class="ibox-content">
+          <table class="table table-bordered">
+            <thead>
+              <tr>
+                <th>Client Id</th>
+                <th>Display Name</th>
+                <th>Type</th>
+                <th>Number of Versions</th>
+                <th>Actions</th>
+              </tr>
+            </thead>
+            <tbody>
+
+              <tr *ngFor="let application of applications | paginate : { itemsPerPage:size, currentPage:page, id : 1, totalItems:total }; let i = index">
+                <td>{{application.clientId}}</td>
+                <td>{{application.displayName}}</td>
+                <td>{{application.type}}</td>
+                <td>{{application.versions.length}}</td>
+                <td>
+                  <a class="btn btn-success btn-xs" [routerLink]="['/settings/applications', application.id]">View</a>
+
+                  <button [swal]="{ title: 'Are you sure?', text: 'Application will be erase!',type: 'warning',showCancelButton: true, cancelButtonColor: '#d33' }"
+                    (confirm)="remove(i)"
+                    class="btn btn-danger btn-xs">
+                    Delete
+                </button>
+                </td>
+              </tr>
+
+              <tr *ngIf="loading">
+                <td colspan="5">Loading...</td>
+              </tr>
+
+              <tr *ngIf="!applications.length&&!loading">
+                <td colspan="5">No Application found</td>
+              </tr>
+            </tbody>
+          </table>
+          <pagination-controls
+            *ngIf="applications.length"
+            (pageChange) = "page = get($event)"
+            id="1"
+            maxSize = "6"
+            directionLinks = "true"
+            autohide = "true">
+          </pagination-controls>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<modal #AddApplicationModal>
+    <modal-header [show-close]="true">
+        <h4 class="modal-title">Add Application</h4>
+    </modal-header>
+    <form (ngSubmit)="create()" #addApplicationForm="ngForm">
+        <modal-body>
+            <div class="form-group">
+                <label>Client Id</label>
+                <input type="text" name="client_id" class="form-control" placeholder="Enter client id here" [(ngModel)]="app.client_id" required>
+            </div>
+            <div class="form-group">
+                <label>Client Secret</label>
+                <input type="text" name="client_secret" class="form-control" placeholder="Enter client secret here" [(ngModel)]="app.client_secret" required>
+            </div>
+            <div class="form-group">
+                <label>Display Name</label>
+                <input type="text" name="display_name" class="form-control" placeholder="Enter display name here" [(ngModel)]="app.display_name" required>
+            </div>
+            <div class="form-group">
+                <label>Type</label>
+                <select name="type" class="form-control" [(ngModel)]="app.type" required>
+                  <option value="public">Public</option>
+                  <option value="confidential">Confidential</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label>Post Logout Redirect Uris	</label>
+                <input type="text" name="post_logout_redirect_uris" class="form-control" placeholder="Enter post logout redirect uris here" [(ngModel)]="app.post_logout_redirect_uris">
+            </div>
+            <div class="form-group">
+                <label>Redirect Uris</label>
+                <input type="text" name="redirect_uris" class="form-control" placeholder="Enter redirect uris here" [(ngModel)]="app.redirect_uris">
+            </div>
+        </modal-body>
+        <modal-footer>
+            <button type="button" class="btn btn-default" (click)="modal.close()">Close</button>
+            <button type="submit" class="btn btn-primary" [disabled]="!addApplicationForm.form.valid||button.disabled">{{button.name}}</button>
+        </modal-footer>
+    </form>
+</modal>

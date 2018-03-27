@@ -40,5 +40,24 @@ namespace Jahshaka.API.ViewModels.Mappers
 
             return destination;
         }
+
+         public static LatestVersionViewModel ToLatestViewModel(this ApplicationVersion source)
+        {
+            if (source == null)
+            {
+                return null;
+            }
+
+            var destination = new LatestVersionViewModel();
+
+            destination.Id = source.Id;
+            destination.Supported = source.Supported;
+            destination.ShouldUpdate = true;
+            destination.Notes = source.Notes;
+            destination.DownloadUrl = source.DownloadUrl;
+            destination.CreatedAt = source.CreatedAt;
+
+            return destination;
+        }
     }
 }

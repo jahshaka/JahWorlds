@@ -1,0 +1,131 @@
+<div class="wrapper wrapper-content animated fadeInRight">
+    <div class="row">
+        <div class="col-lg-5">
+            <div class="ibox float-e-margins">
+                    
+                <div class="ibox-content loadwrap" *ngIf="loading">
+                    <i class="fa fa-3x fa-spinner fa-spin"></i>
+                </div>
+
+                <div class="ibox-content" *ngIf="!loading">
+
+                    <h3>Application</h3>
+
+                    <table class="table table-bordered">
+                        <thead>
+                            <tr>
+                                <th colspan="2">SPECS</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>Id</td>
+                                <td>{{application.id}}</td>
+                            </tr>
+                            <tr>
+                                <td>Client Id</td>
+                                <td>{{application.clientId}}</td>
+                            </tr>
+                            <tr>
+                                <td>Display Name</td>
+                                <td>{{application.displayName}}</td>
+                            </tr>
+                            <tr>
+                                <td>Post Logout Redirect Uris</td>
+                                <td>{{application.postLogoutRedirectUris}}</td>
+                            </tr>
+                            <tr>
+                                <td>Redirect Uris</td>
+                                <td>{{application.redirectUris}}</td>
+                            </tr>
+                            <tr>
+                                <td>Type</td>
+                                <td>{{application.type}}</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-lg-7">
+            <div class="ibox float-e-margins">
+                <div class="ibox-content loadwrap" *ngIf="loading">
+                    <i class="fa fa-3x fa-spinner fa-spin"></i>
+                </div>
+
+                <div class="ibox-content" *ngIf="!loading">
+                    <h3 class="pull-left">Application Versions</h3>
+                    <div class="pull-right">
+                        <button class="btn btn-primary btn-sm" (click)="modal.open()">Add</button>
+                    </div>
+                    <table class="table table-bordered">
+                        <thead>
+                            <tr>
+                                <th>ID</th>
+                                <th>Supported</th>
+                                <th>Created At</th>
+                                <th>Last Updated</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr *ngFor="let version of application.versions; let i = index">
+                                <td>{{version.id}}</td>
+                                <td><span class="label label-{{version.supported ? 'primary' : 'danger'}}">{{version.supported ? 'Active' : 'Inactive'}}</span></td>
+                                <td>{{version.createdAt | date : 'MMM dd, y hh:mm a'}}</td>
+                                <td>{{version.updatedAt | date : 'MMM dd, y hh:mm a'}}</td>
+                                <td>
+                                    <a class="btn btn-warning btn-xs" *ngIf="version.supported" (click)="disable(i)">Disable</a>
+                                    <a class="btn btn-primary btn-xs" *ngIf="!version.supported" (click)="enable(i)">Enable</a>
+
+                                    <button [swal]="{ title: 'Are you sure?', text: 'You will not be able to recover this version!',type: 'warning',showCancelButton: true, cancelButtonColor: '#d33' }"
+                                        (confirm)="delete(i)"
+                                        (cancel)="cancel($event)"
+                                        class="btn btn-danger btn-xs">
+                                        Delete
+                                    </button>
+                                </td>
+                            </tr>
+
+                            <tr *ngIf="!application.versions.length">
+                                <td colspan="5">No version found</td>
+                            </tr>
+                            
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<modal #AddVersionModal>
+    <modal-header [show-close]="true">
+        <h4 class="modal-title">Add Application Version</h4>
+    </modal-header>
+    <form (ngSubmit)="save()" #addVersionForm="ngForm">
+        <modal-body>
+            <div class="form-group">
+                <label>Id</label>
+                <input type="number" name="id" class="form-control" placeholder="Enter ID for new version" [(ngModel)]="app.id" required>
+            </div>
+
+            <div class="form-group">
+                <label>Download Url</label>
+                <input type="text" name="download_url" class="form-control" placeholder="Enter Download Url here" [(ngModel)]="app.download_url" required>
+            </div>
+
+            <div class="form-group">
+                <label>Notes</label>
+                <textarea name="notes" class="form-control" [(ngModel)]="app.notes" required></textarea>
+            </div>
+
+        </modal-body>
+        <modal-footer>
+            <button type="button" class="btn btn-default" (click)="modal.close()">Close</button>
+            <button type="submit" class="btn btn-primary" [disabled]="!addVersionForm.form.valid||button.disabled">{{button.name}}</button>
+        </modal-footer>
+    </form>
+</modal>
+      

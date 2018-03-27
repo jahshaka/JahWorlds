@@ -22,7 +22,7 @@ namespace Jahshaka.API.ViewModels.Application
         [JsonProperty("client_secret")]
         public string ClientSecret { get; set; }
 
-        [JsonProperty("name")]
+        [JsonProperty("display_name")]
         public string DisplayName { get; set; }
 
         [JsonProperty("post_logout_redirect_uris")]

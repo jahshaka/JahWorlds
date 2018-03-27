@@ -224,6 +224,8 @@ namespace Jahshaka.API.Controllers.Admin
                     var version = new ApplicationVersion{
                         Id = model.Id,
                         ApplicationId = application.Id,
+                        DownloadUrl = model.DownloadUrl,
+                        Notes = model.Notes,
                         Supported = model.Supported,
                         CreatedAt = DateTime.UtcNow,
                         UpdatedAt  = DateTime.UtcNow

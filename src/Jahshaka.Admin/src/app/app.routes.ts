@@ -13,6 +13,8 @@ import { AssetListComponent } from 'app/components/assets/asset-list.component';
 import { DashboardComponent } from 'app/components/dashboard/dashboard.component';
 import { UserListComponent } from 'app/components/users/user-list.component';
 import { AssetAddComponent } from 'app/components/assets/asset-add';
+import { ApplicationsListComponent } from './components/settings/applications/applications-list.component';
+import { ApplicationComponent } from './components/settings/applications/application.component';
 
 export const ROUTES: Routes = [
     { path: '', redirectTo: 'dashboard', pathMatch: 'full' },
@@ -39,10 +41,21 @@ export const ROUTES: Routes = [
                 children: [
                     { path: '', component: UserListComponent }
                 ]
+            },
+            {
+                path: 'settings', component: BasicLayoutComponent,
+                children: [
+                    {
+                        path: 'applications',
+                        children: [
+                            { path: '', component: ApplicationsListComponent },
+                            { path: ':id', component: ApplicationComponent }
+                        ]
+                    }
+                ]
             }
         ]
     },
-
     {
         path: '', component: BlankLayoutComponent,
         children: [

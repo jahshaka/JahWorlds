@@ -7,6 +7,12 @@ namespace Jahshaka.API.ViewModels.Applications
         [JsonProperty("id")]
         public string Id { get; set; }
 
+        [JsonProperty("download_url")]
+        public string DownloadUrl { get; set; }
+
+        [JsonProperty("notes")]
+        public string Notes { get; set; }
+
         [JsonProperty("supported")]
         public bool Supported { get; set; }
         
