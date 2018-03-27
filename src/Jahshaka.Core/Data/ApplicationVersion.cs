@@ -14,6 +14,10 @@ namespace Jahshaka.Core.Data
 
         public DateTime? UpdatedAt { get; set; }
 
+        public string Notes { get; set; }
+
+        public string DownloadUrl {get; set;}
+
         public Application Application { get; set; }
     }
 }
