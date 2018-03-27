@@ -32,7 +32,7 @@ namespace Jahshaka.API.Controllers
             _environment = environment;
         }
 
-        [HttpGet, Route("{application_id:Guid}/latest_version/{version_id}")]
+        [HttpGet, Route("{application_id:Guid}/update/{version_id}")]
         public  IActionResult LatestVersion(Guid application_id, string version_id)
         {
             try{
