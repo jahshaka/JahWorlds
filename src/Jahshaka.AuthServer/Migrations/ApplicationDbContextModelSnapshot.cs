@@ -117,6 +117,8 @@ namespace Jahshaka.AuthServer.Migrations
 
                     b.Property<string>("Notes");
 
+                    b.Property<DateTime?>("ReleaseDate");
+
                     b.Property<bool>("Supported");
 
                     b.Property<DateTime?>("UpdatedAt");

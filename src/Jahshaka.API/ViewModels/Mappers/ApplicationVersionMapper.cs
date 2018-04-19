@@ -22,6 +22,7 @@ namespace Jahshaka.API.ViewModels.Mappers
             destination.UpdatedAt = source.UpdatedAt;
             destination.Notes = source.Notes;
             destination.DownloadUrl = source.DownloadUrl;
+            destination.ReleaseDate = source.ReleaseDate;
 
             return destination;
         }
@@ -56,6 +57,7 @@ namespace Jahshaka.API.ViewModels.Mappers
             destination.Notes = source.Notes;
             destination.DownloadUrl = source.DownloadUrl;
             destination.CreatedAt = source.CreatedAt;
+            destination.ReleaseDate = source.ReleaseDate;
 
             return destination;
         }

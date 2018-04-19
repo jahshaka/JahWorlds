@@ -228,11 +228,72 @@ namespace Jahshaka.API.Controllers.Admin
                         Notes = model.Notes,
                         Supported = model.Supported,
                         CreatedAt = DateTime.UtcNow,
+                        ReleaseDate = DateTime.UtcNow,
                         UpdatedAt  = DateTime.UtcNow
                     };
 
                     _dbContext.ApplicationVersions.Add(version);
                     
+                    _dbContext.SaveChanges();
+
+                    return Ok(version.ToViewModel());
+
+                }
+
+                return BadRequest(new ErrorViewModel()
+                {
+                    Error = ErrorCode.ModelError,
+                    ErrorDescription = ModelState?.GetFirstError()
+                });
+            }
+            catch (Exception ex)
+            {
+                _logger.LogCritical(ex.Message);
+                return BadRequest(new ErrorViewModel { Error = ErrorCode.ServerError, ErrorDescription = GetEnvironmentErrorMessage(ex) });
+            }
+        }
+
+        [HttpPost, Route("{id:guid}/version/{version_id}/update")]
+        public async Task<IActionResult> UpdateVersion(Guid id, string version_id, [FromBody] UpdateVersionViewModel model)
+        {
+            try
+            {
+                var user = await _userManager.GetUserAsync(User);
+
+                if (user == null || user.UserType != UserType.Admin)
+                {
+                    return Unauthorized();
+                }
+
+                if (ModelState.IsValid)
+                {
+                    var application = _dbContext.Applications
+                        .FirstOrDefault(a => a.Id == id);
+
+                    if(application == null){
+                        return BadRequest(new ErrorViewModel
+                        {
+                            Error = ErrorCode.ModelError,
+                            ErrorDescription = $"Application '{id}' not found"
+                        });
+                    }
+
+                    var version = _dbContext.ApplicationVersions.Where(v => v.ApplicationId == application.Id && v.Id == version_id).FirstOrDefault();
+
+                    if(version == null){
+                        return BadRequest(new ErrorViewModel
+                        {
+                            Error = ErrorCode.ModelError,
+                            ErrorDescription = $"Application version was not found"
+                        });
+                    }
+                    
+                    version.Id = model.Id;
+                    version.DownloadUrl = model.DownloadUrl;
+                    version.Notes = model.Notes;
+                    version.ReleaseDate = model.ReleaseDate;
+
+                    _dbContext.Update(version);   
                     _dbContext.SaveChanges();
 
                     return Ok(version.ToViewModel());

@@ -1,0 +1,44 @@
+﻿<Project Sdk="Microsoft.NET.Sdk.Web">
+  <PropertyGroup>
+    <TargetFramework>netcoreapp2.0</TargetFramework>
+    <TypeScriptCompileBlocked>true</TypeScriptCompileBlocked>
+    <TypeScriptToolsVersion>2.3</TypeScriptToolsVersion>
+  </PropertyGroup>
+  <ItemGroup>
+    <None Update="wwwroot\**\*">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <PackageReference Include="Microsoft.AspNetCore.All" Version="2.0.0" />
+  </ItemGroup>
+  <ItemGroup>
+    <DotNetCliToolReference Include="Microsoft.DotNet.Watcher.Tools" Version="2.0.0" />
+  </ItemGroup>
+  <PropertyGroup>
+    <Env>dev</Env>
+  </PropertyGroup>
+  <ItemGroup>
+    <Environments Include="$(Env)" />
+  </ItemGroup>
+  <Target Name="Build Angular" BeforeTargets="Build">
+    <Message Text="* * * * * * Building Angular App for $(Env) * * * * * *" Importance="high" />
+    <Exec Command="ng build --environment=dev" Condition=" '$(Env)'=='dev' " />
+    <Exec Command="ng build --environment=stage" Condition=" '$(Env)'=='stage' " />
+    <Exec Command="ng build --environment=stage2" Condition=" '$(Env)'=='stage2' " />
+    <Exec Command="ng build --environment=prod" Condition=" '$(Env)'=='prod' " />
+    <Exec Command="ng build --environment=qa" Condition=" '$(Env)'=='qa' " />
+  </Target>
+  <Target Name="Copy Angular" AfterTargets="ComputeFilesToPublish">
+    <Message Text="* * * * * * Copying Files * * * * * *" Importance="high" />
+    <!-- Include the newly-built files in the publish output -->
+    <ItemGroup>
+      <DistFiles Include="wwwroot\**\*" />
+      <ResolvedFileToPublish Include="@(DistFiles->'%(FullPath)')" Exclude="@(ResolvedFileToPublish)">
+        <RelativePath>%(DistFiles.Identity)</RelativePath>
+        <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+      </ResolvedFileToPublish>
+    </ItemGroup>
+  </Target>
+</Project>

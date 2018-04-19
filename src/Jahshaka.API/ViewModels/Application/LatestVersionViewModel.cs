@@ -5,7 +5,7 @@ namespace Jahshaka.API.ViewModels.Application
 {
     public class LatestVersionViewModel
     {
-        [JsonProperty("id")]
+        [JsonProperty("version")]
         public string Id { get; set; }
 
         [JsonProperty("supported")]
@@ -22,5 +22,8 @@ namespace Jahshaka.API.ViewModels.Application
 
         [JsonProperty("created_at")]
         public DateTime CreatedAt { get; set; }
+
+        [JsonProperty("release_date")]
+        public DateTime? ReleaseDate { get; set; }
     }
 }

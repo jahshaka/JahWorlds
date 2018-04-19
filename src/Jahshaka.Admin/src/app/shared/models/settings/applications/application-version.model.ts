@@ -17,6 +17,9 @@ export class ApplicationVersionModel {
   @JsonProperty('updated_at')
   public updatedAt: string;
 
+  @JsonProperty('release_date')
+  public releaseDate: string;
+
   @JsonProperty('notes')
   public notes: string;
 
@@ -29,6 +32,7 @@ export class ApplicationVersionModel {
     this.supported = null;
     this.createdAt = null;
     this.updatedAt = null;
+    this.releaseDate = null;
     this.downloadUrl = null;
     this.notes = null;
   }

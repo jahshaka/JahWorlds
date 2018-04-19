@@ -53,4 +53,8 @@ export class ApplicationService {
     return this.httpService.get(this.resourceServerUrl + `/admin/applications/${id}/versions/${version_id}/remove`);
   }
 
+  public updateVersion(application_id: string, version: any) {
+    return this.httpService.post(this.resourceServerUrl + `/admin/applications/${application_id}/version/${version.id}/update`, version);
+  }
+
 }

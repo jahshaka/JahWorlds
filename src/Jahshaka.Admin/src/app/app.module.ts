@@ -40,6 +40,8 @@ import { NgUploaderModule } from 'ngx-uploader';
 import { SweetAlert2Module } from '@toverux/ngsweetalert2';
 import { Ng2Bs3ModalModule } from 'ng2-bs3-modal/ng2-bs3-modal';
 import { ToastrModule } from 'ngx-toastr';
+import { NgxMyDatePickerModule } from 'ngx-mydatepicker';
+
 
 @NgModule({
     declarations: [
@@ -65,6 +67,7 @@ import { ToastrModule } from 'ngx-toastr';
         NgUploaderModule,
         SweetAlert2Module,
         Ng2Bs3ModalModule,
+        NgxMyDatePickerModule.forRoot(),
         ToastrModule.forRoot({
           positionClass: 'toast-top-right'
         })

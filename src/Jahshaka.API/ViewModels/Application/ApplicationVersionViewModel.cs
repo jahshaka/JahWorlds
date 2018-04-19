@@ -25,5 +25,8 @@ namespace Jahshaka.API.ViewModels.Application
 
         [JsonProperty("download_url")]
         public string DownloadUrl {get; set;}
+
+        [JsonProperty("release_date")]
+        public DateTime? ReleaseDate { get; set; }
     }
 }

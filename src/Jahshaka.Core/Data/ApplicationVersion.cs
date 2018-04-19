@@ -18,6 +18,8 @@ namespace Jahshaka.Core.Data
 
         public string DownloadUrl {get; set;}
 
+        public DateTime? ReleaseDate { get; set; }
+
         public Application Application { get; set; }
     }
 }

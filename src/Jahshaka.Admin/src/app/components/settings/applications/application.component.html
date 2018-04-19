@@ -78,6 +78,7 @@
                                 <td>
                                     <a class="btn btn-warning btn-xs" *ngIf="version.supported" (click)="disable(i)">Disable</a>
                                     <a class="btn btn-primary btn-xs" *ngIf="!version.supported" (click)="enable(i)">Enable</a>
+                                    <a class="btn btn-success btn-xs" (click)="edit(i)">Edit</a>
 
                                     <button [swal]="{ title: 'Are you sure?', text: 'You will not be able to recover this version!',type: 'warning',showCancelButton: true, cancelButtonColor: '#d33' }"
                                         (confirm)="delete(i)"
@@ -125,6 +126,50 @@
         <modal-footer>
             <button type="button" class="btn btn-default" (click)="modal.close()">Close</button>
             <button type="submit" class="btn btn-primary" [disabled]="!addVersionForm.form.valid||button.disabled">{{button.name}}</button>
+        </modal-footer>
+    </form>
+</modal>
+
+<modal #EditVersionModal>
+    <modal-header [show-close]="true">
+        <h4 class="modal-title">Edit Application Version</h4>
+    </modal-header>
+    <form (ngSubmit)="update()" #editVersionForm="ngForm">
+        <modal-body *ngIf="active_version_index != -1">
+            <div class="form-group">
+                <label>Id</label>
+                <input type="text" name="id" class="form-control" placeholder="Enter ID for new version" [(ngModel)]="application.versions[active_version_index].id" required>
+            </div>
+
+            <div class="form-group">
+                <label>Download Url</label>
+                <input type="text" name="download_url" class="form-control" placeholder="Enter Download Url here" [(ngModel)]="application.versions[active_version_index].downloadUrl" required>
+            </div>
+
+            <div class="input-group">
+                <label>Release Date</label>
+                <input class="form-control" style="float:none" placeholder="Select a date" ngx-mydatepicker name="mydate"
+                       [(ngModel)]="model" [options]="myOptions" #dp="ngx-mydatepicker" (dateChanged)="onDateChanged($event)"/>
+        
+                <span class="input-group-btn">
+                    <button type="button" class="btn btn-default" (click)="dp.clearDate()">
+                        <i class="glyphicon glyphicon-remove"></i>
+                    </button>
+                    <button type="button" class="btn btn-default" (click)="dp.toggleCalendar()">
+                        <i class="glyphicon glyphicon-calendar"></i>
+                    </button>
+                </span>
+            </div>
+
+            <div class="form-group">
+                <label>Notes</label>
+                <textarea name="notes" class="form-control" [(ngModel)]="application.versions[active_version_index].notes" required></textarea>
+            </div>
+
+        </modal-body>
+        <modal-footer>
+            <button type="button" class="btn btn-default" (click)="edit_modal.close()">Close</button>
+            <button type="submit" class="btn btn-primary" [disabled]="!editVersionForm.form.valid||edit_button.disabled">{{edit_button.name}}</button>
         </modal-footer>
     </form>
 </modal>
