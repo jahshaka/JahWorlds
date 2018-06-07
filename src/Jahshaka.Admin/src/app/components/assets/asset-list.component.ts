@@ -5,6 +5,7 @@ import { AssetModel } from 'app/shared/models/asset.model';
 import { deserialize } from 'json-typescript-mapper';
 
 @Component({
+    // tslint:disable-next-line:component-selector
     selector: 'asset-list',
     templateUrl: 'asset-list.component.html'
 })

@@ -1,7 +1,7 @@
 import { Component, OnDestroy, OnInit, Output, EventEmitter, ViewChild } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
-import { deserialize } from 'json-typescript-mapper';
+import { deserialize, serialize } from 'json-typescript-mapper';
 import { NgForm, NgModel } from '@angular/forms';
 import { ApplicationService } from 'app/shared/services/application.service';
 import { ApplicationModel } from 'app/shared/models/settings/applications/application.model';
@@ -44,6 +44,9 @@ export class ApplicationComponent implements OnInit {
     public app = {
         id: null,
         download_url: null,
+        windows_url: null,
+        mac_url: null,
+        linux_url: null,
         notes: null
     };
 
@@ -160,6 +163,7 @@ export class ApplicationComponent implements OnInit {
 
     public edit(index) {
         this.active_version_index = index;
+        this.model = null;
         if (this.application.versions[this.active_version_index].releaseDate) {
             const releaseDate  = new Date(this.application.versions[this.active_version_index].releaseDate);
             // Initialized to specific date (09.10.2018)
@@ -174,13 +178,25 @@ export class ApplicationComponent implements OnInit {
         if (this.model) {
             // this.application.versions[this.active_version_index].releaseDate = this.model;
             // tslint:disable-next-line:max-line-length
+
+            if (this.model.date.month < 10 && (this.model.date.month + '').length === 1) {
+                this.model.date.month = '0' + this.model.date.month;
+            }
+
+            if (this.model.date.day < 10 && (this.model.date.day + '').length === 1) {
+                this.model.date.day = '0' + this.model.date.day;
+            }
+            // tslint:disable-next-line:max-line-length
             this.application.versions[this.active_version_index].releaseDate = this.model.date.day + '/' + this.model.date.month + '/' + this.model.date.year;
         }
         console.log(this.application.versions[this.active_version_index]);
 
-        this.applicationService.updateVersion(this.id, this.application.versions[this.active_version_index]).subscribe(response => {
-            // this.application.versions.push(deserialize(ApplicationVersionModel, response));
+        // tslint:disable-next-line:max-line-length
+        this.applicationService.updateVersion(this.id, serialize(this.application.versions[this.active_version_index])).subscribe(response => {
+            this.application.versions[this.active_version_index] = deserialize(ApplicationVersionModel, response);
             // this.app.id = null;
+            // this.active_version_index = null;
+            // this.model = null;
             this.modal.close();
         }, error => {
         });

@@ -22,6 +22,9 @@ namespace Jahshaka.API.ViewModels.Mappers
             destination.UpdatedAt = source.UpdatedAt;
             destination.Notes = source.Notes;
             destination.DownloadUrl = source.DownloadUrl;
+            destination.WindowsUrl = source.WindowsUrl;
+            destination.MacUrl = source.MacUrl;
+            destination.LinuxUrl = source.LinuxUrl;
             destination.ReleaseDate = source.ReleaseDate;
 
             return destination;

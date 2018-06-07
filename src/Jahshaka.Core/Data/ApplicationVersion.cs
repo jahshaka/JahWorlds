@@ -18,6 +18,12 @@ namespace Jahshaka.Core.Data
 
         public string DownloadUrl {get; set;}
 
+        public string WindowsUrl {get; set;}
+
+        public string MacUrl {get; set;}
+
+        public string LinuxUrl {get; set;}
+
         public DateTime? ReleaseDate { get; set; }
 
         public Application Application { get; set; }

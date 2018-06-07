@@ -26,6 +26,15 @@ export class ApplicationVersionModel {
   @JsonProperty('download_url')
   public downloadUrl: string;
 
+  @JsonProperty('windows_url')
+  public windowsUrl: string;
+
+  @JsonProperty('mac_url')
+  public macUrl: string;
+
+  @JsonProperty('linux_url')
+  public linuxUrl: string;
+
   public constructor() {
     this.id = null;
     this.applicationId = null;
@@ -34,6 +43,9 @@ export class ApplicationVersionModel {
     this.updatedAt = null;
     this.releaseDate = null;
     this.downloadUrl = null;
+    this.windowsUrl = null;
+    this.macUrl = null;
+    this.linuxUrl = null;
     this.notes = null;
   }
 }

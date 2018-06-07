@@ -11,8 +11,17 @@ namespace Jahshaka.API.ViewModels.Applications
         [JsonProperty("download_url")]
         public string DownloadUrl { get; set; }
 
+        [JsonProperty("windows_url")]
+        public string WindowsUrl {get; set;}
+
+        [JsonProperty("mac_url")]
+        public string MacUrl {get; set;}
+
+        [JsonProperty("linux_url")]
+        public string LinuxUrl {get; set;}
+
         [JsonProperty("release_date")]
-        public DateTime ReleaseDate { get; set; }
+        public string ReleaseDate { get; set; }
 
         [JsonProperty("notes")]
         public string Notes { get; set; }

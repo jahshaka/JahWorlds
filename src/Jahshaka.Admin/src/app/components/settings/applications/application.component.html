@@ -118,6 +118,21 @@
             </div>
 
             <div class="form-group">
+                <label>Windows Url</label>
+                <input type="text" name="windows_url" class="form-control" placeholder="Enter Windows Url here" [(ngModel)]="app.windows_url">
+            </div>
+
+            <div class="form-group">
+                <label>Mac Url</label>
+                <input type="text" name="mac_url" class="form-control" placeholder="Enter Mac Url here" [(ngModel)]="app.mac_url">
+            </div>
+
+            <div class="form-group">
+                <label>Linux Url</label>
+                <input type="text" name="linux_url" class="form-control" placeholder="Enter Linux Url here" [(ngModel)]="app.linux_url">
+            </div>
+
+            <div class="form-group">
                 <label>Notes</label>
                 <textarea name="notes" class="form-control" [(ngModel)]="app.notes" required></textarea>
             </div>
@@ -146,16 +161,32 @@
                 <input type="text" name="download_url" class="form-control" placeholder="Enter Download Url here" [(ngModel)]="application.versions[active_version_index].downloadUrl" required>
             </div>
 
+            <div class="form-group">
+                <label>Windows Url</label>
+                <input type="text" name="windows_url" class="form-control" placeholder="Enter Windows Url here" [(ngModel)]="application.versions[active_version_index].windowsUrl">
+            </div>
+
+            <div class="form-group">
+                <label>Mac Url</label>
+                <input type="text" name="mac_url" class="form-control" placeholder="Enter Mac Url here" [(ngModel)]="application.versions[active_version_index].macUrl">
+            </div>
+
+            <div class="form-group">
+                <label>Linux Url</label>
+                <input type="text" name="linux_url" class="form-control" placeholder="Enter Linux Url here" [(ngModel)]="application.versions[active_version_index].linuxUrl">
+            </div>
+
             <div class="input-group">
                 <label>Release Date</label>
                 <input class="form-control" style="float:none" placeholder="Select a date" ngx-mydatepicker name="mydate"
                        [(ngModel)]="model" [options]="myOptions" #dp="ngx-mydatepicker" (dateChanged)="onDateChanged($event)"/>
         
                 <span class="input-group-btn">
-                    <button type="button" class="btn btn-default" (click)="dp.clearDate()">
+                    <br/>
+                    <button style="margin-top:25px" type="button" class="btn btn-default" (click)="dp.clearDate()">
                         <i class="glyphicon glyphicon-remove"></i>
                     </button>
-                    <button type="button" class="btn btn-default" (click)="dp.toggleCalendar()">
+                    <button style="margin-top:25px" type="button" class="btn btn-default" (click)="dp.toggleCalendar()">
                         <i class="glyphicon glyphicon-calendar"></i>
                     </button>
                 </span>

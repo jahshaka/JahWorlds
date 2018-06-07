@@ -11,6 +11,7 @@ import 'bootstrap';
 
 
 @Component({
+    // tslint:disable-next-line:component-selector
     selector: 'applications-list',
     templateUrl: 'applications-list.component.html'
 })
@@ -51,7 +52,7 @@ export class ApplicationsListComponent implements OnInit {
         this.applications = [];
         this.applicationService.get(page).subscribe(response => {
 
-            for (let item of response.items) {
+            for (const item of response.items) {
                 this.applications.push(deserialize(ApplicationModel, item));
             }
 

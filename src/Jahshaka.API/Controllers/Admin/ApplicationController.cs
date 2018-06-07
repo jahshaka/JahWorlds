@@ -17,6 +17,7 @@ using Microsoft.Extensions.Logging;
 using Jahshaka.Core.Enums;
 using Jahshaka.API.ViewModels.Application;
 using Jahshaka.API.ViewModels.Applications;
+using System.Globalization;
 
 namespace Jahshaka.API.Controllers.Admin
 {
@@ -225,6 +226,9 @@ namespace Jahshaka.API.Controllers.Admin
                         Id = model.Id,
                         ApplicationId = application.Id,
                         DownloadUrl = model.DownloadUrl,
+                        WindowsUrl = model.WindowsUrl,
+                        MacUrl = model.MacUrl,
+                        LinuxUrl = model.LinuxUrl,
                         Notes = model.Notes,
                         Supported = model.Supported,
                         CreatedAt = DateTime.UtcNow,
@@ -290,8 +294,11 @@ namespace Jahshaka.API.Controllers.Admin
                     
                     version.Id = model.Id;
                     version.DownloadUrl = model.DownloadUrl;
+                    version.WindowsUrl = model.WindowsUrl;
+                    version.MacUrl = model.MacUrl;
+                    version.LinuxUrl = model.LinuxUrl;
                     version.Notes = model.Notes;
-                    version.ReleaseDate = model.ReleaseDate;
+                    version.ReleaseDate = DateTime.ParseExact(model.ReleaseDate, "dd/MM/yyyy", CultureInfo.InvariantCulture);
 
                     _dbContext.Update(version);   
                     _dbContext.SaveChanges();

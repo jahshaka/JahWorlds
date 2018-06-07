@@ -5,6 +5,7 @@ import { AssetModel } from 'app/shared/models/asset.model';
 import { deserialize } from 'json-typescript-mapper';
 
 @Component({
+    // tslint:disable-next-line:component-selector
     selector: 'asset-add',
     templateUrl: 'asset-add.html'
 })
@@ -23,7 +24,7 @@ export class AssetAddComponent {
     };
 
     public data = {
-        name: 'xxx',
+        name: '',
         collection_id: null,
         description: '',
         tags: []

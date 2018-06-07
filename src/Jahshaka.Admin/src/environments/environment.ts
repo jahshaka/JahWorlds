@@ -5,10 +5,10 @@
 
 export const environment = {
     production: false,
-    resourceServerUrl: 'http://localhost:6001',
-    // resourceServerUrl: 'http://api.dev.jahfx.com',
-    authServerUrl: 'http://localhost:5000',
-    // authServerUrl: 'http://auth.dev.jahfx.com',
+    // resourceServerUrl: 'http://localhost:6001',
+    resourceServerUrl: 'http://api.dev.jahfx.com',
+    // authServerUrl: 'http://localhost:5000',
+    authServerUrl: 'http://auth.dev.jahfx.com',
     clientId: 'admin',
     clientSecret: 'secret_secret_secret',
     grantType: 'password'
